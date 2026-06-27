@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import UGCTopBar from "@/components/layout/UGCTopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -120,31 +121,37 @@ export default async function AboutPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {mandatoryDisclosure.map((section) => (
-                    <>
-                      <tr key={section.section} className="bg-[#04415f]/8">
-                        <td colSpan={3} className="px-5 py-2.5 font-bold text-[#04415f] text-xs uppercase tracking-wide">
-                          {section.section}
-                        </td>
-                      </tr>
-                      {section.items.map((item, i) => (
-                        <tr key={item} className={`border-b border-[#e6edf0] ${i % 2 === 0 ? "bg-white" : "bg-[#f1f5f7]"}`}>
-                          <td className="px-5 py-3 text-[#010608]/40 text-xs">{item}</td>
-                          <td className="px-5 py-3 text-[#010608]/70">{item}</td>
-                          <td className="px-5 py-3 text-center">
-                            <a
-                              href="https://vimsmch.edu.in"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-xs text-[#04415f] hover:text-[#2086b8] font-medium transition-colors"
-                            >
-                              View →
-                            </a>
+                  {(() => {
+                    let sno = 0;
+                    return mandatoryDisclosure.map((section) => (
+                      <Fragment key={section.section}>
+                        <tr className="bg-[#04415f]/8">
+                          <td colSpan={3} className="px-5 py-2.5 font-bold text-[#04415f] text-xs uppercase tracking-wide">
+                            {section.section}
                           </td>
                         </tr>
-                      ))}
-                    </>
-                  ))}
+                        {section.items.map((item, i) => {
+                          sno++;
+                          return (
+                            <tr key={item} className={`border-b border-[#e6edf0] ${i % 2 === 0 ? "bg-white" : "bg-[#f1f5f7]"}`}>
+                              <td className="px-5 py-3 text-[#010608]/40 text-xs text-center">{sno}</td>
+                              <td className="px-5 py-3 text-[#010608]/70">{item}</td>
+                              <td className="px-5 py-3 text-center">
+                                <a
+                                  href="https://vimsmch.edu.in"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-xs text-[#04415f] hover:text-[#2086b8] font-medium transition-colors"
+                                >
+                                  View →
+                                </a>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </Fragment>
+                    ));
+                  })()}
                 </tbody>
               </table>
             </div>
