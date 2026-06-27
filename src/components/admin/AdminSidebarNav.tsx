@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import {
   LayoutDashboard, BookOpen, MessageSquare, ClipboardList,
-  Users, Award, UserCog,
+  Users, Award, UserCog, Settings,
 } from "lucide-react";
 
 const navItems = [
@@ -16,6 +16,7 @@ const navItems = [
   { href: "/admin/faculty", label: "Faculty", icon: Users },
   { href: "/admin/certificates", label: "Certificates", icon: Award },
   { href: "/admin/users", label: "Admin Users", icon: UserCog },
+  { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
 export default function AdminSidebarNav() {
