@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id                String   @id @default(cuid()) @map("_id")
+  slug              String   @unique
+  title             String
+  shortDesc         String
+  fullDesc          String
+  nsqf              Int
+  durationMonths    Int
+  durationHours     Int
+  fees              Int
+  feeBreakdown      Json
+  seats             Int
+  eligibility       String
+  ageLimit          String
+  certBy            String
+  assessmentScheme  String
+  creditEquivalence String
+  syllabus          Json
+  outcomes          Json
+  tags              Json
+  category          String
+  batchMonths       Json
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  inquiries   Inquiry[]
+  enrollments Enrollment[]
+
+  @@map("courses")
+}
+
+model Inquiry {
+  id        String        @id @default(cuid()) @map("_id")
+  name      String
+  email     String?
+  phone     String
+  message   String?
+  courseId  String?
+  course    Course?       @relation(fields: [courseId], references: [id])
+  status    String        @default("PENDING")
+  createdAt DateTime      @default(now())
+
+  @@map("inquiries")
+}
+
+model Enrollment {
+  id        String   @id @default(cuid()) @map("_id")
+  name      String
+  email     String
+  phone     String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  certificate Certificate?
+
+  @@map("enrollments")
+}
+
+model Faculty {
+  id          String   @id @default(cuid()) @map("_id")
+  name        String
+  designation String
+  bio         String?
+  photoUrl    String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@map("faculty")
+}
+
+model Certificate {
+  id            String     @id @default(cuid()) @map("_id")
+  certificateNo String     @unique
+  enrollmentId  String     @unique
+  enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
+  studentName   String
+  courseName    String
+  issuedAt      DateTime   @default(now())
+
+  @@map("certificates")
+}
+
+model AdminUser {
+  id        String   @id @default(cuid()) @map("_id")
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("EDITOR")
+  createdAt DateTime @default(now())
+
+  @@map("admin_users")
+}
+
+model Setting {
+  id        String   @id @default(cuid()) @map("_id")
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}

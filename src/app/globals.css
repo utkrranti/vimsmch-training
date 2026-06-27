@@ -1,26 +1,43 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-work-sans);
+
+  --color-bg:        #f1f5f7;
+  --color-bg-light:  #e6edf0;
+  --color-surface:   #ffffff;
+  --color-text:      #010608;
+  --color-heading:   #011e2c;
+  --color-accent:    #04415f;
+  --color-accent-2:  #2086b8;
+  --color-border:    #cdd8de;
+  --color-contrast:  #ffffff;
+  --color-orange:    #ff9800;
+  --color-error:     #df1529;
+  --color-success:   #059652;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    background-color: #f1f5f7;
+    color: #010608;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  h1, h2, h3, h4, h5, h6 {
+    color: #011e2c;
+    font-weight: 600;
+  }
+  a {
+    color: #04415f;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  a:hover {
+    color: #2086b8;
+  }
+  p {
+    line-height: 1.8;
+  }
 }
