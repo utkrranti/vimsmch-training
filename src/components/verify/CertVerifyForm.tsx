@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Search, CheckCircle, XCircle, Award, Calendar, User } from "lucide-react";
 
 type Result = {
-  found: boolean;
+  valid: boolean;
   certificateNo?: string;
   studentName?: string;
   courseName?: string;
@@ -26,7 +26,7 @@ export default function CertVerifyForm() {
       const data = await res.json();
       setResult(data);
     } catch {
-      setResult({ found: false });
+      setResult({ valid: false });
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ export default function CertVerifyForm() {
 
       {result !== null && (
         <>
-          {result.found ? (
+          {result.valid ? (
             <div className="bg-[#f1f5f7] border border-[#04415f]/20 rounded-xl p-6 space-y-4">
               <div className="flex items-center gap-3">
                 <CheckCircle size={22} className="text-[#04415f] shrink-0" />

@@ -33,8 +33,11 @@ model Course {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  inquiries   Inquiry[]
-  enrollments Enrollment[]
+  inquiries    Inquiry[]
+  enrollments  Enrollment[]
+  batches      Batch[]
+  galleryItems GalleryItem[]
+  placements   Placement[]
 
   @@map("courses")
 }
@@ -48,6 +51,7 @@ model Inquiry {
   courseId  String?
   course    Course?       @relation(fields: [courseId], references: [id])
   status    String        @default("PENDING")
+  ipAddress String?
   createdAt DateTime      @default(now())
 
   @@map("inquiries")
@@ -60,6 +64,8 @@ model Enrollment {
   phone     String
   courseId  String
   course    Course   @relation(fields: [courseId], references: [id])
+  batchId   String?
+  batch     Batch?   @relation(fields: [batchId], references: [id])
   status    String   @default("PENDING")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,6 +73,61 @@ model Enrollment {
   certificate Certificate?
 
   @@map("enrollments")
+}
+
+model Batch {
+  id        String   @id @default(cuid()) @map("_id")
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  label     String
+  startDate DateTime
+  endDate   DateTime
+  seats     Int
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  enrollments Enrollment[]
+
+  @@map("batches")
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid()) @map("_id")
+  imageUrl  String
+  caption   String?
+  category  String   @default("general") // general | facility | event | ceremony
+  courseId  String?
+  course    Course?  @relation(fields: [courseId], references: [id])
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("gallery_items")
+}
+
+model Announcement {
+  id        String   @id @default(cuid()) @map("_id")
+  title     String
+  body      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("announcements")
+}
+
+model Placement {
+  id           String   @id @default(cuid()) @map("_id")
+  studentName  String
+  employerName String?
+  courseId     String?
+  course       Course?  @relation(fields: [courseId], references: [id])
+  quote        String?
+  batchYear    String?
+  sortOrder    Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  @@map("placements")
 }
 
 model Faculty {

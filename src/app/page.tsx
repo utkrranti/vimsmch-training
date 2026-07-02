@@ -7,12 +7,19 @@ import FeaturedCourses from "@/components/home/FeaturedCourses";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import HowToEnroll from "@/components/home/HowToEnroll";
 import QuickInquiry from "@/components/home/QuickInquiry";
+import AnnouncementBanner from "@/components/home/AnnouncementBanner";
+import { getActiveAnnouncements } from "@/lib/db/announcements";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const announcements = await getActiveAnnouncements();
+
   return (
     <>
       <UGCTopBar />
       <Navbar />
+      <AnnouncementBanner announcements={announcements} />
       <main className="flex-1">
         <HeroSection />
         <StatsSection />

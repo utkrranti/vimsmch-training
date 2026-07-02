@@ -16,15 +16,33 @@ const courseOptions = [
 export default function QuickInquiry() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", phone: "", course: "" });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    // TODO: POST to /api/inquiries
-    await new Promise((r) => setTimeout(r, 800));
-    setSubmitted(true);
-    setLoading(false);
+    setError("");
+    try {
+      const res = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          message: form.course ? `Course of interest: ${form.course}` : undefined,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Submission failed.");
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -113,6 +131,9 @@ export default function QuickInquiry() {
                   ))}
                 </select>
               </div>
+              {error && (
+                <p className="text-red-500 text-xs bg-red-50 border border-red-200 rounded-lg px-4 py-3">{error}</p>
+              )}
               <button
                 type="submit"
                 disabled={loading}
