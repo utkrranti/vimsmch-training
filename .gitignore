@@ -43,3 +43,6 @@ next-env.d.ts
 # local dev artifacts
 dev-server.log
 database/
+
+.vercel
+.env*
