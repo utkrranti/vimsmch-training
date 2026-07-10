@@ -48,7 +48,7 @@ export default async function EnquirePage({ params }: Props) {
               </div>
               <div>
                 <p className="text-white/55 text-xs uppercase tracking-widest font-semibold mb-2">You are enquiring about</p>
-                <h1 className="text-3xl sm:text-4xl font-bold leading-tight mb-3">{course.title}</h1>
+                <h1 className="text-3xl sm:text-4xl font-bold leading-tight mb-3 text-white">{course.title}</h1>
                 <div className="flex flex-wrap gap-3 mt-3">
                   <span className="bg-white/15 border border-white/20 text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5">
                     <Clock size={11} /> {course.durationMonths} months · {course.durationHours} hrs
