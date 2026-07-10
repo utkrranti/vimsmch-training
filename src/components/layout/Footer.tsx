@@ -31,8 +31,8 @@ export default function Footer() {
 
         {/* Col 1 — About */}
         <div>
-          <div className="bg-[#04415f] inline-block rounded px-2 py-1 mb-5">
-            <Image src="/logo.png" alt="VIMSMCH" width={140} height={30} className="h-8 w-auto" />
+          <div className="inline-block mb-5">
+            <Image src="/logo.png" alt="VIMSMCH" width={220} height={47} className="h-12 w-auto" />
           </div>
           <p className="text-[#010608]/70 text-sm leading-relaxed mb-5">
             Vocational Training Centre of Dr. Vithalrao Vikhe Patil Foundation&apos;s Medical
