@@ -5,8 +5,12 @@ import { Phone, Mail, MapPin, Globe } from "lucide-react";
 const quickLinks = [
   { href: "/", label: "Home" },
   { href: "/courses", label: "All Courses" },
+  { href: "/admission", label: "Admission & How to Apply" },
   { href: "/about", label: "About Us" },
   { href: "/faculty", label: "Faculty" },
+  { href: "/facilities", label: "Facilities" },
+  { href: "/placements", label: "Placements & Outcomes" },
+  { href: "/gallery", label: "Gallery" },
   { href: "/contact", label: "Contact" },
   { href: "/verify", label: "Verify Certificate" },
 ];

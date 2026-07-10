@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail, inquiryConfirmationHtml, adminNewInquiryHtml } from "@/lib/email";
+import { getClientIp, isRateLimited } from "@/lib/ratelimit";
 
 export async function POST(req: NextRequest) {
   try {
+    const ipAddress = getClientIp(req);
+    if (await isRateLimited(ipAddress)) {
+      return NextResponse.json(
+        { error: "Too many enquiries submitted. Please try again later." },
+        { status: 429, headers: { "Retry-After": "600" } }
+      );
+    }
+
     const body = await req.json();
     const { name, phone, email, courseId, message } = body;
 
@@ -23,6 +32,7 @@ export async function POST(req: NextRequest) {
         courseId: courseId?.trim() || null,
         message: message?.trim() || null,
         status: "PENDING",
+        ipAddress,
       },
     });
 
