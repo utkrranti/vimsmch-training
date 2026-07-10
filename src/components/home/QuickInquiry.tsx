@@ -4,12 +4,11 @@ import { useState } from "react";
 import { Send, CheckCircle } from "lucide-react";
 
 const courseOptions = [
-  "Operation Theatre Techniques",
-  "Medical Laboratory Techniques",
-  "Healthcare Assistant",
-  "Medical Coding & Billing",
-  "Pharmacy Assistant",
-  "Nursing Aid",
+  "Operation Theatre Assistant",
+  "ECG Technology",
+  "Dialysis Technician",
+  "Medical Laboratory Technology",
+  "Radiology and Imaging Technology",
   "Other / Not sure yet",
 ];
 
@@ -50,7 +49,7 @@ export default function QuickInquiry() {
             {[
               "Free counselling session",
               "Full fee transparency — no hidden charges",
-              "NSQF level & certificate details shared upfront",
+              "Course duration & certificate details shared upfront",
             ].map((item) => (
               <li key={item} className="flex items-center gap-2">
                 <CheckCircle size={14} className="text-[#2086b8] shrink-0" />

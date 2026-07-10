@@ -1,10 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import UGCTopBar from "@/components/layout/UGCTopBar";
+import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CourseInquiryForm from "@/components/courses/CourseInquiryForm";
 import { getCourseBySlug, getAllSlugs } from "@/lib/db/courses";
+import { getCourseImage } from "@/lib/course-images";
 import { Clock, Users, IndianRupee, CheckCircle, CalendarDays, Award } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -34,7 +35,6 @@ export default async function CourseDetailPage({ params }: Props) {
 
   return (
     <>
-      <UGCTopBar />
       <Navbar />
       <main className="flex-1">
         {/* Page title */}
@@ -43,13 +43,10 @@ export default async function CourseDetailPage({ params }: Props) {
             <p className="text-xs text-[#010608]/50 mb-3">Home / Courses / {course.title}</p>
             <div className="flex flex-wrap items-center gap-2 mb-3">
               <span className="bg-[#04415f] text-white text-xs font-bold px-3 py-1 rounded-full">
-                NSQF Level {course.nsqf}
+                1 Year Certificate Course
               </span>
               <span className="bg-white border border-[#cdd8de] text-[#04415f] text-xs px-3 py-1 rounded-full capitalize">
                 {course.category}
-              </span>
-              <span className="bg-white border border-[#cdd8de] text-[#04415f] text-xs px-3 py-1 rounded-full">
-                UGC Recognised
               </span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-[#011e2c] mb-4">{course.title}</h1>
@@ -59,6 +56,13 @@ export default async function CourseDetailPage({ params }: Props) {
               <QuickStat icon={Award} label="Certificate by" value={course.certBy} />
               <QuickStat icon={CalendarDays} label="Batches" value={course.batchMonths.join(" · ")} />
             </div>
+          </div>
+        </div>
+
+        {/* Photo */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-1">
+          <div className="relative w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-sm mt-8">
+            <Image src={getCourseImage(course.slug)} alt={course.title} fill className="object-cover" priority />
           </div>
         </div>
 
@@ -73,20 +77,19 @@ export default async function CourseDetailPage({ params }: Props) {
 
             {/* Eligibility */}
             <Section title="Admission Eligibility">
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-3 gap-4">
                 <DetailBox label="Minimum Qualification" value={course.eligibility} />
                 <DetailBox label="Age Limit" value={course.ageLimit} />
-                <DetailBox label="NSQF Level" value={`Level ${course.nsqf}`} />
-                <DetailBox label="Credit Equivalence" value={course.creditEquivalence} />
+                <DetailBox label="Certified By" value={course.certBy} />
               </div>
             </Section>
 
-            {/* Fee breakdown — UGC mandatory */}
+            {/* Fee breakdown */}
             <Section title="Fee Structure">
               <div className="bg-white rounded-2xl border border-[#e6edf0] overflow-hidden shadow-sm">
                 <div className="px-5 py-3 bg-[#04415f]/5 border-b border-[#e6edf0]">
                   <p className="text-xs text-[#04415f] font-medium">
-                    All charges disclosed upfront as per UGC fee transparency norms. No hidden fees.
+                    Fees shown are provisional and subject to final approval. No hidden charges.
                   </p>
                 </div>
                 <table className="w-full">
@@ -103,7 +106,7 @@ export default async function CourseDetailPage({ params }: Props) {
                       </tr>
                     ))}
                     <tr className="bg-[#04415f] text-white">
-                      <td className="px-5 py-4 font-bold text-sm">Total Course Fee</td>
+                      <td className="px-5 py-4 font-bold text-sm">Total Course Fee (Provisional)</td>
                       <td className="px-5 py-4 text-right">
                         <span className="flex items-center justify-end gap-0.5 font-bold text-lg">
                           <IndianRupee size={15} />
@@ -178,11 +181,11 @@ export default async function CourseDetailPage({ params }: Props) {
                   {course.fees.toLocaleString("en-IN")}
                 </span>
               </div>
-              <p className="text-[#010608]/40 text-xs mb-5">Total course fee · no hidden charges</p>
+              <p className="text-[#010608]/40 text-xs mb-5">per year · provisional, subject to approval</p>
               <div className="space-y-2 text-xs text-[#010608]/60 mb-5 border-t border-[#e6edf0] pt-5">
                 <p><span className="text-[#010608]/40">Duration: </span>{course.durationMonths} months</p>
                 <p><span className="text-[#010608]/40">Hours: </span>{course.durationHours} hours</p>
-                <p><span className="text-[#010608]/40">NSQF Level: </span>{course.nsqf}</p>
+                <p><span className="text-[#010608]/40">Certified By: </span>{course.certBy}</p>
                 <p><span className="text-[#010608]/40">Seats: </span>{course.seats} per batch</p>
                 <p><span className="text-[#010608]/40">Eligibility: </span>{course.eligibility}</p>
               </div>

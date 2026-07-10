@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Clock, Users, IndianRupee, ArrowRight } from "lucide-react";
 import { getFeaturedCourses } from "@/lib/db/courses";
+import { getCourseImage } from "@/lib/course-images";
 
 export default async function FeaturedCourses() {
   const courses = await getFeaturedCourses(3);
@@ -11,12 +13,12 @@ export default async function FeaturedCourses() {
         {/* Section heading */}
         <div className="text-center mb-14">
           <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-            UGC Approved Programmes
+            One-Year Certificate Courses
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-[#011e2c] mb-3">Featured Courses</h2>
           <div className="w-16 h-1 bg-[#2086b8] mx-auto rounded" />
           <p className="text-[#010608]/60 mt-4 max-w-xl mx-auto text-sm">
-            All programmes are NSQF-aligned with fees fully disclosed upfront — no hidden charges, as per UGC norms.
+            Fees shown are provisional and subject to final approval — no hidden charges.
           </p>
         </div>
 
@@ -27,8 +29,10 @@ export default async function FeaturedCourses() {
               key={c.slug}
               className="bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(0,0,0,0.1)] transition-all duration-300 group"
             >
-              {/* Card top accent */}
-              <div className="h-1 bg-[#04415f]" />
+              {/* Photo */}
+              <div className="relative h-40 w-full">
+                <Image src={getCourseImage(c.slug)} alt={c.title} fill className="object-cover" />
+              </div>
 
               {/* Header */}
               <div className="px-6 py-5 border-b border-[#e6edf0] flex items-start justify-between gap-3">
@@ -36,7 +40,7 @@ export default async function FeaturedCourses() {
                   {c.title}
                 </h3>
                 <span className="shrink-0 bg-[#04415f] text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
-                  NSQF {c.nsqf}
+                  1 Year
                 </span>
               </div>
 
@@ -70,7 +74,7 @@ export default async function FeaturedCourses() {
                   ))}
                 </div>
 
-                {/* Certificate authority — UGC required */}
+                {/* Certificate authority */}
                 <div className="text-xs text-[#010608]/40 border-t border-[#e6edf0] pt-3">
                   <span className="text-[#04415f] font-medium">Certificate by: </span>
                   {c.certBy}
@@ -85,7 +89,7 @@ export default async function FeaturedCourses() {
                     <span className="text-2xl font-bold text-[#011e2c]">
                       {c.fees.toLocaleString("en-IN")}
                     </span>
-                    <span className="text-[#010608]/40 text-xs ml-1">total</span>
+                    <span className="text-[#010608]/40 text-xs ml-1">/year (provisional)</span>
                   </div>
                   <Link
                     href={`/courses/${c.slug}`}

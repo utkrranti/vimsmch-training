@@ -1,8 +1,8 @@
 const stats = [
-  { value: "10+", label: "Vocational Courses", sub: "UGC Approved" },
-  { value: "500+", label: "Students Trained", sub: "Since Inception" },
-  { value: "20+", label: "Expert Faculty", sub: "Industry Professionals" },
-  { value: "450+", label: "Certificates Issued", sub: "Govt. Recognised" },
+  { value: "5", label: "Certificate Courses", sub: "One-Year Programmes" },
+  { value: "1 Year", label: "Course Duration", sub: "Theory + Practical + Clinical" },
+  { value: "800+", label: "Bed Teaching Hospital", sub: "Hands-On Clinical Training" },
+  { value: "2026", label: "First Batch", sub: "Admissions Open Now" },
 ];
 
 export default function StatsSection() {

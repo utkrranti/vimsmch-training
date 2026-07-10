@@ -1,4 +1,3 @@
-import UGCTopBar from "@/components/layout/UGCTopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ContactForm from "@/components/contact/ContactForm";
@@ -47,7 +46,6 @@ const contactDetails = [
 export default function ContactPage() {
   return (
     <>
-      <UGCTopBar />
       <Navbar />
       <main className="flex-1">
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Award, BookOpen } from "lucide-react";
+import { GraduationCap, Clock, Stethoscope } from "lucide-react";
 
 export default function HeroSection() {
   return (
@@ -36,8 +36,8 @@ export default function HeroSection() {
           </h1>
 
           <p className="text-white/80 text-lg leading-relaxed mb-8 max-w-xl">
-            UGC recognised vocational training programmes at VIMSMCH — NSQF-aligned, taught by
-            practising medical professionals, and ending in government-recognised certificates.
+            One-year paramedical certificate courses at VIMSMCH — taught by practising medical
+            professionals, with extensive hands-on clinical training inside our teaching hospital.
           </p>
 
           <div className="flex flex-wrap gap-4 mb-10">
@@ -55,12 +55,12 @@ export default function HeroSection() {
             </Link>
           </div>
 
-          {/* UGC compliance badges */}
+          {/* Highlights */}
           <div className="flex flex-wrap gap-5">
             {[
-              { icon: ShieldCheck, label: "UGC Recognised" },
-              { icon: Award, label: "NAAC Accredited" },
-              { icon: BookOpen, label: "NSQF Aligned" },
+              { icon: Stethoscope, label: "Hospital-Based Training" },
+              { icon: GraduationCap, label: "Experienced Medical Faculty" },
+              { icon: Clock, label: "One-Year Certificate Courses" },
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-2 text-sm text-white/70">
                 <Icon size={15} className="text-[#2086b8]" />
@@ -70,12 +70,21 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right — info cards */}
-        <div className="grid grid-cols-2 gap-4">
-          <HeroCard value="10+" label="Vocational Courses" sub="UGC Approved" highlight />
-          <HeroCard value="500+" label="Students Trained" sub="Since Inception" />
-          <HeroCard value="NSQF" label="Level 3 – 6" sub="Nationally Aligned" />
-          <HeroCard value="100%" label="Govt. Recognised" sub="Certificates" highlight />
+        {/* Right — hospital photo + info cards */}
+        <div className="space-y-4">
+          <div className="relative rounded-2xl overflow-hidden shadow-xl border border-white/20 aspect-video">
+            <Image
+              src="/images/hospital-hero.webp"
+              alt="Inside Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <HeroCard value="5" label="Certificate Courses" sub="Launching 2026" highlight />
+            <HeroCard value="1 Year" label="Course Duration" sub="Theory + Practical + Clinical" />
+          </div>
         </div>
       </div>
     </section>

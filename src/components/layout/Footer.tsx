@@ -12,12 +12,11 @@ const quickLinks = [
 ];
 
 const courses = [
-  "Operation Theatre Techniques",
-  "Medical Lab Techniques",
-  "Healthcare Assistant",
-  "Medical Coding & Billing",
-  "Pharmacy Assistant",
-  "Nursing Aid",
+  "Operation Theatre Assistant",
+  "ECG Technology",
+  "Dialysis Technician",
+  "Medical Laboratory Technology",
+  "Radiology and Imaging Technology",
 ];
 
 export default function Footer() {
@@ -32,9 +31,9 @@ export default function Footer() {
             <Image src="/logo.png" alt="VIMSMCH" width={140} height={30} className="h-8 w-auto" />
           </div>
           <p className="text-[#010608]/70 text-sm leading-relaxed mb-5">
-            Vocational Training Division of Dr. Vithalrao Vikhe Patil Foundation&apos;s Medical
-            College &amp; Hospital — offering UGC recognised, NSQF-aligned skill programmes in
-            healthcare and allied sciences.
+            Vocational Training Centre of Dr. Vithalrao Vikhe Patil Foundation&apos;s Medical
+            College &amp; Hospital — one-year certificate courses in paramedical skills with
+            hands-on hospital training.
           </p>
           <ul className="space-y-2 text-sm text-[#010608]/65">
             <li className="flex items-start gap-2">
@@ -94,33 +93,23 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Col 4 — Compliance */}
+        {/* Col 4 — Admissions */}
         <div>
-          <h4 className="text-[#011e2c] font-bold text-base mb-4">Compliance &amp; Legal</h4>
+          <h4 className="text-[#011e2c] font-bold text-base mb-4">Admissions</h4>
           <ul className="space-y-3">
             <li>
-              <span className="block text-xs text-[#010608]/50 mb-0.5 uppercase tracking-wide">Grievance Officer</span>
-              <span className="text-sm text-[#010608]/80 font-medium">[Officer Name]</span>
-              <a href="mailto:grievance@vimsmch.edu.in" className="block text-xs text-[#04415f] hover:text-[#2086b8] transition-colors">
-                grievance@vimsmch.edu.in
-              </a>
+              <span className="block text-xs text-[#010608]/50 mb-0.5 uppercase tracking-wide">Eligibility</span>
+              <span className="text-sm text-[#010608]/80">10th Pass (SSC), no age limit</span>
             </li>
             <li>
-              <span className="block text-xs text-[#010608]/50 mb-0.5 uppercase tracking-wide">ICC — POSH Act</span>
-              <span className="text-sm text-[#010608]/80">[ICC Chairperson Name]</span>
+              <span className="block text-xs text-[#010608]/50 mb-0.5 uppercase tracking-wide">Fee</span>
+              <span className="text-sm text-[#010608]/80">₹30,000/year (provisional)</span>
             </li>
-            <li>
-              <span className="block text-xs text-[#010608]/50 mb-0.5 uppercase tracking-wide">RTI — Public Info Officer</span>
-              <span className="text-sm text-[#010608]/80">[PIO Name]</span>
-            </li>
-            <li className="pt-1 flex flex-col gap-1.5">
+            <li className="pt-1">
               <a href="https://antiragging.in" target="_blank" rel="noopener noreferrer"
                 className="text-sm text-[#04415f] hover:text-[#2086b8] transition-colors font-medium">
                 Anti-Ragging Portal →
               </a>
-              <Link href="/about#disclosure" className="text-sm text-[#04415f] hover:text-[#2086b8] transition-colors">
-                Mandatory Disclosure →
-              </Link>
             </li>
           </ul>
         </div>

@@ -1,4 +1,3 @@
-import UGCTopBar from "@/components/layout/UGCTopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getAllFaculty } from "@/lib/db/faculty";
@@ -19,7 +18,6 @@ export default async function FacultyPage() {
 
   return (
     <>
-      <UGCTopBar />
       <Navbar />
       <main className="flex-1">
 

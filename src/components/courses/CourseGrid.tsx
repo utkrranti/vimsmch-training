@@ -2,8 +2,10 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Clock, Users, IndianRupee, ArrowRight, Search } from "lucide-react";
 import type { CourseRow as Course } from "@/lib/db/courses";
+import { getCourseImage } from "@/lib/course-images";
 
 type Filter = "all" | "short-term" | "long-term";
 
@@ -77,8 +79,10 @@ export default function CourseGrid({ courses }: { courses: Course[] }) {
 function CourseCard({ course: c }: { course: Course }) {
   return (
     <div className="bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(4,65,95,0.1)] transition-all duration-300 group border border-[#e6edf0]">
-      {/* Top accent */}
-      <div className="h-1 bg-[#04415f]" />
+      {/* Photo */}
+      <div className="relative h-36 w-full">
+        <Image src={getCourseImage(c.slug)} alt={c.title} fill className="object-cover" />
+      </div>
 
       {/* Header */}
       <div className="px-6 py-5 border-b border-[#e6edf0] flex items-start justify-between gap-3">
@@ -86,7 +90,7 @@ function CourseCard({ course: c }: { course: Course }) {
           {c.title}
         </h3>
         <span className="shrink-0 bg-[#04415f] text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
-          NSQF {c.nsqf}
+          1 Year
         </span>
       </div>
 
@@ -127,7 +131,7 @@ function CourseCard({ course: c }: { course: Course }) {
           ))}
         </div>
 
-        {/* Cert authority — UGC required */}
+        {/* Cert authority */}
         <p className="text-[10px] text-[#010608]/40 border-t border-[#e6edf0] pt-3">
           <span className="text-[#04415f] font-medium">Cert by: </span>
           {c.certBy}
@@ -140,7 +144,7 @@ function CourseCard({ course: c }: { course: Course }) {
           <div className="flex items-center gap-0.5">
             <IndianRupee size={13} className="text-[#04415f]" />
             <span className="text-[#011e2c] text-xl font-bold">{c.fees.toLocaleString("en-IN")}</span>
-            <span className="text-[#010608]/40 text-xs ml-1">total</span>
+            <span className="text-[#010608]/40 text-xs ml-1">/year (provisional)</span>
           </div>
           <Link
             href={`/courses/${c.slug}`}

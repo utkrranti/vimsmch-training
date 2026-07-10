@@ -1,35 +1,35 @@
-import { ShieldCheck, BookOpen, GraduationCap, BadgeCheck, Users, FileText } from "lucide-react";
+import { Stethoscope, FlaskConical, MonitorPlay, Building2, Users, GraduationCap } from "lucide-react";
 
 const reasons = [
   {
-    icon: ShieldCheck,
-    title: "UGC Recognised",
-    desc: "All programmes approved under UGC 2(f) and 12(B) — ensuring national validity of your certificate.",
-  },
-  {
-    icon: BookOpen,
-    title: "NSQF Aligned Curriculum",
-    desc: "Every course maps to the National Skills Qualifications Framework, making credits transferable and industry-accepted.",
-  },
-  {
     icon: GraduationCap,
-    title: "Expert Faculty",
-    desc: "Taught by practising medical professionals and industry specialists with minimum 5 years of field experience.",
+    title: "Experienced Medical Faculty",
+    desc: "Taught by practising doctors and medical professionals from VIMSMCH's Medical College & Hospital.",
   },
   {
-    icon: BadgeCheck,
-    title: "Govt. Recognised Certificates",
-    desc: "Certificates issued by VIMSMCH and affiliating university — valid across India for employment and higher education.",
+    icon: Stethoscope,
+    title: "Clinical Exposure from Day One",
+    desc: "Hands-on training inside a real, functioning multispecialty teaching hospital — not just a classroom.",
+  },
+  {
+    icon: FlaskConical,
+    title: "Modern Laboratories",
+    desc: "Access to well-equipped labs and hospital departments relevant to your certificate course.",
+  },
+  {
+    icon: MonitorPlay,
+    title: "Simulation-Based Learning",
+    desc: "Structured demonstration and practical sessions before supervised clinical postings.",
+  },
+  {
+    icon: Building2,
+    title: "Hospital Internship",
+    desc: "Supervised practical training across departments of Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital.",
   },
   {
     icon: Users,
-    title: "Placement Assistance",
-    desc: "Dedicated placement support with tie-ups to hospitals, diagnostic labs, clinics, and healthcare organisations.",
-  },
-  {
-    icon: FileText,
-    title: "Transparent Fee Structure",
-    desc: "No hidden charges. Full fee disclosed upfront as per UGC norms. Scholarship and instalment options available.",
+    title: "Career Guidance & Placement Assistance",
+    desc: "Personality development, soft-skills training, and placement assistance in hospitals, diagnostic centres, and clinics across the region.",
   },
 ];
 
@@ -42,12 +42,12 @@ export default function WhyChooseUs() {
             Why VIMSMCH Vocational
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-[#011e2c] mb-3">
-            Built on Trust &amp; Compliance
+            Learning Beyond the Classroom
           </h2>
           <div className="w-16 h-1 bg-[#2086b8] mx-auto rounded" />
           <p className="text-[#010608]/60 mt-4 max-w-xl mx-auto text-sm">
-            Every programme is designed to meet UGC, NSQF, and industry standards — so your
-            qualification means something.
+            Students receive practical exposure inside one of the region&apos;s leading multispecialty
+            teaching hospitals.
           </p>
         </div>
 

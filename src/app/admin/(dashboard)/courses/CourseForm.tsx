@@ -182,7 +182,7 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
           </div>
           <div className="col-span-3">
             <label className={labelCls}>Credit Equivalence</label>
-            <input className={inputCls} value={form.creditEquivalence} onChange={(e) => set("creditEquivalence", e.target.value)} placeholder="12 credits (UGC framework)" />
+            <input className={inputCls} value={form.creditEquivalence} onChange={(e) => set("creditEquivalence", e.target.value)} placeholder="Not applicable" />
           </div>
         </div>
       </div>

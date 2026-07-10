@@ -11,8 +11,8 @@ const workSans = Work_Sans({
 export const metadata: Metadata = {
   title: "VIMSMCH Vocational Training | training.vimsmch.edu.in",
   description:
-    "UGC recognised vocational training programmes at VIMSMCH. NSQF-aligned skill development courses in healthcare, computer applications, and allied sciences.",
-  keywords: "VIMSMCH, vocational training, UGC, NSQF, skill development, medical courses",
+    "One-year certificate courses in paramedical skills at Dr. Vithalrao Vikhe Patil Foundation's Vocational Training Centre — hands-on hospital training in Ahilyanagar.",
+  keywords: "VIMSMCH, vocational training, paramedical courses, skill development, certificate courses, Ahilyanagar",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

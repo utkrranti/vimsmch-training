@@ -1,4 +1,3 @@
-import UGCTopBar from "@/components/layout/UGCTopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CertVerifyForm from "@/components/verify/CertVerifyForm";
@@ -16,7 +15,6 @@ export const metadata: Metadata = {
 export default function VerifyPage() {
   return (
     <>
-      <UGCTopBar />
       <Navbar />
       <main className="flex-1">
 

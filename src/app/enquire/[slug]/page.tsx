@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { getCourseBySlug } from "@/lib/db/courses";
-import UGCTopBar from "@/components/layout/UGCTopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CourseInquiryForm from "@/components/courses/CourseInquiryForm";
@@ -29,7 +28,6 @@ export default async function EnquirePage({ params }: Props) {
 
   return (
     <>
-      <UGCTopBar />
       <Navbar />
       <main className="flex-1 bg-[#f1f5f7] min-h-screen">
 
@@ -59,10 +57,10 @@ export default async function EnquirePage({ params }: Props) {
                     <Users size={11} /> {course.seats} seats/batch
                   </span>
                   <span className="bg-white/15 border border-white/20 text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                    <Award size={11} /> NSQF Level {course.nsqf}
+                    <Award size={11} /> {course.certBy}
                   </span>
                   <span className="bg-white/15 border border-white/20 text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                    <IndianRupee size={11} /> ₹{course.fees.toLocaleString("en-IN")} total
+                    <IndianRupee size={11} /> ₹{course.fees.toLocaleString("en-IN")}/year (provisional)
                   </span>
                 </div>
               </div>
@@ -103,10 +101,6 @@ export default async function EnquirePage({ params }: Props) {
                     <span className="font-medium text-[#011e2c]">{course.durationHours} hrs</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-[#010608]/40">NSQF Level</span>
-                    <span className="font-medium text-[#011e2c]">Level {course.nsqf}</span>
-                  </div>
-                  <div className="flex justify-between">
                     <span className="text-[#010608]/40">Eligibility</span>
                     <span className="font-medium text-[#011e2c] text-right max-w-[55%] leading-snug">{course.eligibility}</span>
                   </div>
@@ -115,8 +109,8 @@ export default async function EnquirePage({ params }: Props) {
                     <span className="font-medium text-[#011e2c]">{course.certBy}</span>
                   </div>
                   <div className="flex justify-between pt-1 border-t border-[#e6edf0]">
-                    <span className="text-[#010608]/40">Total Fee</span>
-                    <span className="font-bold text-[#04415f] text-sm">₹{course.fees.toLocaleString("en-IN")}</span>
+                    <span className="text-[#010608]/40">Fee (Provisional)</span>
+                    <span className="font-bold text-[#04415f] text-sm">₹{course.fees.toLocaleString("en-IN")}/year</span>
                   </div>
                 </div>
               </div>

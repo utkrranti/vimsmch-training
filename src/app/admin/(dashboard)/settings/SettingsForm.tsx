@@ -12,54 +12,16 @@ const GROUPS: Group[] = [
     title: "About the Institution",
     fields: [
       { key: "about.mission", label: "Mission Statement", placeholder: "Our mission is to...", multiline: true },
-      { key: "about.established", label: "Year Established", placeholder: "1993" },
-      { key: "about.naac", label: "NAAC Grade", placeholder: "A+" },
-      { key: "about.affiliation", label: "Affiliation", placeholder: "Pravara Institute of Medical Sciences (Deemed University)" },
-      { key: "about.ugc2f", label: "UGC 2(f) Recognition No.", placeholder: "UGC/2(f)/..." },
-      { key: "about.ugc12b", label: "UGC 12(B) Recognition No.", placeholder: "UGC/12(B)/..." },
-      { key: "about.nsqf", label: "NSQF Level Range", placeholder: "Level 3–6" },
-    ],
-  },
-  {
-    title: "Grievance Officer",
-    description: "Displayed on the About page as per UGC grievance redressal norms.",
-    fields: [
-      { key: "grievance.officerName", label: "Officer Name", placeholder: "Dr. Name" },
-      { key: "grievance.officerDesignation", label: "Designation", placeholder: "Professor & Head, Dept. of..." },
-      { key: "grievance.officerEmail", label: "Email", placeholder: "grievance@vimsmch.edu.in" },
-      { key: "grievance.officerPhone", label: "Phone", placeholder: "+91 241 230 XXXX" },
-      { key: "grievance.portalUrl", label: "UGC Portal URL", placeholder: "https://grievance.ugc.ac.in" },
-    ],
-  },
-  {
-    title: "ICC / POSH Committee",
-    description: "Internal Complaints Committee — mandatory under Sexual Harassment of Women at Workplace Act 2013.",
-    fields: [
-      { key: "icc.chairpersonName", label: "Chairperson Name", placeholder: "Dr. Name" },
-      { key: "icc.chairpersonDesignation", label: "Designation", placeholder: "Professor, Dept. of..." },
-      { key: "icc.chairpersonEmail", label: "Email", placeholder: "icc@vimsmch.edu.in" },
-      { key: "icc.description", label: "Committee Description", placeholder: "The ICC is constituted under...", multiline: true },
-    ],
-  },
-  {
-    title: "RTI — Public Information Officer",
-    description: "Right to Information Act 2005 — mandatory disclosure.",
-    fields: [
-      { key: "rti.pioName", label: "PIO Name", placeholder: "Name" },
-      { key: "rti.pioDesignation", label: "PIO Designation", placeholder: "Registrar" },
-      { key: "rti.pioEmail", label: "PIO Email", placeholder: "rti@vimsmch.edu.in" },
-      { key: "rti.firstAppealOfficerName", label: "First Appellate Officer Name", placeholder: "Name" },
-      { key: "rti.firstAppealOfficerDesignation", label: "First Appellate Officer Designation", placeholder: "Principal" },
+      { key: "about.established", label: "Year Established", placeholder: "2026" },
     ],
   },
   {
     title: "Anti-Ragging",
-    description: "As per UGC Regulations on Curbing the Menace of Ragging in HEIs, 2009.",
+    description: "National anti-ragging helpline, displayed on the About page.",
     fields: [
       { key: "antiragging.helpline", label: "National Helpline Number", placeholder: "1800-180-5522" },
-      { key: "antiragging.email", label: "Anti-Ragging Email", placeholder: "antiragging@vimsmch.edu.in" },
+      { key: "antiragging.email", label: "Anti-Ragging Email", placeholder: "helpline@antiragging.in" },
       { key: "antiragging.portalUrl", label: "Anti-Ragging Portal URL", placeholder: "https://antiragging.in" },
-      { key: "antiragging.committeeChairperson", label: "Committee Chairperson", placeholder: "Dr. Name, Principal" },
     ],
   },
 ];

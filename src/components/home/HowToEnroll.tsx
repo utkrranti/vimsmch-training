@@ -4,7 +4,7 @@ const steps = [
   {
     num: "01",
     title: "Browse Courses",
-    desc: "Explore our NSQF-aligned vocational programmes. Each listing shows full fee structure, eligibility, duration, and certificate authority — as per UGC norms.",
+    desc: "Explore our one-year certificate programmes. Each listing shows duration, eligibility, provisional fee, and certificate authority.",
     cta: { label: "View Courses", href: "/courses" },
   },
   {
@@ -16,7 +16,7 @@ const steps = [
   {
     num: "03",
     title: "Confirm &amp; Join",
-    desc: "Visit the admissions office, complete documentation, pay the disclosed fee (no hidden charges per UGC norms), and join the next available batch.",
+    desc: "Visit the admissions office, complete documentation, pay the applicable fee, and join the next available batch.",
     cta: null,
   },
 ];

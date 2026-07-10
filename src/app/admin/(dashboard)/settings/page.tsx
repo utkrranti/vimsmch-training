@@ -7,16 +7,8 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Settings | Admin" };
 
 const ALL_KEYS = [
-  "about.mission", "about.established", "about.naac", "about.affiliation",
-  "about.ugc2f", "about.ugc12b", "about.nsqf",
-  "grievance.officerName", "grievance.officerDesignation",
-  "grievance.officerEmail", "grievance.officerPhone", "grievance.portalUrl",
-  "icc.chairpersonName", "icc.chairpersonDesignation",
-  "icc.chairpersonEmail", "icc.description",
-  "rti.pioName", "rti.pioDesignation", "rti.pioEmail",
-  "rti.firstAppealOfficerName", "rti.firstAppealOfficerDesignation",
-  "antiragging.helpline", "antiragging.email",
-  "antiragging.portalUrl", "antiragging.committeeChairperson",
+  "about.mission", "about.established",
+  "antiragging.helpline", "antiragging.email", "antiragging.portalUrl",
 ];
 
 export default async function AdminSettingsPage() {
@@ -30,7 +22,7 @@ export default async function AdminSettingsPage() {
           <Settings size={22} className="text-[#04415f]" /> Site Settings
         </h1>
         <p className="text-[#010608]/45 text-sm mt-1">
-          These values populate the public <strong>/about</strong> page — UGC mandatory disclosures, grievance officer, ICC, RTI, and anti-ragging details.
+          These values populate the public <strong>/about</strong> page — mission statement and anti-ragging helpline.
         </p>
       </div>
       <SettingsForm initial={initial} />

@@ -1,4 +1,3 @@
-import UGCTopBar from "@/components/layout/UGCTopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/home/HeroSection";
@@ -11,7 +10,6 @@ import QuickInquiry from "@/components/home/QuickInquiry";
 export default function HomePage() {
   return (
     <>
-      <UGCTopBar />
       <Navbar />
       <main className="flex-1">
         <HeroSection />
