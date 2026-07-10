@@ -1,4 +1,3 @@
-import UGCTopBar from "@/components/layout/UGCTopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
@@ -42,7 +41,6 @@ const steps = [
 export default function AdmissionPage() {
   return (
     <>
-      <UGCTopBar />
       <Navbar />
       <main className="flex-1">
 

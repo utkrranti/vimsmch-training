@@ -1,4 +1,3 @@
-import UGCTopBar from "@/components/layout/UGCTopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Reveal from "@/components/ui/Reveal";
@@ -26,7 +25,6 @@ export default async function PlacementsPage() {
 
   return (
     <>
-      <UGCTopBar />
       <Navbar />
       <main className="flex-1">
 

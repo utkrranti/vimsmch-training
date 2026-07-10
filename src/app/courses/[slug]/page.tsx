@@ -62,7 +62,7 @@ export default async function CourseDetailPage({ params }: Props) {
         {/* Photo */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-1">
           <div className="relative w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-sm mt-8">
-            <Image src={getCourseImage(course.slug)} alt={course.title} fill className="object-cover" priority />
+            <Image src={getCourseImage(course.slug)} alt={course.title} fill sizes="100vw" className="object-cover" priority />
           </div>
         </div>
 

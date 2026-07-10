@@ -1,4 +1,3 @@
-import UGCTopBar from "@/components/layout/UGCTopBar";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import GalleryGrid from "./GalleryGrid";
@@ -25,7 +24,6 @@ export default async function GalleryPage() {
 
   return (
     <>
-      <UGCTopBar />
       <Navbar />
       <main className="flex-1">
 

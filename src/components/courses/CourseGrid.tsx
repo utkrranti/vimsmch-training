@@ -81,7 +81,7 @@ function CourseCard({ course: c }: { course: Course }) {
     <div className="bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(4,65,95,0.1)] transition-all duration-300 group border border-[#e6edf0]">
       {/* Photo */}
       <div className="relative h-36 w-full">
-        <Image src={getCourseImage(c.slug)} alt={c.title} fill className="object-cover" />
+        <Image src={getCourseImage(c.slug)} alt={c.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" className="object-cover" />
       </div>
 
       {/* Header */}

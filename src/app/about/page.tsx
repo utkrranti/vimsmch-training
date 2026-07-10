@@ -91,6 +91,7 @@ export default async function AboutPage() {
                 src="/images/campus-1.webp"
                 alt="Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital campus"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>

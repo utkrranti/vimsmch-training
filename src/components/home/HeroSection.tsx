@@ -77,6 +77,7 @@ export default function HeroSection() {
               src="/images/hospital-hero.webp"
               alt="Inside Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital"
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
               priority
             />

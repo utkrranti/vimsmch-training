@@ -44,10 +44,6 @@ export default function Navbar() {
             className="h-8 w-auto"
             priority
           />
-          <div className="hidden sm:block">
-            <p className="text-[#011e2c] text-xs font-semibold leading-tight">Vocational Training</p>
-            <p className="text-[#2086b8] text-[10px] leading-tight">training.vimsmch.edu.in</p>
-          </div>
         </Link>
 
         {/* Desktop nav */}

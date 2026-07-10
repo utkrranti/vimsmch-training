@@ -31,7 +31,7 @@ export default async function FeaturedCourses() {
             >
               {/* Photo */}
               <div className="relative h-40 w-full">
-                <Image src={getCourseImage(c.slug)} alt={c.title} fill className="object-cover" />
+                <Image src={getCourseImage(c.slug)} alt={c.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" />
               </div>
 
               {/* Header */}
