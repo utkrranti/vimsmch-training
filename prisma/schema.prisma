@@ -24,10 +24,10 @@ model Course {
   certBy            String
   assessmentScheme  String
   creditEquivalence String
-  objectives        Json
-  highlights        Json
+  objectives        Json?
+  highlights        Json?
   syllabus          Json
-  clinicalPostings  Json
+  clinicalPostings  Json?
   outcomes          Json
   tags              Json
   category          String
