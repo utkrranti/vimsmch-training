@@ -9,13 +9,20 @@ type FacultyRow = {
   id: string;
   name: string;
   designation: string;
+  qualification: string | null;
+  experience: string | null;
+  specialization: string | null;
+  department: string | null;
   bio: string | null;
   photoUrl: string | null;
   isActive: boolean;
   sortOrder: number;
 };
 
-const emptyForm = { name: "", designation: "", bio: "", photoUrl: "", sortOrder: 0, isActive: true };
+const emptyForm = {
+  name: "", designation: "", qualification: "", experience: "", specialization: "", department: "",
+  bio: "", photoUrl: "", sortOrder: 0, isActive: true,
+};
 
 export default function FacultyManager({ faculty }: { faculty: FacultyRow[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -33,7 +40,12 @@ export default function FacultyManager({ faculty }: { faculty: FacultyRow[] }) {
 
   const openEdit = (f: FacultyRow) => {
     setEditing(f);
-    setForm({ name: f.name, designation: f.designation, bio: f.bio ?? "", photoUrl: f.photoUrl ?? "", sortOrder: f.sortOrder, isActive: f.isActive });
+    setForm({
+      name: f.name, designation: f.designation,
+      qualification: f.qualification ?? "", experience: f.experience ?? "",
+      specialization: f.specialization ?? "", department: f.department ?? "",
+      bio: f.bio ?? "", photoUrl: f.photoUrl ?? "", sortOrder: f.sortOrder, isActive: f.isActive,
+    });
     setError("");
     setShowModal(true);
   };
@@ -162,6 +174,25 @@ export default function FacultyManager({ faculty }: { faculty: FacultyRow[] }) {
                 <div>
                   <label className={labelCls}>Designation *</label>
                   <input className={inputCls} value={form.designation} onChange={(e) => setForm((f) => ({ ...f, designation: e.target.value }))} placeholder="Programme Coordinator, OT Techniques" />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelCls}>Qualification</label>
+                    <input className={inputCls} value={form.qualification} onChange={(e) => setForm((f) => ({ ...f, qualification: e.target.value }))} placeholder="MBBS, MS" />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Experience</label>
+                    <input className={inputCls} value={form.experience} onChange={(e) => setForm((f) => ({ ...f, experience: e.target.value }))} placeholder="10+ years" />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Specialization</label>
+                    <input className={inputCls} value={form.specialization} onChange={(e) => setForm((f) => ({ ...f, specialization: e.target.value }))} placeholder="General Surgery" />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Department</label>
+                    <input className={inputCls} value={form.department} onChange={(e) => setForm((f) => ({ ...f, department: e.target.value }))} placeholder="Operation Theatre Assistant" />
+                  </div>
                 </div>
 
                 <div>

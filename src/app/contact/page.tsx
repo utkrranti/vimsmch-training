@@ -7,9 +7,9 @@ import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Contact Us | VIMSMCH Vocational Training",
+  title: "Contact Us | VIMSMCH Paramedical Institute",
   description:
-    "Get in touch with VIMSMCH Vocational Training Division — admissions enquiries, course information, and general contact details.",
+    "Get in touch with VIMSMCH Paramedical Institute — admissions enquiries, course information, and general contact details.",
 };
 
 const contactDetails = [

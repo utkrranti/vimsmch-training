@@ -30,28 +30,33 @@ export default function HeroSection() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-5">
-            Skill Up. Stand Out.
+            Learn Skills. Save Lives.
             <br />
-            <span className="text-[#2086b8]">Get Certified.</span>
+            <span className="text-[#2086b8]">Build Your Career.</span>
           </h1>
 
-          <p className="text-white/80 text-lg leading-relaxed mb-8 max-w-xl">
-            One-year paramedical certificate courses at VIMSMCH — taught by practising medical
-            professionals, with extensive hands-on clinical training inside our teaching hospital.
+          <p className="text-white/80 text-lg leading-relaxed mb-4 max-w-xl">
+            Affordable one-year job-oriented paramedical courses with practical hospital training
+            at the Paramedical Institute.
+          </p>
+
+          <p className="text-white/60 text-xs leading-relaxed mb-8 max-w-xl">
+            Affiliated to National Council of Vocational Research &amp; Training, New Delhi
+            (NCVRT) — Registered Number REG/NCVRT/MH/35074/VTC.
           </p>
 
           <div className="flex flex-wrap gap-4 mb-10">
             <Link
-              href="/courses"
+              href="/admission"
               className="bg-white text-[#04415f] font-semibold px-7 py-3 rounded-lg hover:bg-[#e6edf0] transition-colors shadow-md"
             >
-              Explore Courses
+              Apply Now
             </Link>
             <Link
               href="/contact#inquiry"
               className="border-2 border-white/60 text-white font-semibold px-7 py-3 rounded-lg hover:bg-white/10 transition-colors"
             >
-              Inquire Now
+              Enquire Now
             </Link>
           </div>
 

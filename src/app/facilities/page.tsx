@@ -9,8 +9,8 @@ import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Facilities | VIMSMCH Vocational Training",
-  description: "Labs, classrooms, and practical training equipment available to VIMSMCH Vocational Training students.",
+  title: "Facilities | VIMSMCH Paramedical Institute",
+  description: "Labs, classrooms, and practical training equipment available to VIMSMCH Paramedical Institute students.",
 };
 
 const facilities = [

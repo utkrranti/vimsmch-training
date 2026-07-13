@@ -103,7 +103,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <Menu size={20} />
             </button>
             <div className="w-1.5 h-5 rounded-full bg-[#04415f] hidden sm:block shrink-0" />
-            <p className="text-[#010608]/50 text-xs font-medium truncate">VIMSMCH Vocational Training</p>
+            <p className="text-[#010608]/50 text-xs font-medium truncate">VIMSMCH Paramedical Institute</p>
           </div>
           <p className="text-[#010608]/35 text-xs hidden sm:block shrink-0">
             {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}

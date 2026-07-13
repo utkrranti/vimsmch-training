@@ -2,7 +2,7 @@ import AdminLoginForm from "@/components/admin/AdminLoginForm";
 import Image from "next/image";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Admin Login | VIMSMCH Vocational Training" };
+export const metadata: Metadata = { title: "Admin Login | VIMSMCH Paramedical Institute" };
 
 export default function AdminLoginPage() {
   return (
@@ -24,7 +24,7 @@ export default function AdminLoginPage() {
           <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 mb-5 shadow-xl">
             <Image src="/logo.png" alt="VIMSMCH" width={160} height={36} className="h-9 w-auto" />
           </div>
-          <h2 className="text-white/60 text-xs uppercase tracking-[0.2em] font-medium">Vocational Training Division</h2>
+          <h2 className="text-white/60 text-xs uppercase tracking-[0.2em] font-medium">Paramedical Institute</h2>
         </div>
 
         {/* Card */}

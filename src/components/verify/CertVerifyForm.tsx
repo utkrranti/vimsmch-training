@@ -60,7 +60,7 @@ export default function CertVerifyForm() {
                 <CheckCircle size={22} className="text-[#04415f] shrink-0" />
                 <div>
                   <p className="text-[#04415f] font-bold text-sm">Certificate Verified</p>
-                  <p className="text-[#010608]/50 text-xs">This is a genuine VIMSMCH Vocational Training certificate.</p>
+                  <p className="text-[#010608]/50 text-xs">This is a genuine VIMSMCH Paramedical Institute certificate.</p>
                 </div>
               </div>
               <div className="border-t border-[#e6edf0] pt-4 grid sm:grid-cols-2 gap-4">

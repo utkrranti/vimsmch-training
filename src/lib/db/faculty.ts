@@ -4,6 +4,10 @@ export type FacultyRow = {
   id: string;
   name: string;
   designation: string;
+  qualification: string | null;
+  experience: string | null;
+  specialization: string | null;
+  department: string | null;
   bio: string | null;
   photoUrl: string | null;
   isActive: boolean;

@@ -20,6 +20,8 @@ const moreLinks = [
   { href: "/facilities", label: "Facilities" },
   { href: "/placements", label: "Placements & Outcomes" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/news", label: "News & Notices" },
+  { href: "/faq", label: "FAQ" },
   { href: "/verify", label: "Verify Certificate" },
 ];
 

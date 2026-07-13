@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const course = await getCourseBySlug(slug);
   if (!course) return {};
   return {
-    title: `Enquire about ${course.title} | VIMSMCH Vocational Training`,
+    title: `Enquire about ${course.title} | VIMSMCH Paramedical Institute`,
     description: `Submit your enquiry for ${course.title}. Our counsellor will contact you within 1 working day.`,
   };
 }

@@ -17,7 +17,10 @@ export type CourseRow = {
   certBy: string;
   assessmentScheme: string;
   creditEquivalence: string;
+  objectives: string[];
+  highlights: string[];
   syllabus: Array<{ unit: string; topics: string[] }>;
+  clinicalPostings: string[];
   outcomes: string[];
   tags: string[];
   category: string;
@@ -30,7 +33,10 @@ function castCourse(row: any): CourseRow {
   return {
     ...row,
     feeBreakdown: row.feeBreakdown as Array<{ label: string; amount: number }>,
+    objectives: row.objectives as string[],
+    highlights: row.highlights as string[],
     syllabus: row.syllabus as Array<{ unit: string; topics: string[] }>,
+    clinicalPostings: row.clinicalPostings as string[],
     outcomes: row.outcomes as string[],
     tags: row.tags as string[],
     batchMonths: row.batchMonths as string[],

@@ -6,7 +6,7 @@ import Footer from "@/components/layout/Footer";
 import CourseInquiryForm from "@/components/courses/CourseInquiryForm";
 import { getCourseBySlug, getAllSlugs } from "@/lib/db/courses";
 import { getCourseImage } from "@/lib/course-images";
-import { Clock, Users, IndianRupee, CheckCircle, CalendarDays, Award } from "lucide-react";
+import { Clock, Users, IndianRupee, CheckCircle, CalendarDays, Award, Target, Stethoscope, Briefcase } from "lucide-react";
 import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const course = await getCourseBySlug(slug);
   if (!course) return {};
   return {
-    title: `${course.title} | VIMSMCH Vocational Training`,
+    title: `${course.title} | VIMSMCH Paramedical Institute`,
     description: course.shortDesc,
   };
 }
@@ -71,8 +71,20 @@ export default async function CourseDetailPage({ params }: Props) {
           <div className="lg:col-span-2 space-y-10">
 
             {/* About */}
-            <Section title="About This Programme">
+            <Section title="Overview">
               <p className="text-[#010608]/70 text-sm leading-relaxed">{course.fullDesc}</p>
+            </Section>
+
+            {/* Course Objectives */}
+            <Section title="Course Objectives">
+              <div className="grid sm:grid-cols-2 gap-3">
+                {course.objectives.map((o) => (
+                  <div key={o} className="flex items-start gap-2.5 bg-white border border-[#e6edf0] rounded-xl p-4 shadow-sm">
+                    <Target size={15} className="text-[#04415f] mt-0.5 shrink-0" />
+                    <p className="text-[#010608]/70 text-sm leading-snug">{o}</p>
+                  </div>
+                ))}
+              </div>
             </Section>
 
             {/* Eligibility */}
@@ -126,13 +138,26 @@ export default async function CourseDetailPage({ params }: Props) {
               </div>
             </Section>
 
-            {/* Syllabus */}
-            <Section title="Syllabus">
+            {/* Course Highlights */}
+            <Section title="Course Highlights">
+              <div className="grid sm:grid-cols-2 gap-3">
+                {course.highlights.map((h) => (
+                  <div key={h} className="flex items-start gap-2.5 bg-white border border-[#e6edf0] rounded-xl p-4 shadow-sm">
+                    <CheckCircle size={15} className="text-[#04415f] mt-0.5 shrink-0" />
+                    <p className="text-[#010608]/70 text-sm leading-snug">{h}</p>
+                  </div>
+                ))}
+              </div>
+            </Section>
+
+            {/* Skills You Will Learn */}
+            <Section title="Skills You Will Learn">
               <div className="space-y-3">
                 {course.syllabus.map((unit, i) => (
                   <details
                     key={unit.unit}
                     className="bg-white border border-[#e6edf0] rounded-xl overflow-hidden shadow-sm group"
+                    open={course.syllabus.length === 1}
                   >
                     <summary className="flex items-center justify-between px-5 py-4 cursor-pointer list-none hover:bg-[#f1f5f7] transition-colors">
                       <div className="flex items-center gap-3">
@@ -141,10 +166,9 @@ export default async function CourseDetailPage({ params }: Props) {
                         </span>
                         <span className="text-[#011e2c] font-semibold text-sm">{unit.unit}</span>
                       </div>
-                      <span className="text-[#04415f] text-xs font-semibold">View Topics</span>
                     </summary>
                     <div className="px-5 pb-5 border-t border-[#e6edf0] pt-4 bg-[#f1f5f7]">
-                      <ul className="space-y-2">
+                      <ul className="grid sm:grid-cols-2 gap-2">
                         {unit.topics.map((t) => (
                           <li key={t} className="flex items-start gap-2 text-sm text-[#010608]/65">
                             <CheckCircle size={13} className="text-[#04415f] mt-0.5 shrink-0" />
@@ -158,12 +182,25 @@ export default async function CourseDetailPage({ params }: Props) {
               </div>
             </Section>
 
-            {/* Outcomes */}
-            <Section title="What You Will Be Able to Do">
+            {/* Clinical Training */}
+            <Section title="Clinical Training">
+              <p className="text-[#010608]/60 text-sm mb-4">Students undergo supervised clinical postings in:</p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {course.clinicalPostings.map((c) => (
+                  <div key={c} className="flex items-start gap-2.5 bg-white border border-[#e6edf0] rounded-xl p-4 shadow-sm">
+                    <Stethoscope size={15} className="text-[#04415f] mt-0.5 shrink-0" />
+                    <p className="text-[#010608]/70 text-sm leading-snug">{c}</p>
+                  </div>
+                ))}
+              </div>
+            </Section>
+
+            {/* Career Opportunities */}
+            <Section title="Career Opportunities">
               <div className="grid sm:grid-cols-2 gap-4">
                 {course.outcomes.map((o) => (
                   <div key={o} className="flex items-start gap-3 bg-white border border-[#e6edf0] rounded-xl p-4 shadow-sm">
-                    <CheckCircle size={15} className="text-[#04415f] mt-0.5 shrink-0" />
+                    <Briefcase size={15} className="text-[#04415f] mt-0.5 shrink-0" />
                     <p className="text-[#010608]/70 text-sm leading-snug">{o}</p>
                   </div>
                 ))}

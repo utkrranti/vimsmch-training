@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const settings = [
   // About — mission
-  { key: "about.mission", value: "Dr. Vithalrao Vikhe Patil Foundation's Vocational Training Centre offers affordable, quality, employment-oriented paramedical education through one-year certificate programmes with extensive hands-on clinical training at Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital, Ahilyanagar. Our mission is to bridge the gap between healthcare services and skilled human resources by preparing competent, compassionate healthcare personnel capable of supporting doctors, nurses, and other healthcare professionals in delivering quality patient care." },
+  { key: "about.mission", value: "Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute offers affordable, quality, employment-oriented paramedical education through one-year certificate programmes with extensive hands-on clinical training at Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital, Ahilyanagar. Our mission is to bridge the gap between healthcare services and skilled human resources by preparing competent, compassionate healthcare personnel capable of supporting doctors, nurses, and other healthcare professionals in delivering quality patient care." },
   { key: "about.established", value: "2026" },
 
   // Anti-Ragging

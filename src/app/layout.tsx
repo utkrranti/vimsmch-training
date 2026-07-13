@@ -9,9 +9,9 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "VIMSMCH Vocational Training | paramedical.vimsmch.edu.in",
+  title: "VIMSMCH Paramedical Institute | paramedical.vimsmch.edu.in",
   description:
-    "One-year certificate courses in paramedical skills at Dr. Vithalrao Vikhe Patil Foundation's Vocational Training Centre — hands-on hospital training in Ahilyanagar.",
+    "One-year certificate courses in paramedical skills at Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute — hands-on hospital training in Ahilyanagar.",
   keywords: "VIMSMCH, vocational training, paramedical courses, skill development, certificate courses, Ahilyanagar",
 };
 

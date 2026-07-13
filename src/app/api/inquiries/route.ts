@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     if (email?.trim()) {
       emailJobs.push(sendEmail({
         to: email.trim(),
-        subject: `Your enquiry has been received — VIMSMCH Vocational Training`,
+        subject: `Your enquiry has been received — VIMSMCH Paramedical Institute`,
         html: inquiryConfirmationHtml(name.trim(), courseName ?? undefined),
       }));
     }

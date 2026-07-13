@@ -16,7 +16,9 @@ type CourseFormProps = {
     fees: number; feeBreakdown: FeeItem[];
     seats: number; eligibility: string; ageLimit: string; certBy: string;
     assessmentScheme: string; creditEquivalence: string;
-    syllabus: SyllabusUnit[]; outcomes: string[]; tags: string[];
+    objectives: string[]; highlights: string[];
+    syllabus: SyllabusUnit[]; clinicalPostings: string[];
+    outcomes: string[]; tags: string[];
     category: string; batchMonths: string[]; isActive: boolean;
   };
 };
@@ -30,7 +32,9 @@ const empty = {
   fees: 0, feeBreakdown: [{ label: "Tuition Fee", amount: 0 }],
   seats: 30, eligibility: "", ageLimit: "18–35 years", certBy: "NSDC",
   assessmentScheme: "", creditEquivalence: "",
+  objectives: [""], highlights: [""],
   syllabus: [{ unit: "Unit 1", topics: [""] }],
+  clinicalPostings: [""],
   outcomes: [""], tags: [""], category: "Allied Health",
   batchMonths: ["July"], isActive: true,
 };
@@ -62,12 +66,13 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
   const addSyllUnit = () => set("syllabus", [...form.syllabus, { unit: `Unit ${form.syllabus.length + 1}`, topics: [""] }]);
   const removeSyllUnit = (i: number) => set("syllabus", form.syllabus.filter((_, idx) => idx !== i));
 
-  // Array field helpers (outcomes, tags)
-  const setArr = (field: "outcomes" | "tags", i: number, v: string) =>
+  // Array field helpers (objectives, highlights, clinicalPostings, outcomes, tags)
+  type ArrField = "objectives" | "highlights" | "clinicalPostings" | "outcomes" | "tags";
+  const setArr = (field: ArrField, i: number, v: string) =>
     set(field, (form[field] as string[]).map((x, idx) => idx === i ? v : x));
-  const addArr = (field: "outcomes" | "tags") =>
+  const addArr = (field: ArrField) =>
     set(field, [...(form[field] as string[]), ""]);
-  const removeArr = (field: "outcomes" | "tags", i: number) =>
+  const removeArr = (field: ArrField, i: number) =>
     set(field, (form[field] as string[]).filter((_, idx) => idx !== i));
 
   const toggleBatchMonth = (m: string) =>
@@ -211,7 +216,7 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
       {/* Syllabus */}
       <div className={sectionCls}>
         <div className="flex items-center justify-between border-b border-[#e6edf0] pb-3">
-          <h2 className="font-bold text-[#011e2c] text-sm">Syllabus</h2>
+          <h2 className="font-bold text-[#011e2c] text-sm">Skills You Will Learn (Syllabus)</h2>
           <button type="button" onClick={addSyllUnit} className="flex items-center gap-1.5 text-xs text-[#04415f] hover:text-[#2086b8] font-semibold transition-colors">
             <Plus size={13} /> Add Unit
           </button>
@@ -243,12 +248,18 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
         </div>
       </div>
 
-      {/* Outcomes & Tags */}
-      <div className="grid grid-cols-2 gap-6">
-        {(["outcomes", "tags"] as const).map((field) => (
+      {/* Simple list fields: Objectives, Highlights, Clinical Postings, Career Opportunities, Skills Covered */}
+      <div className="grid sm:grid-cols-2 gap-6">
+        {([
+          { field: "objectives", label: "Course Objectives", placeholder: "e.g. Understand cardiac anatomy and physiology" },
+          { field: "highlights", label: "Course Highlights", placeholder: "e.g. Practical ECG recording" },
+          { field: "clinicalPostings", label: "Clinical Training Postings", placeholder: "e.g. Cardiology Department" },
+          { field: "outcomes", label: "Career Opportunities (job titles)", placeholder: "e.g. ECG Technician" },
+          { field: "tags", label: "Skills Covered (chips shown on course cards)", placeholder: "e.g. ECG recording" },
+        ] as const).map(({ field, label, placeholder }) => (
           <div key={field} className={sectionCls}>
             <div className="flex items-center justify-between border-b border-[#e6edf0] pb-3">
-              <h2 className="font-bold text-[#011e2c] text-sm capitalize">{field}</h2>
+              <h2 className="font-bold text-[#011e2c] text-sm">{label}</h2>
               <button type="button" onClick={() => addArr(field)} className="flex items-center gap-1.5 text-xs text-[#04415f] hover:text-[#2086b8] font-semibold transition-colors">
                 <Plus size={13} /> Add
               </button>
@@ -256,7 +267,7 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
             <div className="space-y-2">
               {(form[field] as string[]).map((v, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <input className={`${inputCls} flex-1 text-xs`} value={v} onChange={(e) => setArr(field, i, e.target.value)} placeholder={field === "outcomes" ? "Learning outcome..." : "Tag..."} />
+                  <input className={`${inputCls} flex-1 text-xs`} value={v} onChange={(e) => setArr(field, i, e.target.value)} placeholder={placeholder} />
                   <button type="button" onClick={() => removeArr(field, i)} className="text-red-400/60 hover:text-red-600 transition-colors p-1">
                     <Trash2 size={12} />
                   </button>

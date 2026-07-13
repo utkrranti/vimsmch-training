@@ -2,252 +2,285 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const CERT_BY = "Dr. Vithalrao Vikhe Patil Foundation's Vocational Training Centre";
-const ELIGIBILITY = "Passed Class 10 (SSC) from any recognised board";
+const CERT_BY = "Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute";
+const ELIGIBILITY = "10th Pass. Medically fit to undergo clinical training.";
+
+const coursesData = [
+  {
+    slug: "operation-theatre-assistant",
+    title: "Certificate Course in Operation Theatre Assistant",
+    shortDesc:
+      "A one-year, skill-oriented programme preparing students to assist Surgeons, Anaesthetists, and Nursing staff in operation theatres.",
+    fullDesc:
+      "The Certificate Course in Operation Theatre Assistant is a one-year, skill-oriented programme designed to prepare students for assisting Surgeons, Anaesthetists, and Nursing staff in operation theatres. The course combines classroom teaching with intensive practical training in modern operation theatres of Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital. Students acquire the knowledge, technical skills and professional attitude required to ensure the smooth functioning of operation theatres while maintaining the highest standards of patient safety, sterilization and infection control.",
+    nsqf: 0,
+    durationMonths: 12,
+    durationHours: 1200,
+    fees: 30000,
+    feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
+    seats: 25,
+    eligibility: ELIGIBILITY,
+    ageLimit: "No age limit",
+    certBy: CERT_BY,
+    assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Institute.",
+    creditEquivalence: "Not applicable",
+    objectives: [
+      "Develop skilled Operation Theatre Assistants",
+      "Understand operation theatre protocols and procedures",
+      "Learn sterilization and infection control practices",
+      "Handle surgical instruments and equipment efficiently",
+      "Assist surgeons during various surgical procedures",
+      "Ensure patient safety before, during and after surgery",
+    ],
+    highlights: [
+      "Comprehensive theoretical instruction",
+      "Practical training in fully functional operation theatres",
+      "Hands-on experience with modern surgical equipment",
+      "Exposure to general and specialty surgeries",
+      "Training under experienced surgeons, anaesthetists and nursing faculty",
+    ],
+    syllabus: [
+      {
+        unit: "Skills You Will Learn",
+        topics: [
+          "OT preparation",
+          "Surgical instrument identification",
+          "Sterilization techniques",
+          "Infection prevention",
+          "Patient positioning",
+          "Surgical assistance",
+          "Biomedical waste management",
+          "Emergency preparedness",
+        ],
+      },
+    ],
+    clinicalPostings: [
+      "Major Operation Theatre (General Surgery, Orthopaedic Surgery, Obstetric & Gynaecology Surgery)",
+      "Minor Operation Theatre",
+      "Emergency OT",
+    ],
+    outcomes: [
+      "Operation Theatre Assistant",
+      "Surgical Assistant",
+      "OT Technician",
+      "Hospital Surgical Support Staff",
+    ],
+    tags: ["OT preparation", "Surgical instruments", "Sterilization", "Infection prevention", "Surgical assistance"],
+    category: "long-term",
+    batchMonths: ["July"],
+  },
+  {
+    slug: "ecg-technology",
+    title: "Certificate Course in ECG Technology",
+    shortDesc:
+      "A one-year programme preparing students to perform electrocardiography and assist cardiologists in diagnosing cardiovascular diseases.",
+    fullDesc:
+      "The Certificate Course in ECG Technology prepares students to perform electrocardiography and assist cardiologists in diagnosing cardiovascular diseases. The programme provides comprehensive theoretical knowledge along with extensive practical exposure in cardiology departments.",
+    nsqf: 0,
+    durationMonths: 12,
+    durationHours: 1200,
+    fees: 30000,
+    feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
+    seats: 25,
+    eligibility: ELIGIBILITY,
+    ageLimit: "No age limit",
+    certBy: CERT_BY,
+    assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Institute.",
+    creditEquivalence: "Not applicable",
+    objectives: [
+      "Understand cardiac anatomy and physiology",
+      "Perform ECG recording accurately",
+      "Operate ECG machines safely",
+      "Assist in cardiac diagnostic procedures",
+      "Ensure patient comfort and safety",
+    ],
+    highlights: [
+      "Practical ECG recording",
+      "Treadmill Test (TMT) assistance",
+      "Holter monitoring",
+      "Cardiac monitoring",
+      "Interpretation basics",
+      "Clinical exposure",
+    ],
+    syllabus: [
+      {
+        unit: "Skills You Will Learn",
+        topics: ["ECG recording", "Patient preparation", "Machine calibration", "Cardiac monitoring", "Equipment maintenance", "Documentation"],
+      },
+    ],
+    clinicalPostings: ["Cardiology Department", "ICU", "CCU", "Emergency Department", "Medical Wards"],
+    outcomes: ["ECG Technician", "Cardiac Diagnostic Assistant", "Cardiac Care Technician", "Hospital ECG Technologist"],
+    tags: ["ECG recording", "Cardiac monitoring", "TMT assistance", "Holter monitoring", "Patient preparation"],
+    category: "long-term",
+    batchMonths: ["July"],
+  },
+  {
+    slug: "dialysis-technician",
+    title: "Certificate Course in Dialysis Technician",
+    shortDesc:
+      "A one-year programme developing competent Dialysis Technicians capable of assisting nephrologists in providing safe and effective dialysis treatment.",
+    fullDesc:
+      "This programme is designed to develop competent Dialysis Technicians capable of assisting nephrologists in providing safe and effective dialysis treatment to patients suffering from kidney disorders. Students receive intensive practical exposure in modern dialysis units under expert supervision.",
+    nsqf: 0,
+    durationMonths: 12,
+    durationHours: 1200,
+    fees: 30000,
+    feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
+    seats: 25,
+    eligibility: ELIGIBILITY,
+    ageLimit: "No age limit",
+    certBy: CERT_BY,
+    assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Institute.",
+    creditEquivalence: "Not applicable",
+    objectives: [
+      "Understand kidney diseases",
+      "Operate dialysis machines",
+      "Assist during haemodialysis procedures",
+      "Maintain infection control",
+      "Provide patient care before and after dialysis",
+    ],
+    highlights: [
+      "Dialysis machine operation",
+      "Patient assessment",
+      "Water treatment systems",
+      "Emergency management",
+      "Infection prevention",
+      "Practical dialysis sessions",
+    ],
+    syllabus: [
+      {
+        unit: "Skills You Will Learn",
+        topics: ["Dialysis procedures", "Machine handling", "Vascular access care", "Patient monitoring", "Infection control", "Biomedical waste management"],
+      },
+    ],
+    clinicalPostings: ["Dialysis Unit", "Nephrology Department", "ICU", "Emergency Department"],
+    outcomes: ["Dialysis Technician", "Renal Care Assistant", "Dialysis Unit Technician", "Nephrology Support Staff"],
+    tags: ["Dialysis machine operation", "Patient assessment", "Water treatment", "Infection prevention", "Vascular access care"],
+    category: "long-term",
+    batchMonths: ["July"],
+  },
+  {
+    slug: "medical-laboratory-technology",
+    title: "Certificate Course in Medical Laboratory Technology",
+    shortDesc:
+      "A one-year programme equipping students with the knowledge and practical skills required to perform laboratory tests accurately.",
+    fullDesc:
+      "Medical Laboratory Technologists play an indispensable role in modern healthcare by assisting clinicians in disease diagnosis through laboratory investigations. The course equips students with the knowledge and practical skills required to perform laboratory tests accurately while maintaining quality assurance and laboratory safety.",
+    nsqf: 0,
+    durationMonths: 12,
+    durationHours: 1200,
+    fees: 30000,
+    feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
+    seats: 25,
+    eligibility: ELIGIBILITY,
+    ageLimit: "No age limit",
+    certBy: CERT_BY,
+    assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Institute.",
+    creditEquivalence: "Not applicable",
+    objectives: [
+      "Understand laboratory sciences",
+      "Perform routine laboratory investigations",
+      "Operate laboratory equipment",
+      "Maintain quality standards",
+      "Ensure laboratory safety",
+    ],
+    highlights: [
+      "Sample collection",
+      "Clinical Pathology",
+      "Haematology",
+      "Biochemistry",
+      "Microbiology",
+      "Laboratory automation",
+    ],
+    syllabus: [
+      {
+        unit: "Skills You Will Learn",
+        topics: ["Blood collection", "Laboratory testing", "Microscopy", "Instrument handling", "Sample processing", "Record maintenance"],
+      },
+    ],
+    clinicalPostings: ["Clinical Laboratory", "Blood Bank", "Microbiology Laboratory", "Biochemistry Laboratory", "Pathology Department"],
+    outcomes: ["Laboratory Technician", "Medical Laboratory Assistant", "Pathology Technician", "Diagnostic Laboratory Technologist"],
+    tags: ["Blood collection", "Laboratory testing", "Microscopy", "Sample processing", "Instrument handling"],
+    category: "long-term",
+    batchMonths: ["July"],
+  },
+  {
+    slug: "radiology-and-imaging-technology",
+    title: "Certificate Course in Radiology and Imaging Technology",
+    shortDesc:
+      "A one-year programme preparing students to assist radiologists in performing diagnostic imaging procedures using modern imaging equipment.",
+    fullDesc:
+      "The Certificate Course in Radiology and Imaging Technology prepares students to assist radiologists in performing diagnostic imaging procedures using modern imaging equipment. Students receive practical training in radiography, patient positioning, radiation protection and imaging procedures.",
+    nsqf: 0,
+    durationMonths: 12,
+    durationHours: 1200,
+    fees: 30000,
+    feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
+    seats: 25,
+    eligibility: ELIGIBILITY,
+    ageLimit: "No age limit",
+    certBy: CERT_BY,
+    assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Institute.",
+    creditEquivalence: "Not applicable",
+    objectives: [
+      "Understand diagnostic imaging principles",
+      "Operate radiographic equipment safely",
+      "Assist radiologists",
+      "Maintain radiation safety standards",
+      "Ensure patient care during imaging procedures",
+    ],
+    highlights: [
+      "Digital X-Ray",
+      "CT Scan",
+      "MRI Basics",
+      "Contrast Studies",
+      "Radiation Safety",
+      "Patient Positioning",
+    ],
+    syllabus: [
+      {
+        unit: "Skills You Will Learn",
+        topics: ["Radiographic positioning", "Imaging techniques", "Equipment handling", "Radiation protection", "Image processing", "Patient communication"],
+      },
+    ],
+    clinicalPostings: ["Radiology Department", "Digital X-Ray Unit", "CT Scan Centre", "MRI Unit", "Emergency Imaging Services"],
+    outcomes: ["Radiology Technician", "Imaging Technologist", "X-Ray Technician", "Diagnostic Imaging Assistant"],
+    tags: ["Digital X-Ray", "CT Scan", "MRI Basics", "Radiation Safety", "Patient Positioning"],
+    category: "long-term",
+    batchMonths: ["July"],
+  },
+];
 
 async function main() {
   console.log("Seeding courses...");
 
-  const coursesData = [
-    {
-      slug: "operation-theatre-assistant",
-      title: "Certificate Course in Operation Theatre Assistant",
-      shortDesc:
-        "A one-year certificate programme training students as Operation Theatre assistants — covering OT protocols, sterilisation, surgical instruments, and patient preparation.",
-      fullDesc:
-        "This one-year certificate programme prepares students to work as Operation Theatre (OT) assistants in hospitals and surgical centres. Students are trained in operation theatre protocols, sterilisation techniques, handling of surgical instruments, patient preparation, and infection control, with extensive hands-on clinical training inside the operation theatres of Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital.",
-      nsqf: 0,
-      durationMonths: 12,
-      durationHours: 1200,
-      fees: 30000,
-      feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
-      seats: 20,
-      eligibility: ELIGIBILITY,
-      ageLimit: "No age limit",
-      certBy: CERT_BY,
-      assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Vocational Training Centre.",
-      creditEquivalence: "Not applicable",
-      syllabus: [
-        {
-          unit: "What Students Learn",
-          topics: [
-            "Operation theatre protocols",
-            "Sterilisation techniques",
-            "Surgical instruments",
-            "Patient preparation",
-            "OT assistance",
-            "Infection control",
-          ],
-        },
-      ],
-      outcomes: [
-        "Assist in operation theatre setup and protocols",
-        "Carry out sterilisation procedures correctly",
-        "Handle and prepare surgical instruments",
-        "Prepare patients for surgical procedures",
-        "Maintain infection control standards in the OT",
-      ],
-      tags: ["Multispecialty Hospitals", "Surgical Centres", "Trauma Centres", "Day Care Surgery Units"],
-      category: "long-term",
-      batchMonths: ["July"],
-    },
-    {
-      slug: "ecg-technology",
-      title: "Certificate Course in ECG Technology",
-      shortDesc:
-        "A one-year certificate programme training students in ECG recording, cardiac monitoring, and related diagnostic support skills.",
-      fullDesc:
-        "This one-year certificate programme prepares students to work as ECG technicians in hospitals and diagnostic centres. Students are trained in ECG recording, cardiac monitoring, TMT assistance, Holter monitoring, and equipment maintenance, with hands-on clinical exposure at Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital.",
-      nsqf: 0,
-      durationMonths: 12,
-      durationHours: 1200,
-      fees: 30000,
-      feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
-      seats: 20,
-      eligibility: ELIGIBILITY,
-      ageLimit: "No age limit",
-      certBy: CERT_BY,
-      assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Vocational Training Centre.",
-      creditEquivalence: "Not applicable",
-      syllabus: [
-        {
-          unit: "Training Includes",
-          topics: [
-            "ECG recording",
-            "Cardiac monitoring",
-            "TMT assistance",
-            "Holter monitoring",
-            "Equipment maintenance",
-            "Patient preparation",
-          ],
-        },
-      ],
-      outcomes: [
-        "Record and process ECGs accurately",
-        "Assist with cardiac monitoring procedures",
-        "Support TMT and Holter monitoring sessions",
-        "Maintain ECG equipment",
-        "Prepare patients for cardiac diagnostic procedures",
-      ],
-      tags: ["Cardiology Departments", "Diagnostic Centres", "Hospitals", "Cardiac Clinics"],
-      category: "long-term",
-      batchMonths: ["July"],
-    },
-    {
-      slug: "dialysis-technician",
-      title: "Certificate Course in Dialysis Technician",
-      shortDesc:
-        "A one-year certificate programme training students in hemodialysis procedures, machine handling, and patient care for dialysis units.",
-      fullDesc:
-        "This one-year certificate programme prepares students to work as dialysis technicians in hospitals and dialysis units. Students are trained in hemodialysis procedures, dialysis machine handling, patient care, water treatment systems, infection prevention, and emergency management, with hands-on clinical training at Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital.",
-      nsqf: 0,
-      durationMonths: 12,
-      durationHours: 1200,
-      fees: 30000,
-      feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
-      seats: 20,
-      eligibility: ELIGIBILITY,
-      ageLimit: "No age limit",
-      certBy: CERT_BY,
-      assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Vocational Training Centre.",
-      creditEquivalence: "Not applicable",
-      syllabus: [
-        {
-          unit: "Training Includes",
-          topics: [
-            "Hemodialysis procedures",
-            "Dialysis machine handling",
-            "Patient care",
-            "Water treatment systems",
-            "Infection prevention",
-            "Emergency management",
-          ],
-        },
-      ],
-      outcomes: [
-        "Operate and handle dialysis machines safely",
-        "Carry out hemodialysis procedures under supervision",
-        "Provide patient care during dialysis sessions",
-        "Follow infection prevention protocols",
-        "Respond to dialysis-related emergencies",
-      ],
-      tags: ["Dialysis Units", "Kidney Hospitals", "Multispecialty Hospitals"],
-      category: "long-term",
-      batchMonths: ["July"],
-    },
-    {
-      slug: "medical-laboratory-technology",
-      title: "Certificate Course in Medical Laboratory Technology",
-      shortDesc:
-        "A one-year certificate programme training students in clinical pathology, biochemistry, microbiology, and haematology laboratory procedures.",
-      fullDesc:
-        "This one-year certificate programme prepares students to work as laboratory technicians in hospitals, diagnostic labs, and blood banks. Students are trained in clinical pathology, biochemistry, microbiology, haematology, sample collection, and laboratory safety, with hands-on training in the fully equipped laboratories of Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital.",
-      nsqf: 0,
-      durationMonths: 12,
-      durationHours: 1200,
-      fees: 30000,
-      feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
-      seats: 20,
-      eligibility: ELIGIBILITY,
-      ageLimit: "No age limit",
-      certBy: CERT_BY,
-      assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Vocational Training Centre.",
-      creditEquivalence: "Not applicable",
-      syllabus: [
-        {
-          unit: "Training Includes",
-          topics: [
-            "Clinical pathology",
-            "Biochemistry",
-            "Microbiology",
-            "Haematology",
-            "Sample collection",
-            "Laboratory safety",
-          ],
-        },
-      ],
-      outcomes: [
-        "Perform routine clinical laboratory investigations",
-        "Handle biological samples safely",
-        "Carry out biochemistry and haematology tests",
-        "Follow microbiology testing procedures",
-        "Maintain laboratory safety standards",
-      ],
-      tags: ["Diagnostic Laboratories", "Hospitals", "Blood Banks", "Research Laboratories"],
-      category: "long-term",
-      batchMonths: ["July"],
-    },
-    {
-      slug: "radiology-and-imaging-technology",
-      title: "Certificate Course in Radiology and Imaging Technology",
-      shortDesc:
-        "A one-year certificate programme training students in X-Ray, CT scan, and MRI-basics imaging procedures and patient positioning.",
-      fullDesc:
-        "This one-year certificate programme prepares students to work as radiology and imaging technicians in hospitals and diagnostic centres. Students are trained in X-Ray, CT scan, MRI basics, patient positioning, radiation safety, and imaging procedures, with hands-on clinical training in the radiology department of Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital.",
-      nsqf: 0,
-      durationMonths: 12,
-      durationHours: 1200,
-      fees: 30000,
-      feeBreakdown: [{ label: "Course Fee (Provisional — subject to approval)", amount: 30000 }],
-      seats: 20,
-      eligibility: ELIGIBILITY,
-      ageLimit: "No age limit",
-      certBy: CERT_BY,
-      assessmentScheme: "Theory + Practical + Clinical Training, assessed internally by the Vocational Training Centre.",
-      creditEquivalence: "Not applicable",
-      syllabus: [
-        {
-          unit: "Training Includes",
-          topics: [
-            "X-Ray",
-            "CT Scan",
-            "MRI basics",
-            "Patient positioning",
-            "Radiation safety",
-            "Imaging procedures",
-          ],
-        },
-      ],
-      outcomes: [
-        "Assist with X-Ray, CT, and MRI imaging procedures",
-        "Position patients correctly for imaging",
-        "Follow radiation safety protocols",
-        "Support radiology department workflows",
-        "Maintain imaging equipment and records",
-      ],
-      tags: ["Radiology Departments", "Imaging Centres", "Diagnostic Hospitals"],
-      category: "long-term",
-      batchMonths: ["July"],
-    },
-  ];
+  // Older documents predate fields added in this schema revision (objectives,
+  // highlights, clinicalPostings), which makes every typed Prisma read on this
+  // collection fail JSON validation - including reads used just to check for
+  // linked inquiries/enrollments. Use a raw command to inspect/clear safely first.
+  const raw = (await prisma.$runCommandRaw({
+    find: "courses",
+    filter: {},
+    projection: { _id: 1, slug: 1, title: 1 },
+  })) as { cursor?: { firstBatch?: Array<{ _id: string; slug: string; title: string }> } };
+  const existingDocs = raw.cursor?.firstBatch ?? [];
 
-  const keepSlugs = coursesData.map((c) => c.slug);
-
-  // Remove any previously seeded courses that are not part of the current 5-course catalogue.
-  const stale = await prisma.course.findMany({ where: { slug: { notIn: keepSlugs } } });
-  for (const s of stale) {
+  for (const doc of existingDocs) {
     const [inquiryCount, enrollmentCount] = await Promise.all([
-      prisma.inquiry.count({ where: { courseId: s.id } }),
-      prisma.enrollment.count({ where: { courseId: s.id } }),
+      prisma.inquiry.count({ where: { courseId: doc._id } }),
+      prisma.enrollment.count({ where: { courseId: doc._id } }),
     ]);
     if (inquiryCount > 0 || enrollmentCount > 0) {
-      console.log(`  ! Skipping delete of "${s.title}" — has ${inquiryCount} inquiries / ${enrollmentCount} enrollments linked. Deactivating instead.`);
-      await prisma.course.update({ where: { id: s.id }, data: { isActive: false } });
-    } else {
-      await prisma.course.delete({ where: { id: s.id } });
-      console.log(`  - Removed outdated course: ${s.title}`);
+      console.log(`  ! "${doc.title}" has ${inquiryCount} inquiries / ${enrollmentCount} enrollments linked — leaving record in place, only updating if slug matches current catalogue.`);
+      continue;
     }
+    await prisma.$runCommandRaw({ delete: "courses", deletes: [{ q: { _id: doc._id }, limit: 1 }] });
+    console.log(`  - Removed: ${doc.title}`);
   }
 
   for (const c of coursesData) {
-    const existing = await prisma.course.findUnique({ where: { slug: c.slug } });
-    if (!existing) {
-      await prisma.course.create({ data: c });
-      console.log(`  ✓ ${c.title}`);
-    } else {
-      await prisma.course.update({ where: { slug: c.slug }, data: c });
-      console.log(`  ~ ${c.title} (updated)`);
-    }
+    await prisma.course.create({ data: c });
+    console.log(`  ✓ ${c.title}`);
   }
 
   console.log("\nSeed complete.");

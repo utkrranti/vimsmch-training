@@ -7,9 +7,9 @@ import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Verify Certificate | VIMSMCH Vocational Training",
+  title: "Verify Certificate | VIMSMCH Paramedical Institute",
   description:
-    "Verify the authenticity of a VIMSMCH Vocational Training certificate by entering the certificate number.",
+    "Verify the authenticity of a VIMSMCH Paramedical Institute certificate by entering the certificate number.",
 };
 
 export default function VerifyPage() {
@@ -38,7 +38,7 @@ export default function VerifyPage() {
               <h2 className="text-2xl font-bold text-[#011e2c] mb-2">Certificate Verification</h2>
               <div className="w-12 h-0.5 bg-[#2086b8] mx-auto mb-4" />
               <p className="text-[#010608]/55 text-sm leading-relaxed">
-                Enter the certificate number printed on your VIMSMCH Vocational Training certificate to verify its authenticity.
+                Enter the certificate number printed on your VIMSMCH Paramedical Institute certificate to verify its authenticity.
               </p>
             </div>
 

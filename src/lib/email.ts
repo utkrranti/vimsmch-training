@@ -17,7 +17,7 @@ function layout(content: string, previewText: string = "") {
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>VIMSMCH Vocational Training</title>
+<title>VIMSMCH Paramedical Institute</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap');
   body { margin:0; padding:0; background:#f1f5f7; font-family:'Work Sans',Arial,sans-serif; color:#010608; }
@@ -55,7 +55,7 @@ ${previewText ? `<div style="display:none;max-height:0;overflow:hidden;">${previ
 <div class="wrap">
   <div class="header">
     <div style="font-size:13px;color:rgba(255,255,255,0.9);font-weight:700;letter-spacing:0.04em;">VIMSMCH</div>
-    <div class="header-sub">Dr. Vithalrao Vikhe Patil Foundation · Vocational Training Division</div>
+    <div class="header-sub">Dr. Vithalrao Vikhe Patil Foundation · Paramedical Institute</div>
   </div>
   <div class="card">
     <div class="accent-bar"></div>
@@ -119,14 +119,14 @@ export function adminNewInquiryHtml(data: {
 export function inquiryReplyHtml(name: string, courseName: string | null, replyMessage: string) {
   return layout(`
     <h1>Response to your enquiry</h1>
-    <p>The VIMSMCH Vocational Training Division has responded to your enquiry${courseName ? ` about <span class="strong">${courseName}</span>` : ""}.</p>
+    <p>The VIMSMCH Paramedical Institute has responded to your enquiry${courseName ? ` about <span class="strong">${courseName}</span>` : ""}.</p>
     <div class="divider"></div>
     <p style="font-size:12px;color:#010608;opacity:0.45;margin-bottom:6px;">Message from our counsellor</p>
     <div class="reply-box"><p>${replyMessage}</p></div>
     <div class="divider"></div>
     <p style="font-size:13px;">If you have further questions, please feel free to reach out:</p>
     <p style="font-size:13px;">📞 <span class="strong">+91 241 230 6600</span><br/>📧 <a href="mailto:support@vimsmch.edu.in" style="color:#04415f;">support@vimsmch.edu.in</a></p>
-    <p style="font-size:12px;opacity:0.5;">We look forward to welcoming you to VIMSMCH Vocational Training!</p>
+    <p style="font-size:12px;opacity:0.5;">We look forward to welcoming you to VIMSMCH Paramedical Institute!</p>
   `, `Reply from VIMSMCH regarding your enquiry`);
 }
 

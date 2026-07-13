@@ -11,6 +11,8 @@ const quickLinks = [
   { href: "/facilities", label: "Facilities" },
   { href: "/placements", label: "Placements & Outcomes" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/news", label: "News & Notices" },
+  { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
   { href: "/verify", label: "Verify Certificate" },
 ];
@@ -35,7 +37,7 @@ export default function Footer() {
             <Image src="/logo.png" alt="VIMSMCH" width={220} height={47} className="h-12 w-auto" />
           </div>
           <p className="text-[#010608]/70 text-sm leading-relaxed mb-5">
-            Vocational Training Centre of Dr. Vithalrao Vikhe Patil Foundation&apos;s Medical
+            Paramedical Institute of Dr. Vithalrao Vikhe Patil Foundation&apos;s Medical
             College &amp; Hospital — one-year certificate courses in paramedical skills with
             hands-on hospital training.
           </p>

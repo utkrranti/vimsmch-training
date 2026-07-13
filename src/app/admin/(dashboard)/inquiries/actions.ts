@@ -26,7 +26,7 @@ export async function sendInquiryReply(id: string, replyMessage: string): Promis
   try {
     await sendEmail({
       to: inquiry.email,
-      subject: `Response to your enquiry — VIMSMCH Vocational Training`,
+      subject: `Response to your enquiry — VIMSMCH Paramedical Institute`,
       html: inquiryReplyHtml(inquiry.name, inquiry.course?.title ?? null, replyMessage),
     });
 

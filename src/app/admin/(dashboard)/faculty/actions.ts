@@ -8,6 +8,10 @@ export async function saveFaculty(
   data: {
     name: string;
     designation: string;
+    qualification: string;
+    experience: string;
+    specialization: string;
+    department: string;
     bio: string;
     photoUrl: string;
     sortOrder: number;
@@ -17,6 +21,10 @@ export async function saveFaculty(
   const payload = {
     name: data.name,
     designation: data.designation,
+    qualification: data.qualification || null,
+    experience: data.experience || null,
+    specialization: data.specialization || null,
+    department: data.department || null,
     bio: data.bio || null,
     photoUrl: data.photoUrl || null,
     sortOrder: data.sortOrder,

@@ -8,9 +8,9 @@ import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Faculty | VIMSMCH Vocational Training",
+  title: "Faculty | VIMSMCH Paramedical Institute",
   description:
-    "Meet the qualified faculty and programme coordinators of VIMSMCH Vocational Training Division.",
+    "Meet the qualified faculty and programme coordinators of VIMSMCH Paramedical Institute.",
 };
 
 export default async function FacultyPage() {
@@ -72,8 +72,23 @@ export default async function FacultyPage() {
                       <div className="min-w-0">
                         <h3 className="text-[#011e2c] font-bold text-sm leading-snug mb-1">{f.name}</h3>
                         <p className="text-[#04415f] text-xs font-medium leading-snug">{f.designation}</p>
+                        {f.department && <p className="text-[#010608]/50 text-xs mt-0.5">{f.department}</p>}
                       </div>
                     </div>
+
+                    {(f.qualification || f.experience || f.specialization) && (
+                      <div className="px-6 pb-4 space-y-1.5 text-xs">
+                        {f.qualification && (
+                          <p><span className="text-[#010608]/40">Qualification: </span><span className="text-[#010608]/70 font-medium">{f.qualification}</span></p>
+                        )}
+                        {f.specialization && (
+                          <p><span className="text-[#010608]/40">Specialization: </span><span className="text-[#010608]/70 font-medium">{f.specialization}</span></p>
+                        )}
+                        {f.experience && (
+                          <p><span className="text-[#010608]/40">Experience: </span><span className="text-[#010608]/70 font-medium">{f.experience}</span></p>
+                        )}
+                      </div>
+                    )}
 
                     {f.bio && (
                       <div className="px-6 pb-6 border-t border-[#e6edf0] pt-4">

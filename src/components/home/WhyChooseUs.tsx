@@ -1,15 +1,20 @@
-import { Stethoscope, FlaskConical, MonitorPlay, Building2, Users, GraduationCap } from "lucide-react";
+import { Clock, Building2, GraduationCap, FlaskConical, IndianRupee, Users, Briefcase } from "lucide-react";
 
 const reasons = [
   {
-    icon: GraduationCap,
-    title: "Experienced Medical Faculty",
-    desc: "Taught by practising doctors and medical professionals from VIMSMCH's Medical College & Hospital.",
+    icon: Clock,
+    title: "One-Year Certificate Courses",
+    desc: "Job-oriented programmes designed to make you employment-ready in one year.",
   },
   {
-    icon: Stethoscope,
-    title: "Clinical Exposure from Day One",
-    desc: "Hands-on training inside a real, functioning multispecialty teaching hospital — not just a classroom.",
+    icon: Building2,
+    title: "Practical Training in an 800-Bedded Multi-Specialty Teaching Hospital",
+    desc: "Hands-on clinical exposure inside a real, functioning hospital — not just a classroom.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Experienced Doctors as Faculty",
+    desc: "Taught by practising doctors and medical professionals from VIMSMCH's Medical College & Hospital.",
   },
   {
     icon: FlaskConical,
@@ -17,19 +22,19 @@ const reasons = [
     desc: "Access to well-equipped labs and hospital departments relevant to your certificate course.",
   },
   {
-    icon: MonitorPlay,
-    title: "Simulation-Based Learning",
-    desc: "Structured demonstration and practical sessions before supervised clinical postings.",
-  },
-  {
-    icon: Building2,
-    title: "Hospital Internship",
-    desc: "Supervised practical training across departments of Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital.",
+    icon: IndianRupee,
+    title: "Affordable Fees",
+    desc: "Quality paramedical education priced to be accessible, with no hidden charges.",
   },
   {
     icon: Users,
-    title: "Career Guidance & Placement Assistance",
-    desc: "Personality development, soft-skills training, and placement assistance in hospitals, diagnostic centres, and clinics across the region.",
+    title: "Placement Assistance",
+    desc: "Career counselling, personality development, and placement support to help you find work in healthcare.",
+  },
+  {
+    icon: Briefcase,
+    title: "Possible Opportunity for Employment in Foundation Hospital*",
+    desc: "*Subject to performance and vacancies.",
   },
 ];
 
@@ -39,7 +44,7 @@ export default function WhyChooseUs() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-14">
           <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-            Why VIMSMCH Vocational
+            Why Choose Us
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-[#011e2c] mb-3">
             Learning Beyond the Classroom

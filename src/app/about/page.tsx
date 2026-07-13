@@ -8,9 +8,9 @@ import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "About Us | Dr. Vithalrao Vikhe Patil Foundation's Vocational Training Centre",
+  title: "About Us | Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute",
   description:
-    "Learn about Dr. Vithalrao Vikhe Patil Foundation's Vocational Training Centre — affordable, employment-oriented paramedical certificate courses with hands-on hospital training.",
+    "Learn about Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute — affordable, employment-oriented paramedical certificate courses with hands-on hospital training.",
 };
 
 const objectives = [
@@ -51,7 +51,7 @@ export default async function AboutPage() {
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
-                Vocational Training Division
+                Paramedical Institute
               </span>
               <h2 className="text-3xl font-bold text-[#011e2c] mb-4 leading-snug">
                 Dr. Vithalrao Vikhe Patil Foundation&apos;s<br />
@@ -105,7 +105,7 @@ export default async function AboutPage() {
                 Inspired by the visionary leadership of Late Padmabhushan Dr. Balasaheb Vikhe Patil, Dr. Vithalrao Vikhe Patil Foundation has consistently worked towards providing quality education and healthcare services to society.
               </p>
               <p className="text-[#010608]/65 text-sm leading-relaxed">
-                The Foundation has established numerous institutions in engineering, pharmacy, nursing, physiotherapy, agriculture, management, medical education and healthcare, contributing significantly to the educational development of Maharashtra. The Vocational Training Centre is another milestone in this continuing journey of nation building through skill development.
+                The Foundation has established numerous institutions in engineering, pharmacy, nursing, physiotherapy, agriculture, management, medical education and healthcare, contributing significantly to the educational development of Maharashtra. The Paramedical Institute is another milestone in this continuing journey of nation building through skill development.
               </p>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default async function AboutPage() {
               <h2 className="text-2xl font-bold text-[#011e2c] mb-4">Bridging the Skills Gap</h2>
               <div className="w-14 h-0.5 bg-[#2086b8] mb-6" />
               <p className="text-[#010608]/65 text-sm leading-relaxed mb-4">
-                India is witnessing a growing demand for trained paramedical professionals due to rapid expansion of healthcare infrastructure. The Vocational Training Centre has therefore been established with clear, focused objectives.
+                India is witnessing a growing demand for trained paramedical professionals due to rapid expansion of healthcare infrastructure. The Paramedical Institute has therefore been established with clear, focused objectives.
               </p>
               <p className="text-[#010608]/65 text-sm leading-relaxed">
                 Special emphasis is laid on students from Ahilyanagar District and surrounding rural regions who aspire to build successful careers in healthcare.

@@ -9,8 +9,8 @@ import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Placements & Outcomes | VIMSMCH Vocational Training",
-  description: "Where VIMSMCH Vocational Training graduates work today — employer partners, batch outcomes, and student testimonials.",
+  title: "Placements & Outcomes | VIMSMCH Paramedical Institute",
+  description: "Where VIMSMCH Paramedical Institute graduates work today — employer partners, batch outcomes, and student testimonials.",
 };
 
 export default async function PlacementsPage() {

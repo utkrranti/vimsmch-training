@@ -23,7 +23,9 @@ export async function saveCourse(
     fees: number; feeBreakdown: { label: string; amount: number }[];
     seats: number; eligibility: string; ageLimit: string; certBy: string;
     assessmentScheme: string; creditEquivalence: string;
+    objectives: string[]; highlights: string[];
     syllabus: { unit: string; topics: string[] }[];
+    clinicalPostings: string[];
     outcomes: string[]; tags: string[]; category: string;
     batchMonths: string[]; isActive: boolean;
   }

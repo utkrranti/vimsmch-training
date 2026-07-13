@@ -7,8 +7,8 @@ import type { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Gallery | VIMSMCH Vocational Training",
-  description: "Photos and moments from VIMSMCH Vocational Training classes, events, and certificate ceremonies.",
+  title: "Gallery | VIMSMCH Paramedical Institute",
+  description: "Photos and moments from VIMSMCH Paramedical Institute classes, events, and certificate ceremonies.",
 };
 
 const CATEGORIES = [

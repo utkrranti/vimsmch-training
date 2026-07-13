@@ -24,7 +24,10 @@ model Course {
   certBy            String
   assessmentScheme  String
   creditEquivalence String
+  objectives        Json
+  highlights        Json
   syllabus          Json
+  clinicalPostings  Json
   outcomes          Json
   tags              Json
   category          String
@@ -131,14 +134,18 @@ model Placement {
 }
 
 model Faculty {
-  id          String   @id @default(cuid()) @map("_id")
-  name        String
-  designation String
-  bio         String?
-  photoUrl    String?
-  isActive    Boolean  @default(true)
-  sortOrder   Int      @default(0)
-  createdAt   DateTime @default(now())
+  id             String   @id @default(cuid()) @map("_id")
+  name           String
+  designation    String
+  qualification  String?
+  experience     String?
+  specialization String?
+  department     String?
+  bio            String?
+  photoUrl       String?
+  isActive       Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
 
   @@map("faculty")
 }
