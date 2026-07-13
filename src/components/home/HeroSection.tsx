@@ -1,8 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { GraduationCap, Clock, Stethoscope } from "lucide-react";
+import { GraduationCap, Clock, Stethoscope, Download } from "lucide-react";
+import { getSettings } from "@/lib/db/settings";
 
-export default function HeroSection() {
+export default async function HeroSection() {
+  const s = await getSettings(["prospectus.pdfUrl"]);
+  const prospectusUrl = s["prospectus.pdfUrl"];
+
   return (
     <section
       className="relative text-white py-24 lg:py-32 px-4 sm:px-6 overflow-hidden"
@@ -58,6 +62,17 @@ export default function HeroSection() {
             >
               Enquire Now
             </Link>
+            {prospectusUrl && (
+              <a
+                href={prospectusUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="flex items-center gap-2 text-white/85 font-semibold px-7 py-3 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                <Download size={16} /> Download Prospectus
+              </a>
+            )}
           </div>
 
           {/* Highlights */}

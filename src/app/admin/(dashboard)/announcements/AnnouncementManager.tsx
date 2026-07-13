@@ -2,12 +2,13 @@
 
 import { useState, useTransition } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus, Pencil, Trash2, X, Loader2, Megaphone } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Loader2, Megaphone, Paperclip } from "lucide-react";
 import { saveAnnouncement, deleteAnnouncement, toggleAnnouncementActive } from "./actions";
+import FileUploadField from "@/components/admin/FileUploadField";
 
-type AnnouncementRow = { id: string; title: string; body: string; isActive: boolean; createdAt: string };
+type AnnouncementRow = { id: string; title: string; body: string; attachmentUrl: string | null; isActive: boolean; createdAt: string };
 
-const emptyForm = { title: "", body: "", isActive: true };
+const emptyForm = { title: "", body: "", attachmentUrl: "", isActive: true };
 
 export default function AnnouncementManager({ announcements }: { announcements: AnnouncementRow[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +18,7 @@ export default function AnnouncementManager({ announcements }: { announcements: 
   const [error, setError] = useState("");
 
   const openAdd = () => { setEditing(null); setForm(emptyForm); setError(""); setShowModal(true); };
-  const openEdit = (a: AnnouncementRow) => { setEditing(a); setForm({ title: a.title, body: a.body, isActive: a.isActive }); setError(""); setShowModal(true); };
+  const openEdit = (a: AnnouncementRow) => { setEditing(a); setForm({ title: a.title, body: a.body, attachmentUrl: a.attachmentUrl ?? "", isActive: a.isActive }); setError(""); setShowModal(true); };
 
   const handleSave = () => {
     if (!form.title.trim() || !form.body.trim()) { setError("Title and message are required."); return; }
@@ -80,7 +81,14 @@ export default function AnnouncementManager({ announcements }: { announcements: 
                       </span>
                     </div>
                     <p className="text-[#010608]/55 text-xs mt-1.5 leading-relaxed break-words">{a.body}</p>
-                    <p className="text-[#010608]/30 text-[11px] mt-2">{new Date(a.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</p>
+                    <div className="flex items-center gap-3 mt-2">
+                      <p className="text-[#010608]/30 text-[11px]">{new Date(a.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</p>
+                      {a.attachmentUrl && (
+                        <a href={a.attachmentUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[#04415f] text-[11px] font-medium hover:underline">
+                          <Paperclip size={11} /> Attachment
+                        </a>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
                     <button
@@ -130,6 +138,14 @@ export default function AnnouncementManager({ announcements }: { announcements: 
                   <div>
                     <label className={labelCls}>Message *</label>
                     <textarea rows={4} className={`${inputCls} resize-none`} value={form.body} onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))} placeholder="Short notice text shown on the home page..." />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Attachment (optional)</label>
+                    <FileUploadField
+                      value={form.attachmentUrl}
+                      onChange={(url) => setForm((f) => ({ ...f, attachmentUrl: url }))}
+                      accept="application/pdf,image/*"
+                    />
                   </div>
                   <label className="flex items-center gap-3 cursor-pointer">
                     <button

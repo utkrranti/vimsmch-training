@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import {
   LayoutDashboard, BookOpen, MessageSquare, ClipboardList,
-  Users, Award, UserCog, Settings, CalendarRange, Images, Megaphone, Briefcase,
+  Users, Award, UserCog, Settings, CalendarRange, Images, Megaphone, Briefcase, HelpCircle,
 } from "lucide-react";
 
 const navItems = [
@@ -19,6 +19,7 @@ const navItems = [
   { href: "/admin/gallery", label: "Gallery", icon: Images },
   { href: "/admin/placements", label: "Placements", icon: Briefcase },
   { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
+  { href: "/admin/faq", label: "FAQ", icon: HelpCircle },
   { href: "/admin/users", label: "Admin Users", icon: UserCog },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];

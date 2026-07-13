@@ -22,6 +22,17 @@ const objectives = [
   "Promoting self-reliance through skill development",
 ];
 
+const ourObjectives = [
+  "Affordable education",
+  "Quality practical training",
+  "Skill-based learning",
+  "Industry-oriented curriculum",
+  "Hospital exposure",
+  "Personality development",
+  "Career guidance",
+  "Placement assistance",
+];
+
 const quickFacts = [
   { icon: GraduationCap, label: "Certificate Courses", value: "5", sub: "One-year paramedical programmes" },
   { icon: Target, label: "Course Duration", value: "1 Year", sub: "Theory, practical & clinical training" },
@@ -97,15 +108,20 @@ export default async function AboutPage() {
 
         {/* Our Legacy */}
         <section className="bg-[#f1f5f7] py-16 px-4 sm:px-6 border-b border-[#e6edf0]">
-          <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
-            <div className="relative rounded-2xl overflow-hidden shadow-sm border border-[#e6edf0] aspect-[4/3]">
-              <Image
-                src="/images/campus-1.webp"
-                alt="Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital campus"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
+          <div className="max-w-6xl mx-auto grid lg:grid-cols-[280px_1fr] gap-10 items-center">
+            <div className="mx-auto lg:mx-0">
+              <div className="relative w-56 sm:w-64 lg:w-full aspect-[550/712] rounded-2xl overflow-hidden shadow-sm border border-[#e6edf0]">
+                <Image
+                  src="/images/Balasaheb_Vikhe_Patil_accepting_Padma_Bhushan_(cropped).jpg"
+                  alt="Late Padmabhushan Dr. Balasaheb Vikhe Patil"
+                  fill
+                  sizes="(max-width: 1024px) 224px, 280px"
+                  className="object-cover"
+                />
+              </div>
+              <p className="text-[#010608]/45 text-xs text-center mt-2">
+                Late Padmabhushan Dr. Balasaheb Vikhe Patil
+              </p>
             </div>
             <div>
               <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
@@ -170,6 +186,27 @@ export default async function AboutPage() {
               <p className="text-[#010608]/65 text-sm leading-relaxed">
                 {s["about.mission"]}
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Our Objectives */}
+        <section className="bg-white py-16 px-4 sm:px-6 border-b border-[#e6edf0]">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-10">
+              <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
+                Our Objectives
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#011e2c] mb-1">What We Set Out to Achieve</h2>
+              <div className="w-14 h-0.5 bg-[#2086b8] mx-auto mt-3" />
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {ourObjectives.map((o) => (
+                <div key={o} className="flex items-start gap-2.5 bg-[#f1f5f7] rounded-xl p-4 border border-[#e6edf0]">
+                  <CheckCircle2 size={16} className="text-[#04415f] mt-0.5 shrink-0" />
+                  <p className="text-[#010608]/70 text-sm leading-snug">{o}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>

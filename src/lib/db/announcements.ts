@@ -4,6 +4,7 @@ export type AnnouncementRow = {
   id: string;
   title: string;
   body: string;
+  attachmentUrl: string | null;
   isActive: boolean;
   createdAt: Date;
 };

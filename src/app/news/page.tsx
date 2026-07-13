@@ -1,7 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getActiveAnnouncements } from "@/lib/db/announcements";
-import { Megaphone } from "lucide-react";
+import { Megaphone, Paperclip } from "lucide-react";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -49,6 +49,16 @@ export default async function NewsPage() {
                       </div>
                     </div>
                     <p className="text-[#010608]/65 text-sm leading-relaxed pl-[30px] whitespace-pre-wrap">{a.body}</p>
+                    {a.attachmentUrl && (
+                      <a
+                        href={a.attachmentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 pl-[30px] mt-2 text-[#04415f] text-xs font-semibold hover:text-[#2086b8] transition-colors"
+                      >
+                        <Paperclip size={12} /> View attachment
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>

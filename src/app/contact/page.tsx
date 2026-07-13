@@ -2,7 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ContactForm from "@/components/contact/ContactForm";
 import { getSettings } from "@/lib/db/settings";
-import { MapPin, Phone, Mail, Globe, Clock, MessageCircle, PhoneCall } from "lucide-react";
+import { MapPin, Phone, Mail, Globe, Clock, MessageCircle, PhoneCall, FileText } from "lucide-react";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -14,9 +14,13 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const s = await getSettings(["contact.whatsapp", "contact.admissionHelpline"]);
+  const s = await getSettings(["contact.whatsapp", "contact.admissionHelpline", "prospectus.pdfUrl"]);
   const whatsapp = s["contact.whatsapp"];
   const admissionHelpline = s["contact.admissionHelpline"];
+  const prospectusUrl = s["prospectus.pdfUrl"];
+  const prospectusQrSrc = prospectusUrl
+    ? `https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=0&data=${encodeURIComponent(prospectusUrl)}`
+    : null;
 
   const contactDetails = [
     {
@@ -137,6 +141,35 @@ export default async function ContactPage() {
                   title="VIMSMCH Location"
                 />
               </div>
+
+              {/* Prospectus QR */}
+              {prospectusQrSrc && (
+                <div className="mt-6 flex items-center gap-4 bg-white rounded-xl p-4 border border-[#e6edf0] shadow-sm">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={prospectusQrSrc}
+                    alt="Scan to download the prospectus"
+                    width={64}
+                    height={64}
+                    className="rounded-lg border border-[#e6edf0] p-1 shrink-0"
+                  />
+                  <div>
+                    <p className="text-[#010608]/40 text-xs mb-0.5 flex items-center gap-1.5">
+                      <FileText size={13} /> Prospectus
+                    </p>
+                    <p className="text-[#011e2c] text-sm font-medium">Scan the QR code or</p>
+                    <a
+                      href={prospectusUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download
+                      className="text-[#04415f] text-sm font-semibold hover:text-[#2086b8] transition-colors"
+                    >
+                      download it directly →
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Right — form */}

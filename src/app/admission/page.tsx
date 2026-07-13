@@ -2,12 +2,15 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
+import { getSettings } from "@/lib/db/settings";
 import {
   ClipboardList, FileEdit, FileCheck2, UserCheck2, IndianRupee, BadgeCheck, PartyPopper,
   GraduationCap, HeartPulse, MessageCircleHeart, BookOpen, FlaskConical, Stethoscope,
-  ListChecks, ClipboardCheck, ArrowRight, Languages,
+  ListChecks, ClipboardCheck, ArrowRight, Languages, Download, QrCode,
 } from "lucide-react";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Admission & How to Apply | VIMSMCH Paramedical Institute",
@@ -58,7 +61,11 @@ const selection = [
   "Institutional admission guidelines",
 ];
 
-export default function AdmissionPage() {
+export default async function AdmissionPage() {
+  const s = await getSettings(["admission.formUrl", "admission.feeQrUrl"]);
+  const formUrl = s["admission.formUrl"];
+  const feeQrUrl = s["admission.feeQrUrl"];
+
   return (
     <>
       <Navbar />
@@ -212,6 +219,55 @@ export default function AdmissionPage() {
             </div>
           </div>
         </section>
+
+        {/* Application Form & Fee Payment */}
+        {(formUrl || feeQrUrl) && (
+          <section className="bg-white py-12 sm:py-14 px-4 sm:px-6 border-b border-[#e6edf0]">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#011e2c] mb-1">Application Form &amp; Fee Payment</h2>
+              <p className="text-[#010608]/55 text-sm mb-6">Download the admission form, or pay the application fee online via QR.</p>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {formUrl && (
+                  <div className="flex items-center gap-4 bg-[#f1f5f7] border border-[#e6edf0] rounded-xl p-5">
+                    <div className="w-11 h-11 bg-[#04415f] rounded-xl flex items-center justify-center shrink-0">
+                      <FileCheck2 size={18} className="text-white" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[#011e2c] font-semibold text-sm mb-1">Admission Form</p>
+                      <a
+                        href={formUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
+                        className="inline-flex items-center gap-1.5 text-[#04415f] text-sm font-semibold hover:text-[#2086b8] transition-colors"
+                      >
+                        <Download size={14} /> Download PDF
+                      </a>
+                    </div>
+                  </div>
+                )}
+                {feeQrUrl && (
+                  <div className="flex items-center gap-4 bg-[#f1f5f7] border border-[#e6edf0] rounded-xl p-5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={feeQrUrl}
+                      alt="Scan to pay the application fee"
+                      width={64}
+                      height={64}
+                      className="rounded-lg border border-[#e6edf0] bg-white p-1 shrink-0"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[#011e2c] font-semibold text-sm mb-1 flex items-center gap-1.5">
+                        <QrCode size={14} className="text-[#04415f]" /> Application Fee
+                      </p>
+                      <p className="text-[#010608]/60 text-xs leading-relaxed">Scan the QR code to pay your application fee online.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* CTA */}
         <section className="py-14 sm:py-16 px-4 sm:px-6" style={{ background: "linear-gradient(135deg, #04415f 0%, #065a82 100%)" }}>

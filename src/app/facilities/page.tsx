@@ -21,7 +21,7 @@ const facilities = [
 ];
 
 export default async function FacilitiesPage() {
-  const photos = await getAllGalleryItems("facility");
+  const photos = await getAllGalleryItems("laboratories");
 
   return (
     <>

@@ -3,8 +3,9 @@
 import { useState, useTransition } from "react";
 import { Save, Loader2, CheckCircle } from "lucide-react";
 import { saveSettings } from "./actions";
+import FileUploadField from "@/components/admin/FileUploadField";
 
-type Field = { key: string; label: string; placeholder?: string; multiline?: boolean };
+type Field = { key: string; label: string; placeholder?: string; multiline?: boolean; file?: boolean; accept?: string };
 type Group = { title: string; description?: string; fields: Field[] };
 
 const GROUPS: Group[] = [
@@ -37,9 +38,17 @@ const GROUPS: Group[] = [
   },
   {
     title: "Prospectus",
-    description: "Once uploaded, the 'Download Prospectus' button and QR code appear automatically on the homepage.",
+    description: "Once uploaded, the 'Download Prospectus' button and QR code appear automatically on the homepage and contact page.",
     fields: [
-      { key: "prospectus.pdfUrl", label: "Prospectus PDF URL", placeholder: "https://... (leave blank to hide the button)" },
+      { key: "prospectus.pdfUrl", label: "Prospectus PDF", file: true, accept: "application/pdf" },
+    ],
+  },
+  {
+    title: "Admission",
+    description: "Downloadable admission form and fee-payment QR code, shown on the Admission page. Leave blank to hide.",
+    fields: [
+      { key: "admission.formUrl", label: "Admission Form (PDF)", file: true, accept: "application/pdf" },
+      { key: "admission.feeQrUrl", label: "Fee Payment QR Code (image)", file: true, accept: "image/*" },
     ],
   },
   {
@@ -86,7 +95,13 @@ export default function SettingsForm({ initial }: { initial: Record<string, stri
             {group.fields.map((f) => (
               <div key={f.key} className={f.multiline ? "sm:col-span-2" : ""}>
                 <label className={labelCls}>{f.label}</label>
-                {f.multiline ? (
+                {f.file ? (
+                  <FileUploadField
+                    value={values[f.key] ?? ""}
+                    onChange={(url) => set(f.key, url)}
+                    accept={f.accept}
+                  />
+                ) : f.multiline ? (
                   <textarea
                     rows={3}
                     className={`${inputCls} resize-y`}

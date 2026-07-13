@@ -13,6 +13,7 @@ const ALL_KEYS = [
   "leadership.director.name", "leadership.director.message",
   "contact.whatsapp", "contact.admissionHelpline",
   "prospectus.pdfUrl",
+  "admission.formUrl", "admission.feeQrUrl",
   "antiragging.helpline", "antiragging.email", "antiragging.portalUrl",
 ];
 

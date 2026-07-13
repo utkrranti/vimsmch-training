@@ -109,13 +109,25 @@ model GalleryItem {
 }
 
 model Announcement {
+  id            String   @id @default(cuid()) @map("_id")
+  title         String
+  body          String
+  attachmentUrl String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  @@map("announcements")
+}
+
+model FaqItem {
   id        String   @id @default(cuid()) @map("_id")
-  title     String
-  body      String
+  question  String
+  answer    String?
+  sortOrder Int      @default(0)
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
 
-  @@map("announcements")
+  @@map("faq_items")
 }
 
 model Placement {
