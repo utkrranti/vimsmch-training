@@ -12,8 +12,27 @@ type GalleryRow = {
 };
 type CourseOption = { id: string; title: string };
 
-const CATEGORIES = ["general", "facility", "event", "ceremony"];
-const emptyForm = { imageUrl: "", caption: "", category: "general", courseId: "", sortOrder: 0, isActive: true };
+const CATEGORIES = [
+  "campus",
+  "hospital",
+  "laboratories",
+  "clinical-training",
+  "events",
+  "convocation",
+  "guest-lectures",
+  "students",
+];
+const CATEGORY_LABELS: Record<string, string> = {
+  campus: "Campus",
+  hospital: "Hospital",
+  laboratories: "Laboratories",
+  "clinical-training": "Clinical Training",
+  events: "Events",
+  convocation: "Convocation",
+  "guest-lectures": "Guest Lectures",
+  students: "Students",
+};
+const emptyForm = { imageUrl: "", caption: "", category: "campus", courseId: "", sortOrder: 0, isActive: true };
 
 export default function GalleryManager({ items, courses }: { items: GalleryRow[]; courses: CourseOption[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -88,7 +107,7 @@ export default function GalleryManager({ items, courses }: { items: GalleryRow[]
                       <span className="text-white text-[10px] font-bold uppercase tracking-wide">Hidden</span>
                     </div>
                   )}
-                  <span className="absolute top-2 left-2 bg-[#011e2c]/70 text-white text-[9px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full">{g.category}</span>
+                  <span className="absolute top-2 left-2 bg-[#011e2c]/70 text-white text-[9px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full">{CATEGORY_LABELS[g.category] ?? g.category}</span>
                 </div>
                 <div className="p-3">
                   <p className="text-[#011e2c] text-xs font-medium line-clamp-2 min-h-[2rem]">{g.caption || "—"}</p>
@@ -147,7 +166,7 @@ export default function GalleryManager({ items, courses }: { items: GalleryRow[]
                     <div>
                       <label className={labelCls}>Category</label>
                       <select className={inputCls} value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}>
-                        {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                        {CATEGORIES.map((c) => <option key={c} value={c}>{CATEGORY_LABELS[c] ?? c}</option>)}
                       </select>
                     </div>
                     <div>

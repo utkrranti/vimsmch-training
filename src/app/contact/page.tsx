@@ -1,7 +1,8 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ContactForm from "@/components/contact/ContactForm";
-import { MapPin, Phone, Mail, Globe, Clock } from "lucide-react";
+import { getSettings } from "@/lib/db/settings";
+import { MapPin, Phone, Mail, Globe, Clock, MessageCircle, PhoneCall } from "lucide-react";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -12,38 +13,62 @@ export const metadata: Metadata = {
     "Get in touch with VIMSMCH Paramedical Institute — admissions enquiries, course information, and general contact details.",
 };
 
-const contactDetails = [
-  {
-    icon: MapPin,
-    label: "Address",
-    value: "Opp. Govt. Milk Dairy, Post – M.I.D.C., Vadgaon Gupta, Ahilyanagar – 414 111",
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "1800 123 4858 | +91 241-2778042",
-    href: "tel:+912412778042",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "dean@vimsmch.edu.in",
-    href: "mailto:dean@vimsmch.edu.in",
-  },
-  {
-    icon: Globe,
-    label: "Website",
-    value: "vimsmch.edu.in",
-    href: "https://vimsmch.edu.in",
-  },
-  {
-    icon: Clock,
-    label: "Office Hours",
-    value: "Monday – Saturday: 9:00 AM – 5:00 PM",
-  },
-];
+export default async function ContactPage() {
+  const s = await getSettings(["contact.whatsapp", "contact.admissionHelpline"]);
+  const whatsapp = s["contact.whatsapp"];
+  const admissionHelpline = s["contact.admissionHelpline"];
 
-export default function ContactPage() {
+  const contactDetails = [
+    {
+      icon: MapPin,
+      label: "Address",
+      value: "Opp. Govt. Milk Dairy, Post – M.I.D.C., Vadgaon Gupta, Ahilyanagar – 414 111",
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: "1800 123 4858 | +91 241-2778042",
+      href: "tel:+912412778042",
+    },
+    ...(admissionHelpline
+      ? [
+          {
+            icon: PhoneCall,
+            label: "Admission Helpline",
+            value: admissionHelpline,
+            href: `tel:${admissionHelpline.replace(/[^+\d]/g, "")}`,
+          },
+        ]
+      : []),
+    ...(whatsapp
+      ? [
+          {
+            icon: MessageCircle,
+            label: "WhatsApp",
+            value: whatsapp,
+            href: `https://wa.me/${whatsapp.replace(/[^\d]/g, "")}`,
+          },
+        ]
+      : []),
+    {
+      icon: Mail,
+      label: "Email",
+      value: "dean@vimsmch.edu.in",
+      href: "mailto:dean@vimsmch.edu.in",
+    },
+    {
+      icon: Globe,
+      label: "Website",
+      value: "vimsmch.edu.in",
+      href: "https://vimsmch.edu.in",
+    },
+    {
+      icon: Clock,
+      label: "Office Hours",
+      value: "Monday – Saturday: 9:00 AM – 5:00 PM",
+    },
+  ];
+
   return (
     <>
       <Navbar />

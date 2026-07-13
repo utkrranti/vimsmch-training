@@ -98,7 +98,7 @@ model GalleryItem {
   id        String   @id @default(cuid()) @map("_id")
   imageUrl  String
   caption   String?
-  category  String   @default("general") // general | facility | event | ceremony
+  category  String   @default("campus") // campus | hospital | laboratories | clinical-training | events | convocation | guest-lectures | students
   courseId  String?
   course    Course?  @relation(fields: [courseId], references: [id])
   sortOrder Int      @default(0)

@@ -13,10 +13,14 @@ export const metadata: Metadata = {
 
 const CATEGORIES = [
   { value: "", label: "All" },
-  { value: "general", label: "Campus" },
-  { value: "facility", label: "Facilities" },
-  { value: "event", label: "Events" },
-  { value: "ceremony", label: "Ceremonies" },
+  { value: "campus", label: "Campus" },
+  { value: "hospital", label: "Hospital" },
+  { value: "laboratories", label: "Laboratories" },
+  { value: "clinical-training", label: "Clinical Training" },
+  { value: "events", label: "Events" },
+  { value: "convocation", label: "Convocation" },
+  { value: "guest-lectures", label: "Guest Lectures" },
+  { value: "students", label: "Students" },
 ];
 
 export default async function GalleryPage() {

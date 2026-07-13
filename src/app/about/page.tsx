@@ -2,7 +2,7 @@ import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getSettings } from "@/lib/db/settings";
-import { Target, Compass, GraduationCap, Users, Phone, Mail, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Target, Compass, GraduationCap, Users, Phone, Mail, AlertTriangle, CheckCircle2, Quote, UserCircle2 } from "lucide-react";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -29,8 +29,20 @@ const quickFacts = [
   { icon: Compass, label: "Focus", value: "Rural Ahilyanagar", sub: "Students from the district & surrounding regions" },
 ];
 
+const leaders = [
+  { key: "chairman", title: "Chairman" },
+  { key: "secretaryGeneral", title: "Secretary General" },
+  { key: "director", title: "Director" },
+] as const;
+
 export default async function AboutPage() {
-  const s = await getSettings(["about.mission", "about.established", "antiragging.helpline", "antiragging.email", "antiragging.portalUrl"]);
+  const s = await getSettings([
+    "about.mission", "about.established",
+    "leadership.chairman.name", "leadership.chairman.message",
+    "leadership.secretaryGeneral.name", "leadership.secretaryGeneral.message",
+    "leadership.director.name", "leadership.director.message",
+    "antiragging.helpline", "antiragging.email", "antiragging.portalUrl",
+  ]);
 
   return (
     <>
@@ -158,6 +170,44 @@ export default async function AboutPage() {
               <p className="text-[#010608]/65 text-sm leading-relaxed">
                 {s["about.mission"]}
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Messages from Leadership */}
+        <section className="bg-white py-16 px-4 sm:px-6 border-b border-[#e6edf0]">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-10">
+              <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
+                Leadership
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#011e2c] mb-1">Messages from Leadership</h2>
+              <div className="w-14 h-0.5 bg-[#2086b8] mx-auto mt-3" />
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {leaders.map((l) => {
+                const name = s[`leadership.${l.key}.name`];
+                const message = s[`leadership.${l.key}.message`];
+                return (
+                  <div key={l.key} className="bg-[#f1f5f7] border border-[#e6edf0] rounded-2xl p-6 flex flex-col">
+                    <Quote size={22} className="text-[#04415f]/30 mb-3" />
+                    {message ? (
+                      <p className="text-[#010608]/70 text-sm leading-relaxed flex-1 mb-4">{message}</p>
+                    ) : (
+                      <p className="text-[#010608]/40 text-sm italic flex-1 mb-4">Message coming soon.</p>
+                    )}
+                    <div className="flex items-center gap-3 border-t border-[#e6edf0] pt-4">
+                      <div className="w-10 h-10 rounded-full bg-[#04415f]/8 flex items-center justify-center shrink-0">
+                        <UserCircle2 size={20} className="text-[#04415f]/40" />
+                      </div>
+                      <div>
+                        <p className="text-[#011e2c] font-bold text-sm">{name || "To be announced"}</p>
+                        <p className="text-[#010608]/50 text-xs">{l.title}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>

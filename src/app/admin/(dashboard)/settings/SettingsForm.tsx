@@ -16,6 +16,33 @@ const GROUPS: Group[] = [
     ],
   },
   {
+    title: "Leadership Messages",
+    description: "Shown on the About page as 'Messages from Leadership'. Leave blank to hide a card until the message is ready.",
+    fields: [
+      { key: "leadership.chairman.name", label: "Chairman — Name", placeholder: "Full name" },
+      { key: "leadership.chairman.message", label: "Chairman — Message", placeholder: "Message text...", multiline: true },
+      { key: "leadership.secretaryGeneral.name", label: "Secretary General — Name", placeholder: "Full name" },
+      { key: "leadership.secretaryGeneral.message", label: "Secretary General — Message", placeholder: "Message text...", multiline: true },
+      { key: "leadership.director.name", label: "Director — Name", placeholder: "Full name" },
+      { key: "leadership.director.message", label: "Director — Message", placeholder: "Message text...", multiline: true },
+    ],
+  },
+  {
+    title: "Contact Channels",
+    description: "WhatsApp and Admission Helpline shown on the Contact page. Leave blank to hide.",
+    fields: [
+      { key: "contact.whatsapp", label: "WhatsApp Number", placeholder: "+91 XXXXX XXXXX" },
+      { key: "contact.admissionHelpline", label: "Admission Helpline Number", placeholder: "+91 XXXXX XXXXX" },
+    ],
+  },
+  {
+    title: "Prospectus",
+    description: "Once uploaded, the 'Download Prospectus' button and QR code appear automatically on the homepage.",
+    fields: [
+      { key: "prospectus.pdfUrl", label: "Prospectus PDF URL", placeholder: "https://... (leave blank to hide the button)" },
+    ],
+  },
+  {
     title: "Anti-Ragging",
     description: "National anti-ragging helpline, displayed on the About page.",
     fields: [
