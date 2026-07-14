@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Clock, Users, IndianRupee, ArrowRight } from "lucide-react";
 import { getFeaturedCourses } from "@/lib/db/courses";
 import { getCourseImage } from "@/lib/course-images";
+import Reveal from "@/components/ui/Reveal";
 
 export default async function FeaturedCourses() {
   const courses = await getFeaturedCourses(3);
@@ -11,23 +12,23 @@ export default async function FeaturedCourses() {
     <section className="bg-[#f1f5f7] py-20 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Section heading */}
-        <div className="text-center mb-14">
-          <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-            One-Year Certificate Courses
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#011e2c] mb-3">Featured Courses</h2>
-          <div className="w-16 h-1 bg-[#2086b8] mx-auto rounded" />
-          <p className="text-[#010608]/60 mt-4 max-w-xl mx-auto text-sm">
-            Fees shown are provisional and subject to final approval — no hidden charges.
-          </p>
-        </div>
+        <Reveal>
+          <div className="text-center mb-14">
+            <span className="eyebrow mb-4">One-Year Certificate Courses</span>
+            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#011e2c] mb-3 tracking-tight">Featured Courses</h2>
+            <div className="w-16 h-1 bg-[#2086b8] mx-auto rounded" />
+            <p className="text-[#010608]/60 mt-4 max-w-xl mx-auto text-sm">
+              Fees shown are provisional and subject to final approval — no hidden charges.
+            </p>
+          </div>
+        </Reveal>
 
         {/* Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
-          {courses.map((c) => (
+          {courses.map((c, i) => (
+            <Reveal key={c.slug} delay={i * 0.08} className="h-full">
             <div
-              key={c.slug}
-              className="bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(0,0,0,0.1)] transition-all duration-300 group"
+              className="bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col h-full hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(0,0,0,0.1)] transition-all duration-300 group"
             >
               {/* Photo */}
               <div className="relative h-40 w-full">
@@ -106,6 +107,7 @@ export default async function FeaturedCourses() {
                 </Link>
               </div>
             </div>
+            </Reveal>
           ))}
         </div>
 

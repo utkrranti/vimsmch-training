@@ -20,11 +20,16 @@ export default async function FaqPage() {
       <main className="flex-1">
 
         {/* Breadcrumb */}
-        <div className="bg-[#e6edf0] border-b border-[#cdd8de] py-10 px-4 sm:px-6">
-          <div className="max-w-7xl mx-auto">
-            <p className="text-xs text-[#010608]/50 mb-2">Home / FAQ</p>
-            <h1 className="text-3xl font-bold text-[#011e2c] mb-1">Frequently Asked Questions</h1>
-            <div className="w-14 h-0.5 bg-[#2086b8] mt-3" />
+        <div
+          className="relative text-white py-16 px-4 sm:px-6 overflow-hidden"
+          style={{ background: "linear-gradient(135deg, #011e2c 0%, #04415f 100%)" }}
+        >
+          <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
+          <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
+          <div className="relative max-w-7xl mx-auto">
+            <p className="text-xs text-white/50 mb-3">Home / FAQ</p>
+            <span className="eyebrow eyebrow-light mb-4">Got Questions?</span>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">Frequently Asked Questions</h1>
           </div>
         </div>
 

@@ -38,23 +38,28 @@ export default async function CourseDetailPage({ params }: Props) {
       <Navbar />
       <main className="flex-1">
         {/* Page title */}
-        <div className="bg-[#e6edf0] border-b border-[#cdd8de] py-10 px-4 sm:px-6">
-          <div className="max-w-7xl mx-auto">
-            <p className="text-xs text-[#010608]/50 mb-3">Home / Courses / {course.title}</p>
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="bg-[#04415f] text-white text-xs font-bold px-3 py-1 rounded-full">
+        <div
+          className="relative text-white py-16 px-4 sm:px-6 overflow-hidden"
+          style={{ background: "linear-gradient(135deg, #011e2c 0%, #04415f 100%)" }}
+        >
+          <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
+          <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
+          <div className="relative max-w-7xl mx-auto">
+            <p className="text-xs text-white/50 mb-3">Home / Courses / {course.title}</p>
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className="bg-[#7dd3fc] text-[#011e2c] text-xs font-bold px-3 py-1 rounded-full">
                 1 Year Certificate Course
               </span>
-              <span className="bg-white border border-[#cdd8de] text-[#04415f] text-xs px-3 py-1 rounded-full capitalize">
+              <span className="bg-white/10 border border-white/20 text-white text-xs px-3 py-1 rounded-full capitalize">
                 {course.category}
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-[#011e2c] mb-4">{course.title}</h1>
+            <h1 className="font-display text-3xl sm:text-4xl font-semibold mb-6 tracking-tight text-white">{course.title}</h1>
             <div className="flex flex-wrap gap-6">
-              <QuickStat icon={Clock} label="Duration" value={`${course.durationMonths} months · ${course.durationHours} hrs`} />
-              <QuickStat icon={Users} label="Seats" value={`${course.seats} per batch`} />
-              <QuickStat icon={Award} label="Certificate by" value={course.certBy} />
-              <QuickStat icon={CalendarDays} label="Batches" value={course.batchMonths.join(" · ")} />
+              <QuickStat icon={Clock} label="Duration" value={`${course.durationMonths} months · ${course.durationHours} hrs`} light />
+              <QuickStat icon={Users} label="Seats" value={`${course.seats} per batch`} light />
+              <QuickStat icon={Award} label="Certificate by" value={course.certBy} light />
+              <QuickStat icon={CalendarDays} label="Batches" value={course.batchMonths.join(" · ")} light />
             </div>
           </div>
         </div>
@@ -296,13 +301,13 @@ function DetailBox({ label, value }: { label: string; value: string }) {
   );
 }
 
-function QuickStat({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
+function QuickStat({ icon: Icon, label, value, light }: { icon: React.ElementType; label: string; value: string; light?: boolean }) {
   return (
     <div className="flex items-center gap-2">
-      <Icon size={14} className="text-[#2086b8] shrink-0" />
+      <Icon size={14} className={light ? "text-[#7dd3fc] shrink-0" : "text-[#2086b8] shrink-0"} />
       <div>
-        <p className="text-[#010608]/40 text-[10px] uppercase tracking-wide leading-none mb-0.5">{label}</p>
-        <p className="text-[#011e2c] text-xs font-semibold">{value}</p>
+        <p className={`text-[10px] uppercase tracking-wide leading-none mb-0.5 ${light ? "text-white/45" : "text-[#010608]/40"}`}>{label}</p>
+        <p className={`text-xs font-semibold ${light ? "text-white" : "text-[#011e2c]"}`}>{value}</p>
       </div>
     </div>
   );
