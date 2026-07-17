@@ -100,7 +100,7 @@ function CourseCard({ course: c }: { course: Course }) {
         {/* Key info grid */}
         <div className="grid grid-cols-2 gap-2 text-xs">
           {[
-            { label: "Duration", value: `${c.durationMonths}m · ${c.durationHours}hrs`, icon: Clock },
+            { label: "Duration", value: `${c.durationMonths} Months`, icon: Clock },
             { label: "Seats", value: `${c.seats} per batch`, icon: Users },
           ].map(({ label, value, icon: Icon }) => (
             <div key={label} className="bg-[#f1f5f7] rounded-lg p-2.5">

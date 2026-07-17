@@ -17,5 +17,6 @@ export async function saveSettings(entries: Record<string, string>) {
   revalidatePath("/about");
   revalidatePath("/contact");
   revalidatePath("/admission");
+  revalidatePath("/placements");
   revalidatePath("/");
 }

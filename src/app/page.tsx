@@ -7,6 +7,7 @@ import FeaturedCourses from "@/components/home/FeaturedCourses";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import HowToEnroll from "@/components/home/HowToEnroll";
 import QuickInquiry from "@/components/home/QuickInquiry";
+import ContactDetails from "@/components/home/ContactDetails";
 import AnnouncementBanner from "@/components/home/AnnouncementBanner";
 import { getActiveAnnouncements } from "@/lib/db/announcements";
 
@@ -27,6 +28,7 @@ export default async function HomePage() {
         <WhyChooseUs />
         <HowToEnroll />
         <QuickInquiry />
+        <ContactDetails />
       </main>
       <Footer />
     </>

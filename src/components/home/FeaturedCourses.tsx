@@ -50,7 +50,7 @@ export default async function FeaturedCourses() {
                 <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#010608]/60">
                   <span className="flex items-center gap-1.5">
                     <Clock size={13} className="text-[#04415f]" />
-                    {c.durationMonths} months · {c.durationHours} hrs
+                    {c.durationMonths} Months
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Users size={13} className="text-[#04415f]" />

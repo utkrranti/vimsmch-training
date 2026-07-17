@@ -14,6 +14,7 @@ const ALL_KEYS = [
   "contact.whatsapp", "contact.admissionHelpline",
   "prospectus.pdfUrl",
   "admission.formUrl", "admission.feeQrUrl",
+  "placements.about", "placements.philosophy", "placements.assistance", "placements.careerSupport",
   "antiragging.helpline", "antiragging.email", "antiragging.portalUrl",
 ];
 

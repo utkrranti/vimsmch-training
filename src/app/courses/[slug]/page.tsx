@@ -56,7 +56,7 @@ export default async function CourseDetailPage({ params }: Props) {
             </div>
             <h1 className="font-display text-3xl sm:text-4xl font-semibold mb-6 tracking-tight text-white">{course.title}</h1>
             <div className="flex flex-wrap gap-6">
-              <QuickStat icon={Clock} label="Duration" value={`${course.durationMonths} months · ${course.durationHours} hrs`} light />
+              <QuickStat icon={Clock} label="Duration" value={`${course.durationMonths} Months`} light />
               <QuickStat icon={Users} label="Seats" value={`${course.seats} per batch`} light />
               <QuickStat icon={Award} label="Certificate by" value={course.certBy} light />
               <QuickStat icon={CalendarDays} label="Batches" value={course.batchMonths.join(" · ")} light />
@@ -225,8 +225,7 @@ export default async function CourseDetailPage({ params }: Props) {
               </div>
               <p className="text-[#010608]/40 text-xs mb-5">per year · provisional, subject to approval</p>
               <div className="space-y-2 text-xs text-[#010608]/60 mb-5 border-t border-[#e6edf0] pt-5">
-                <p><span className="text-[#010608]/40">Duration: </span>{course.durationMonths} months</p>
-                <p><span className="text-[#010608]/40">Hours: </span>{course.durationHours} hours</p>
+                <p><span className="text-[#010608]/40">Duration: </span>{course.durationMonths} Months</p>
                 <p><span className="text-[#010608]/40">Certified By: </span>{course.certBy}</p>
                 <p><span className="text-[#010608]/40">Seats: </span>{course.seats} per batch</p>
                 <p><span className="text-[#010608]/40">Eligibility: </span>{course.eligibility}</p>

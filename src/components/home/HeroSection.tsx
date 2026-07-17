@@ -34,9 +34,7 @@ export default async function HeroSection() {
             <h1 className="font-display text-5xl sm:text-6xl lg:text-[4.25rem] font-semibold leading-[1.05] mb-6 tracking-tight">
               <span className="text-white/80">Learn Skills.</span>
               <br />
-              <span className="italic text-gradient-brand">Save Lives.</span>
-              <br />
-              <span className="text-white/80">Build Your Career.</span>
+              <span className="italic text-gradient-brand">Build Your Career.</span>
             </h1>
           </Reveal>
 
@@ -121,7 +119,7 @@ export default async function HeroSection() {
           </div>
           <div className="hidden sm:flex absolute -top-5 -right-5 items-center gap-2 bg-[#2086b8] text-white rounded-2xl shadow-xl px-5 py-4">
             <div>
-              <p className="font-display text-2xl font-semibold leading-none">1 Year</p>
+              <p className="font-display text-2xl font-semibold leading-none">1 Year Training</p>
               <p className="text-white/75 text-[11px] mt-1">Theory · Practical · Clinical</p>
             </div>
           </div>

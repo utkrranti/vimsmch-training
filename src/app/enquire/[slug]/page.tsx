@@ -51,7 +51,7 @@ export default async function EnquirePage({ params }: Props) {
                 <h1 className="text-3xl sm:text-4xl font-bold leading-tight mb-3 text-white">{course.title}</h1>
                 <div className="flex flex-wrap gap-3 mt-3">
                   <span className="bg-white/15 border border-white/20 text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                    <Clock size={11} /> {course.durationMonths} months · {course.durationHours} hrs
+                    <Clock size={11} /> {course.durationMonths} Months
                   </span>
                   <span className="bg-white/15 border border-white/20 text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5">
                     <Users size={11} /> {course.seats} seats/batch
@@ -94,11 +94,7 @@ export default async function EnquirePage({ params }: Props) {
                 <div className="space-y-2.5 text-xs text-[#010608]/65 border-t border-[#e6edf0] pt-4">
                   <div className="flex justify-between">
                     <span className="text-[#010608]/40">Duration</span>
-                    <span className="font-medium text-[#011e2c]">{course.durationMonths} months</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#010608]/40">Total Hours</span>
-                    <span className="font-medium text-[#011e2c]">{course.durationHours} hrs</span>
+                    <span className="font-medium text-[#011e2c]">{course.durationMonths} Months</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[#010608]/40">Eligibility</span>

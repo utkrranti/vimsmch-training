@@ -52,6 +52,16 @@ const GROUPS: Group[] = [
     ],
   },
   {
+    title: "Placements Page",
+    description: "Shown on the Placements & Outcomes page, above the testimonials. Leave blank to use the default copy.",
+    fields: [
+      { key: "placements.about", label: "About Section", placeholder: "Intro paragraphs...", multiline: true },
+      { key: "placements.philosophy", label: "Our Placement Philosophy", placeholder: "Philosophy paragraph...", multiline: true },
+      { key: "placements.assistance", label: "Placement Assistance & Career Opportunities", placeholder: "Assistance paragraph...", multiline: true },
+      { key: "placements.careerSupport", label: "Career Support Services (one per line)", placeholder: "Career counselling and guidance\nPersonality development programmes...", multiline: true },
+    ],
+  },
+  {
     title: "Anti-Ragging",
     description: "National anti-ragging helpline, displayed on the About page.",
     fields: [
