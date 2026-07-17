@@ -29,7 +29,7 @@ export default function Footer() {
   return (
     <footer
       className="relative mt-auto text-white overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #011e2c 0%, #04415f 100%)" }}
+      style={{ background: "linear-gradient(180deg, #1a5578 0%, #2589b8 100%)" }}
     >
       <div className="h-[3px] w-full" style={{ background: "linear-gradient(90deg, #04415f, #2086b8, #7dd3fc, #2086b8, #04415f)" }} />
       <div className="pointer-events-none absolute -bottom-24 -left-24 w-[26rem] h-[26rem] rounded-full bg-[#2086b8]/10 blur-[100px]" />

@@ -82,7 +82,7 @@ export default function Navbar() {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
             className="xl:hidden border-t border-[#cdd8de] overflow-hidden"
-            style={{ background: "linear-gradient(180deg, #003c6c 0%, #0074ad 100%)" }}
+            style={{ background: "linear-gradient(180deg, #2589b8 0%, #4ab0e0 100%)" }}
           >
             <div className="px-4 py-4 space-y-1 max-h-[75vh] overflow-y-auto">
               {navLinks.map((l) => (

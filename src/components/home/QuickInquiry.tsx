@@ -47,7 +47,7 @@ export default function QuickInquiry() {
   return (
     <section
       className="py-20 px-4 sm:px-6"
-      style={{ background: "linear-gradient(135deg, #04415f 0%, #065a82 100%)" }}
+      style={{ background: "linear-gradient(135deg, #2589b8 0%, #3fa0cc 100%)" }}
     >
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
         {/* Left */}

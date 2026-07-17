@@ -74,7 +74,7 @@ export default async function AdmissionPage() {
         {/* Breadcrumb */}
         <div
           className="relative text-white py-16 px-4 sm:px-6 overflow-hidden"
-          style={{ background: "linear-gradient(135deg, #011e2c 0%, #04415f 100%)" }}
+          style={{ background: "linear-gradient(135deg, #1a5578 0%, #2589b8 100%)" }}
         >
           <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
           <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
@@ -275,7 +275,7 @@ export default async function AdmissionPage() {
         )}
 
         {/* CTA */}
-        <section className="py-14 sm:py-16 px-4 sm:px-6" style={{ background: "linear-gradient(135deg, #04415f 0%, #065a82 100%)" }}>
+        <section className="py-14 sm:py-16 px-4 sm:px-6" style={{ background: "linear-gradient(135deg, #2589b8 0%, #3fa0cc 100%)" }}>
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Ready to Begin?</h2>
             <p className="text-white/75 text-sm sm:text-base mb-8 max-w-xl mx-auto">

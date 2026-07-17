@@ -12,7 +12,7 @@ export default function StatsSection() {
   return (
     <section
       className="relative py-14 px-4 sm:px-6 overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #011e2c 0%, #04415f 100%)" }}
+      style={{ background: "linear-gradient(135deg, #1a5578 0%, #2589b8 100%)" }}
     >
       <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
       <div className="relative max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4">

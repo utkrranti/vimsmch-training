@@ -12,7 +12,7 @@ export default async function HeroSection() {
     <section
       className="relative text-white py-24 lg:py-36 px-4 sm:px-6 overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, #011e2c 0%, #04415f 55%, #065a82 100%)",
+        background: "linear-gradient(135deg, #1a5578 0%, #2589b8 55%, #3fa0cc 100%)",
       }}
     >
       {/* decorative glow orbs */}
