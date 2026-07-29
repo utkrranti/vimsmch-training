@@ -28,13 +28,22 @@ export default function Navbar() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 shrink-0">
+        <Link href="/" className="flex items-center gap-2.5 shrink-0">
           <Image
-            src="/logo.png"
-            alt="VIMSMCH"
+            src="/images/foundation-logo.png"
+            alt="Dr. Vithalrao Vikhe Patil Foundation"
+            width={160}
+            height={121}
+            className="h-11 w-auto"
+            priority
+          />
+          <div className="w-px h-8 bg-[#cdd8de]" />
+          <Image
+            src="/images/medical-college-seal.png"
+            alt="Paramedical Institute"
             width={120}
-            height={26}
-            className="h-8 w-auto"
+            height={168}
+            className="h-11 w-auto"
             priority
           />
         </Link>

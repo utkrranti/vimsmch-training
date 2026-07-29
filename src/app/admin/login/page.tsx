@@ -21,8 +21,10 @@ export default function AdminLoginPage() {
       <div className="relative w-full max-w-md z-10">
         {/* Logo mark */}
         <div className="flex flex-col items-center mb-8">
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 mb-5 shadow-xl">
-            <Image src="/logo.png" alt="VIMSMCH" width={160} height={36} className="h-9 w-auto" />
+          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 mb-5 shadow-xl">
+            <Image src="/images/foundation-logo.png" alt="Dr. Vithalrao Vikhe Patil Foundation" width={160} height={121} className="h-9 w-auto" />
+            <div className="w-px h-7 bg-white/25" />
+            <Image src="/images/medical-college-seal.png" alt="Paramedical Institute" width={120} height={168} className="h-9 w-auto" />
           </div>
           <h2 className="text-white/60 text-xs uppercase tracking-[0.2em] font-medium">Paramedical Institute</h2>
         </div>
