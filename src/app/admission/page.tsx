@@ -78,10 +78,19 @@ export default async function AdmissionPage() {
         >
           <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
           <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
-          <div className="relative max-w-7xl mx-auto">
-            <p className="text-xs text-white/50 mb-3">Home / Admission &amp; How to Apply</p>
-            <span className="eyebrow eyebrow-light mb-4">Admissions Open — 2026 Batch</span>
-            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">Admission &amp; How to Apply</h1>
+          <div className="relative max-w-7xl mx-auto flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="text-xs text-white/50 mb-3">Home / Admission &amp; How to Apply</p>
+              <span className="eyebrow eyebrow-light mb-4">Admissions Open — 2026 Batch</span>
+              <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">Admission &amp; How to Apply</h1>
+            </div>
+            <Link
+              href="/contact#inquiry"
+              className="group flex items-center gap-2 bg-white text-[#04415f] font-semibold px-7 py-3.5 rounded-xl hover:bg-[#e6edf0] transition-all shadow-lg shadow-black/10 hover:shadow-xl hover:-translate-y-0.5 shrink-0"
+            >
+              Apply Now
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
           </div>
         </div>
 

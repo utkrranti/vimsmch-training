@@ -24,6 +24,15 @@ export default async function HeroSection() {
         {/* Left */}
         <div>
           <Reveal>
+            <p className="font-display text-xl sm:text-2xl font-semibold leading-snug mb-2 text-white">
+              Dr. Vithalrao Vikhe Patil Foundation&apos;s Paramedical Institute
+            </p>
+            <p className="text-white/70 text-sm sm:text-base mb-6">
+              Offers Healthcare Certification Courses
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.04}>
             <div className="eyebrow eyebrow-light mb-7">
               <span className="w-1.5 h-1.5 bg-[#7dd3fc] rounded-full animate-pulse" />
               Admissions Open — 2026 Batch
