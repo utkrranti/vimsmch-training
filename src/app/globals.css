@@ -73,12 +73,12 @@
     background-color: #7dd3fc;
   }
 
-  /* Gradient brand text for hero/emphasis headlines */
+  /* Solid white heading text for dark/colored banners.
+     (Previously a horizontal gradient, but short headings only sampled
+     a narrow slice of it, making some pages look plain white and others
+     visibly gradient — inconsistent. Solid white is consistent at any length.) */
   .text-gradient-brand {
-    background-image: linear-gradient(115deg, #2086b8 10%, #7dd3fc 50%, #2086b8 90%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
+    color: #ffffff;
   }
 
   /* Warm accent underline swash under headings */
