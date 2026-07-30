@@ -39,10 +39,10 @@ export default function Navbar() {
           />
           <div className="w-px h-8 bg-[#cdd8de]" />
           <Image
-            src="/images/medical-college-seal.png"
+            src="/images/paramedical-institute-logo.png"
             alt="Paramedical Institute"
             width={120}
-            height={168}
+            height={120}
             className="h-11 w-auto"
             priority
           />

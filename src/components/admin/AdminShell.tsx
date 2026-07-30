@@ -26,7 +26,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             <div className="bg-white/10 border border-white/15 rounded-xl p-2 backdrop-blur-sm flex items-center gap-1.5">
               <Image src="/images/foundation-logo.png" alt="Dr. Vithalrao Vikhe Patil Foundation" width={80} height={60} className="h-6 w-auto" />
               <div className="w-px h-4 bg-white/20" />
-              <Image src="/images/medical-college-seal.png" alt="Paramedical Institute" width={60} height={84} className="h-6 w-auto" />
+              <Image src="/images/paramedical-institute-logo.png" alt="Paramedical Institute" width={60} height={60} className="h-6 w-auto" />
             </div>
           </div>
         </Link>

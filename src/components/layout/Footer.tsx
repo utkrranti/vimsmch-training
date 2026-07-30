@@ -43,7 +43,7 @@ export default function Footer() {
           <div className="inline-flex items-center gap-3 bg-white rounded-xl px-3 py-2.5 mb-6 shadow-lg">
             <Image src="/images/foundation-logo.png" alt="Dr. Vithalrao Vikhe Patil Foundation" width={160} height={121} className="h-10 w-auto" />
             <div className="w-px h-8 bg-[#cdd8de]" />
-            <Image src="/images/medical-college-seal.png" alt="Paramedical Institute" width={120} height={168} className="h-10 w-auto" />
+            <Image src="/images/paramedical-institute-logo.png" alt="Paramedical Institute" width={120} height={120} className="h-10 w-auto" />
           </div>
           <p className="text-white/55 text-sm leading-relaxed mb-6">
             Paramedical Institute of Dr. Vithalrao Vikhe Patil Foundation&apos;s Medical
