@@ -26,22 +26,22 @@ export default function Navbar() {
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 h-28 flex items-center justify-center">
+      <div className="relative max-w-[1920px] mx-auto px-2 sm:px-6 h-20 sm:h-28 flex items-center justify-center">
         {/* Institute identity */}
-        <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3 shrink-0">
+        <Link href="/" className="flex min-w-0 items-center gap-1 sm:gap-3 shrink-0">
           <Image
             src="/images/foundation-logo.png"
             alt="Dr. Vithalrao Vikhe Patil Foundation"
             width={200}
             height={151}
-            className="h-14 sm:h-20 w-auto shrink-0"
+            className="h-9 sm:h-20 w-auto shrink-0"
             priority
           />
           <div className="max-w-[680px] text-center text-[#04415f]">
-            <span className="block font-display text-[15px] sm:text-xl 2xl:text-2xl font-semibold leading-tight whitespace-nowrap">
+            <span className="block font-display text-[10px] sm:text-xl 2xl:text-2xl font-semibold leading-tight whitespace-nowrap">
               Dr. Vithalrao Vikhe Patil Foundation&apos;s
             </span>
-            <span className="block font-display text-[15px] sm:text-xl 2xl:text-2xl font-semibold leading-tight whitespace-nowrap">
+            <span className="block font-display text-[10px] sm:text-xl 2xl:text-2xl font-semibold leading-tight whitespace-nowrap">
               Paramedical Institute
             </span>
             <span className="mt-1 hidden sm:block text-[9px] md:text-[10px] 2xl:text-[11px] font-bold leading-snug text-[#04415f]/80">
@@ -54,7 +54,7 @@ export default function Navbar() {
             alt="Paramedical Institute"
             width={150}
             height={150}
-            className="h-14 sm:h-20 w-auto shrink-0"
+            className="h-9 sm:h-20 w-auto shrink-0"
             priority
           />
         </Link>
@@ -62,7 +62,7 @@ export default function Navbar() {
         {/* Tablet/mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="xl:hidden absolute right-4 sm:right-6 text-[#04415f] p-2"
+          className="xl:hidden absolute right-1 sm:right-6 text-[#04415f] p-2"
           aria-label="Toggle menu"
         >
           {open ? <X size={22} /> : <Menu size={22} />}
