@@ -83,7 +83,7 @@ export default async function AboutPage() {
               </span>
               <h2 className="text-3xl font-bold text-[#011e2c] mb-4 leading-snug">
                 Dr. Vithalrao Vikhe Patil Foundation&apos;s<br />
-                Medical College &amp; Hospital
+                Vocational Training Centre
               </h2>
               <div className="w-14 h-0.5 bg-[#2086b8] mb-6" />
               <p className="text-[#010608]/65 text-sm leading-relaxed mb-6">
@@ -137,9 +137,29 @@ export default async function AboutPage() {
               <p className="text-[#010608]/65 text-sm leading-relaxed mb-4">
                 Inspired by the visionary leadership of Late Padmabhushan Dr. Balasaheb Vikhe Patil, Dr. Vithalrao Vikhe Patil Foundation has consistently worked towards providing quality education and healthcare services to society.
               </p>
-              <p className="text-[#010608]/65 text-sm leading-relaxed">
+              <p className="text-[#010608]/65 text-sm leading-relaxed mb-7">
                 The Foundation has established numerous institutions in engineering, pharmacy, nursing, physiotherapy, agriculture, management, medical education and healthcare, contributing significantly to the educational development of Maharashtra. The Paramedical Institute is another milestone in this continuing journey of nation building through skill development.
               </p>
+              <div className="grid grid-cols-1 gap-5">
+                <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-6">
+                  <div className="w-11 h-11 bg-[#04415f] rounded-xl flex items-center justify-center mb-4">
+                    <Compass size={19} className="text-white" />
+                  </div>
+                  <h3 className="text-[#011e2c] font-bold text-lg mb-2">Vision</h3>
+                  <p className="text-[#010608]/65 text-sm leading-relaxed">
+                    To become a premier vocational training institution in allied health sciences by producing competent, ethical and skilled paramedical professionals capable of serving society with excellence and compassion.
+                  </p>
+                </div>
+                <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-6">
+                  <div className="w-11 h-11 bg-[#04415f] rounded-xl flex items-center justify-center mb-4">
+                    <Target size={19} className="text-white" />
+                  </div>
+                  <h3 className="text-[#011e2c] font-bold text-lg mb-2">Mission</h3>
+                  <p className="text-[#010608]/65 text-sm leading-relaxed">
+                    {s["about.mission"]}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -167,30 +187,6 @@ export default async function AboutPage() {
                   <p className="text-[#010608]/70 text-sm leading-snug">{o}</p>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Vision & Mission */}
-        <section className="bg-[#f1f5f7] py-16 px-4 sm:px-6 border-b border-[#e6edf0]">
-          <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-7">
-            <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-7">
-              <div className="w-12 h-12 bg-[#04415f] rounded-xl flex items-center justify-center mb-5">
-                <Compass size={20} className="text-white" />
-              </div>
-              <h3 className="text-[#011e2c] font-bold text-lg mb-3">Vision</h3>
-              <p className="text-[#010608]/65 text-sm leading-relaxed">
-                To become a premier vocational training institution in allied health sciences by producing competent, ethical and skilled paramedical professionals capable of serving society with excellence and compassion.
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-7">
-              <div className="w-12 h-12 bg-[#04415f] rounded-xl flex items-center justify-center mb-5">
-                <Target size={20} className="text-white" />
-              </div>
-              <h3 className="text-[#011e2c] font-bold text-lg mb-3">Mission</h3>
-              <p className="text-[#010608]/65 text-sm leading-relaxed">
-                {s["about.mission"]}
-              </p>
             </div>
           </div>
         </section>

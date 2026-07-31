@@ -26,30 +26,52 @@ export default function Navbar() {
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 shrink-0">
+      <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 h-28 flex items-center justify-center">
+        {/* Institute identity */}
+        <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3 shrink-0">
           <Image
             src="/images/foundation-logo.png"
             alt="Dr. Vithalrao Vikhe Patil Foundation"
-            width={160}
-            height={121}
-            className="h-11 w-auto"
+            width={200}
+            height={151}
+            className="h-14 sm:h-20 w-auto shrink-0"
             priority
           />
-          <div className="w-px h-8 bg-[#cdd8de]" />
+          <div className="max-w-[680px] text-center text-[#04415f]">
+            <span className="block font-display text-[15px] sm:text-xl 2xl:text-2xl font-semibold leading-tight whitespace-nowrap">
+              Dr. Vithalrao Vikhe Patil Foundation&apos;s
+            </span>
+            <span className="block font-display text-[15px] sm:text-xl 2xl:text-2xl font-semibold leading-tight whitespace-nowrap">
+              Paramedical Institute
+            </span>
+            <span className="mt-1 hidden sm:block text-[9px] md:text-[10px] 2xl:text-[11px] font-bold leading-snug text-[#04415f]/80">
+              Affiliated to National Council of Vocational Research &amp; Training, New Delhi
+              (NCVRT) — Registered Number REG/NCVRT/MH/35074/VTC.
+            </span>
+          </div>
           <Image
             src="/images/paramedical-institute-logo.png"
             alt="Paramedical Institute"
-            width={120}
-            height={120}
-            className="h-11 w-auto"
+            width={150}
+            height={150}
+            className="h-14 sm:h-20 w-auto shrink-0"
             priority
           />
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden xl:flex items-center gap-0.5">
+        {/* Tablet/mobile toggle */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="xl:hidden absolute right-4 sm:right-6 text-[#04415f] p-2"
+          aria-label="Toggle menu"
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+
+      {/* Desktop navigation row */}
+      <div className="hidden xl:block border-t border-[#e6edf0]">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-center gap-2">
           {navLinks.map((l) => (
             <Link
               key={l.href}
@@ -63,23 +85,7 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
-
-          <Link
-            href="/contact#inquiry"
-            className="ml-2 bg-[#04415f] hover:bg-[#011e2c] text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors shadow-sm shrink-0"
-          >
-            Inquire Now
-          </Link>
         </nav>
-
-        {/* Tablet/mobile toggle */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="xl:hidden text-[#04415f] p-2"
-          aria-label="Toggle menu"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
       </div>
 
       {/* Mobile/tablet menu */}
@@ -108,13 +114,6 @@ export default function Navbar() {
                   {l.label}
                 </Link>
               ))}
-              <Link
-                href="/contact#inquiry"
-                onClick={() => setOpen(false)}
-                className="block mt-3 bg-white text-[#04415f] text-sm font-semibold px-4 py-2.5 rounded text-center"
-              >
-                Inquire Now
-              </Link>
             </div>
           </motion.div>
         )}

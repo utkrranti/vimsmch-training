@@ -3,10 +3,7 @@ import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/home/HeroSection";
 import ProspectusSection from "@/components/home/ProspectusSection";
 import StatsSection from "@/components/home/StatsSection";
-import FeaturedCourses from "@/components/home/FeaturedCourses";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
-import HowToEnroll from "@/components/home/HowToEnroll";
-import QuickInquiry from "@/components/home/QuickInquiry";
 import ContactDetails from "@/components/home/ContactDetails";
 import AnnouncementBanner from "@/components/home/AnnouncementBanner";
 import { getActiveAnnouncements } from "@/lib/db/announcements";
@@ -24,10 +21,7 @@ export default async function HomePage() {
         <HeroSection />
         <ProspectusSection />
         <StatsSection />
-        <FeaturedCourses />
         <WhyChooseUs />
-        <HowToEnroll />
-        <QuickInquiry />
         <ContactDetails />
       </main>
       <Footer />

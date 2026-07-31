@@ -194,6 +194,16 @@ export default async function AdmissionPage() {
                 </div>
               ))}
             </div>
+            <div className="mt-6 flex items-start gap-3 rounded-xl border border-[#8ccfe7] bg-[#eaf7fc] p-4 sm:p-5">
+              <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#2086b8] text-white">
+                <QrCode size={18} />
+              </div>
+              <p className="text-sm leading-relaxed text-[#04415f]">
+                <span className="font-bold">Important note:</span> Students must scan the provided QR code,
+                complete the payment, and upload a clear screenshot of the successful payment receipt along
+                with the required documents.
+              </p>
+            </div>
           </div>
         </section>
 

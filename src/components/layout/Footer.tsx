@@ -40,38 +40,38 @@ export default function Footer() {
 
         {/* Col 1 — About */}
         <div>
-          <div className="inline-flex items-center gap-3 bg-white rounded-xl px-3 py-2.5 mb-6 shadow-lg">
-            <Image src="/images/foundation-logo.png" alt="Dr. Vithalrao Vikhe Patil Foundation" width={160} height={121} className="h-10 w-auto" />
-            <div className="w-px h-8 bg-[#cdd8de]" />
-            <Image src="/images/paramedical-institute-logo.png" alt="Paramedical Institute" width={120} height={120} className="h-10 w-auto" />
+          <div className="inline-flex items-center gap-3 bg-white rounded-xl px-4 py-3 mb-6 shadow-lg">
+            <Image src="/images/foundation-logo.png" alt="Dr. Vithalrao Vikhe Patil Foundation" width={200} height={151} className="h-14 w-auto" />
+            <div className="w-px h-11 bg-[#cdd8de]" />
+            <Image src="/images/paramedical-institute-logo.png" alt="Paramedical Institute" width={150} height={150} className="h-14 w-auto" />
           </div>
-          <p className="text-white/55 text-sm leading-relaxed mb-6">
+          <p className="text-white/85 text-sm font-medium leading-relaxed mb-6">
             Paramedical Institute of Dr. Vithalrao Vikhe Patil Foundation&apos;s Medical
             College &amp; Hospital — one-year certificate courses in paramedical skills with
             hands-on hospital training.
           </p>
-          <ul className="space-y-3 text-sm text-white/65">
+          <ul className="space-y-3 text-sm font-medium text-white/85">
             <li className="flex items-start gap-3">
-              <MapPin size={14} className="text-[#7dd3fc] mt-0.5 shrink-0" />
+              <MapPin size={14} className="text-white/90 mt-0.5 shrink-0" />
               <span>Opp. Govt. Milk Dairy, Post – M.I.D.C., Vadgaon Gupta, Ahilyanagar – 414 111</span>
             </li>
             <li className="flex items-start gap-3">
-              <Phone size={14} className="text-[#7dd3fc] mt-0.5 shrink-0" />
+              <Phone size={14} className="text-white/90 mt-0.5 shrink-0" />
               <span>
-                <a href="tel:18001234858" className="text-white/65 hover:text-white transition-colors">1800 123 4858</a>
-                <span className="text-white/30">{" | "}</span>
-                <a href="tel:+912412778042" className="text-white/65 hover:text-white transition-colors">+91 241-2778042</a>
+                <a href="tel:18001234858" className="text-white/90 hover:text-white transition-colors">1800 123 4858</a>
+                <span className="text-white/55">{" | "}</span>
+                <a href="tel:+912412778042" className="text-white/90 hover:text-white transition-colors">+91 241-2778042</a>
               </span>
             </li>
             <li className="flex items-center gap-3">
-              <Mail size={14} className="text-[#7dd3fc] shrink-0" />
-              <a href="mailto:dean@vimsmch.edu.in" className="text-white/65 hover:text-white transition-colors">
+              <Mail size={14} className="text-white/90 shrink-0" />
+              <a href="mailto:dean@vimsmch.edu.in" className="text-white/90 hover:text-white transition-colors">
                 dean@vimsmch.edu.in
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <Globe size={14} className="text-[#7dd3fc] shrink-0" />
-              <a href="https://vimsmch.edu.in" target="_blank" rel="noopener noreferrer" className="text-white/65 hover:text-white transition-colors">
+              <Globe size={14} className="text-white/90 shrink-0" />
+              <a href="https://vimsmch.edu.in" target="_blank" rel="noopener noreferrer" className="text-white/90 hover:text-white transition-colors">
                 vimsmch.edu.in
               </a>
             </li>
@@ -80,11 +80,11 @@ export default function Footer() {
 
         {/* Col 2 — Quick Links */}
         <div>
-          <h4 className="text-white/40 font-semibold text-[11px] uppercase tracking-[0.16em] mb-5">Quick Links</h4>
+          <h4 className="text-white font-bold text-xs uppercase tracking-[0.16em] mb-5">Quick Links</h4>
           <ul className="space-y-2.5">
             {quickLinks.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="group inline-flex items-center gap-1.5 text-white/65 hover:text-white text-sm transition-colors">
+                <Link href={l.href} className="group inline-flex items-center gap-1.5 text-white/90 hover:text-white text-sm font-medium transition-colors hover:translate-x-0.5">
                   {l.label}
                   <ArrowUpRight size={11} className="opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all" />
                 </Link>
@@ -95,11 +95,11 @@ export default function Footer() {
 
         {/* Col 3 — Courses */}
         <div>
-          <h4 className="text-white/40 font-semibold text-[11px] uppercase tracking-[0.16em] mb-5">Our Courses</h4>
+          <h4 className="text-white font-bold text-xs uppercase tracking-[0.16em] mb-5">Our Courses</h4>
           <ul className="space-y-2.5">
             {courses.map((c) => (
               <li key={c}>
-                <Link href="/courses" className="group inline-flex items-center gap-1.5 text-white/65 hover:text-white text-sm transition-colors">
+                <Link href="/courses" className="group inline-flex items-center gap-1.5 text-white/90 hover:text-white text-sm font-medium transition-colors hover:translate-x-0.5">
                   {c}
                   <ArrowUpRight size={11} className="opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all" />
                 </Link>
@@ -110,7 +110,7 @@ export default function Footer() {
 
         {/* Col 4 — Admissions */}
         <div>
-          <h4 className="text-white/40 font-semibold text-[11px] uppercase tracking-[0.16em] mb-5">Admissions</h4>
+          <h4 className="text-white font-bold text-xs uppercase tracking-[0.16em] mb-5">Admissions</h4>
           <ul className="space-y-4">
             <li>
               <span className="block text-[11px] text-white/35 mb-1 uppercase tracking-wide">Eligibility</span>
