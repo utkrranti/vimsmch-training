@@ -27,10 +27,16 @@ const identityKeys = ["dateOfBirth", "gender", "placeOfBirth", "nationality", "d
 const familyAddressKeys = ["fatherName", "fatherAge", "fatherOccupation", "fatherPhone", "fatherEmail", "motherName", "motherAge", "motherPhone", "motherEmail", "addressLine", "city", "district", "state", "pinCode", "residencePhone", "permanentSameAsPresent", "permanentAddressLine", "permanentCity", "permanentDistrict", "permanentState", "permanentPinCode", "permanentResidencePhone"] as const;
 const educationKeys = ["board", "schoolName", "passingYear", "seatNumber", "sscResultType", "sscMarksObtained", "sscMaximumMarks", "percentage", "sscSubjects", "scienceConfirmed", "hscApplicable", "hscBoard", "hscSchoolName", "hscPassingYear", "hscResultType", "hscMarksObtained", "hscMaximumMarks", "hscPercentage", "hscSubjects"] as const;
 
-function applicationFieldsForStep(data: Record<string, unknown>, step: number) {
+function applicationFieldsForStep(data: Record<string, unknown>, step: number, application: { name: string; phone: string; email: string | null }) {
   const all = applicationFields(data);
   const keys = [...contactKeys, ...(step >= 2 ? identityKeys : []), ...(step >= 3 ? familyAddressKeys : []), ...(step >= 4 ? educationKeys : [])];
-  return Object.fromEntries(keys.map((key) => [key, all[key]]));
+  const result = Object.fromEntries(keys.map((key) => [key, all[key]])) as Record<string, unknown>;
+  // Steps after 1 don't resubmit contact fields, so an empty `data.name`/`data.phone`
+  // here must fall back to what's already saved rather than null out required columns.
+  result.name = (result.name as string | null) || application.name;
+  result.phone = (result.phone as string | null) || application.phone;
+  result.email = (result.email as string | null) ?? application.email;
+  return result;
 }
 
 async function getAuthorizedApplication(id: string, request: Request) {
@@ -62,10 +68,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
     if (body.autosave === true) {
       const autosaveUpdate: Record<string, unknown> = {
-        ...applicationFieldsForStep(data, step),
+        ...applicationFieldsForStep(data, step, application),
         lastActivityAt: new Date(),
-        name: cleanText(data.name, 120) || application.name,
-        phone: cleanText(data.phone, 20) || application.phone,
         callbackStatus: application.callbackStatus === "NEW_LEAD" ? "APPLICATION_IN_PROGRESS" : application.callbackStatus,
       };
 
@@ -91,10 +95,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       Object.assign(update, { currentStep: 2, completionPercent: 25, callbackStatus: "APPLICATION_IN_PROGRESS" });
     } else if (step === 2) {
       if (!cleanText(data.dateOfBirth, 10) || !cleanText(data.gender, 30) || !cleanText(data.placeOfBirth, 100) || !cleanText(data.nationality, 80) || !cleanText(data.domicile, 50) || !cleanText(data.bloodGroup, 10) || !/^\d{12}$/.test(cleanText(data.aadhaarNumber, 12) ?? "")) return NextResponse.json({ error: "Complete valid identity details." }, { status: 400 });
-      Object.assign(update, applicationFieldsForStep(data, 2), { currentStep: 3, completionPercent: 40 });
+      Object.assign(update, applicationFieldsForStep(data, 2, application), { currentStep: 3, completionPercent: 40 });
     } else if (step === 3) {
       if (!cleanText(data.fatherName, 120) || !cleanText(data.fatherPhone, 20) || !cleanText(data.motherName, 120) || !cleanText(data.motherPhone, 20) || !cleanText(data.addressLine, 300) || !cleanText(data.city, 80) || !/^\d{6}$/.test(cleanText(data.pinCode, 6) ?? "") || (data.permanentSameAsPresent !== true && (!cleanText(data.permanentAddressLine, 300) || !cleanText(data.permanentCity, 80) || !/^\d{6}$/.test(cleanText(data.permanentPinCode, 6) ?? "")))) return NextResponse.json({ error: "Complete valid parent and address details." }, { status: 400 });
-      Object.assign(update, applicationFieldsForStep(data, 3), { currentStep: 4, completionPercent: 55 });
+      Object.assign(update, applicationFieldsForStep(data, 3, application), { currentStep: 4, completionPercent: 55 });
     } else if (step === 4) {
       const passingYear = Number(data.passingYear), percentage = Number(data.percentage), obtained = Number(data.sscMarksObtained), maximum = Number(data.sscMaximumMarks);
       const sscUsesGrades = data.sscResultType === "GRADES";
@@ -103,7 +107,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       const invalidSscMarks = !sscUsesGrades && (obtained <= 0 || maximum <= 0 || obtained > maximum);
       const invalidHsc = data.hscApplicable === true && (!cleanText(data.hscBoard, 100) || !cleanText(data.hscSchoolName, 180) || !Number(data.hscPassingYear) || !Number.isFinite(hscPercentage) || hscPercentage <= 0 || hscPercentage > 100 || (!hscUsesGrades && (hscObtained <= 0 || hscMaximum <= 0 || hscObtained > hscMaximum)));
       if (!cleanText(data.board, 100) || !cleanText(data.schoolName, 180) || !Number.isInteger(passingYear) || passingYear < 1980 || passingYear > new Date().getFullYear() || !Number.isFinite(percentage) || percentage <= 0 || percentage > 100 || invalidSscMarks || data.scienceConfirmed !== true || invalidHsc) return NextResponse.json({ error: "Enter valid SSC and HSC educational details." }, { status: 400 });
-      Object.assign(update, applicationFieldsForStep(data, 4), { currentStep: 5, completionPercent: 70 });
+      Object.assign(update, applicationFieldsForStep(data, 4, application), { currentStep: 5, completionPercent: 70 });
     } else if (step === 5) {
       const uploadedDocuments = await prisma.admissionDocument.findMany({ where: { applicationId: id }, select: { type: true, aiStatus: true } });
       const uploadedTypes = new Set(uploadedDocuments.filter((document) => document.aiStatus !== "REUPLOAD").map((document) => document.type));
