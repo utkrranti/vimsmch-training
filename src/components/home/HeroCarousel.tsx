@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 const slides = [
   {
-    title: "Learn Skills.",
+    title: "Learn Skills. Save Lives.",
     accent: "Build Your Career.",
     action: "Apply Now",
     href: "/admission/apply",
@@ -99,6 +99,9 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
       <div className="absolute inset-0 bg-dot-grid text-[#04415f] opacity-[0.04]" />
 
       <div className="relative mx-auto flex h-full min-h-[560px] max-w-7xl flex-col items-center justify-center px-6 py-16 sm:px-12 lg:px-20">
+        <div className="relative w-full">
+          <div className="absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 bg-white/50" />
+          <div className="relative">
         <div className="mb-8 flex flex-nowrap items-center justify-center gap-3 sm:gap-6 text-center">
           <div className="relative shrink-0 flex items-center justify-center h-20 w-20 sm:h-40 sm:w-40">
             <div className="absolute inset-0 rounded-full p-[3px] sm:p-[4px] bg-[conic-gradient(from_0deg,#22c55e,#2086b8,#22c55e)] shadow-[0_8px_30px_rgba(4,65,95,0.2)] animate-spin-slow">
@@ -207,6 +210,8 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
                 })()}
               </motion.div>
             </AnimatePresence>
+          </div>
+        </div>
           </div>
         </div>
       </div>
