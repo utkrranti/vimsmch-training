@@ -29,7 +29,11 @@ const educationKeys = ["board", "schoolName", "passingYear", "seatNumber", "sscR
 
 function applicationFieldsForStep(data: Record<string, unknown>, step: number, application: { name: string; phone: string; email: string | null }) {
   const all = applicationFields(data);
-  const keys = [...contactKeys, ...(step >= 2 ? identityKeys : []), ...(step >= 3 ? familyAddressKeys : []), ...(step >= 4 ? educationKeys : [])];
+  // Only this step's own fields — earlier steps' fields were already persisted by
+  // their own PATCH calls, and resending all of them cumulatively on every step
+  // pushes the update past MongoDB Atlas's 50-stage aggregation pipeline limit.
+  const stepKeys = step === 2 ? identityKeys : step === 3 ? familyAddressKeys : step === 4 ? educationKeys : [];
+  const keys = [...contactKeys, ...stepKeys];
   const result = Object.fromEntries(keys.map((key) => [key, all[key]])) as Record<string, unknown>;
   // Steps after 1 don't resubmit contact fields, so an empty `data.name`/`data.phone`
   // here must fall back to what's already saved rather than null out required columns.
