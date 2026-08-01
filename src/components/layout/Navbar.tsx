@@ -37,11 +37,11 @@ export default function Navbar() {
             className="h-9 sm:h-20 w-auto shrink-0"
             priority
           />
-          <div className="max-w-[680px] text-center text-[#04415f]">
-            <span className="block font-display text-[10px] sm:text-xl 2xl:text-2xl font-semibold leading-tight whitespace-nowrap">
+          <div className="max-w-[760px] text-center text-[#04415f] bg-[#04415f]/6 rounded-xl px-2 sm:px-5 py-1 sm:py-2 border border-[#04415f]/10">
+            <span className="block font-display text-[11px] sm:text-2xl 2xl:text-3xl font-bold leading-tight whitespace-nowrap">
               Dr. Vithalrao Vikhe Patil Foundation&apos;s
             </span>
-            <span className="block font-display text-[10px] sm:text-xl 2xl:text-2xl font-semibold leading-tight whitespace-nowrap">
+            <span className="block font-display text-[11px] sm:text-2xl 2xl:text-3xl font-bold leading-tight whitespace-nowrap">
               Paramedical Institute
             </span>
             <span className="mt-1 hidden sm:block text-[9px] md:text-[10px] 2xl:text-[11px] font-bold leading-snug text-[#04415f]/80">

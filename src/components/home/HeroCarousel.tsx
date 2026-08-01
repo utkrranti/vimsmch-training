@@ -135,13 +135,13 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
               {slide.eyebrow}
             </div>
 
-            <h1 className="font-display text-[2.8rem] font-semibold leading-[1.02] tracking-[-0.035em] text-white drop-shadow-md sm:text-6xl lg:text-[4.8rem]">
+            <h1 className="font-display text-3xl font-semibold leading-[1.08] tracking-[-0.02em] text-white drop-shadow-md sm:text-4xl lg:text-5xl">
               {slide.title}
               <br />
               <span className="italic text-[#c9f0ff]">{slide.accent}</span>
             </h1>
 
-            <p className="mt-7 max-w-2xl border-l-2 border-[#8cddf6] pl-5 text-base leading-relaxed text-white/88 sm:text-lg">
+            <p className="mt-7 max-w-2xl border-l-2 border-[#8cddf6] pl-5 text-sm leading-relaxed text-white/88 sm:text-base">
               {slide.description}
             </p>
 
