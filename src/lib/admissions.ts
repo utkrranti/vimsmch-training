@@ -15,6 +15,16 @@ export const requiredAdmissionDocumentTypes = admissionDocuments
   .filter((document) => document.required)
   .map((document) => document.type);
 
+export function getRequiredAdmissionDocumentTypes(data: { domicile?: string | null; category?: string | null }) {
+  const required: string[] = [...requiredAdmissionDocumentTypes];
+  if (data.domicile === "MAHARASHTRA") required.push("DOMICILE");
+  if (data.category && !["OPEN", "EWS", "OTHER"].includes(data.category)) {
+    required.push("CASTE");
+    if (["OBC", "VJNT"].includes(data.category)) required.push("NON_CREAMY_LAYER");
+  }
+  return required;
+}
+
 export const applicationStatuses = [
   "DRAFT",
   "SUBMITTED",

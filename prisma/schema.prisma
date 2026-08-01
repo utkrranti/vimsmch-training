@@ -108,21 +108,56 @@ model AdmissionApplication {
   batchId           String?
   batch              Batch?   @relation(fields: [batchId], references: [id])
   dateOfBirth       DateTime?
+  placeOfBirth      String?
   gender            String?
+  nationality       String?
+  domicile          String?
+  bloodGroup        String?
+  aadhaarNumber     String?
   addressLine       String?
   city              String?
   district          String?
   state             String?
   pinCode           String?
+  residencePhone    String?
+  permanentAddressLine String?
+  permanentCity     String?
+  permanentDistrict String?
+  permanentState    String?
+  permanentPinCode  String?
+  permanentResidencePhone String?
+  permanentSameAsPresent Boolean @default(false)
   guardianName      String?
   guardianRelation  String?
   guardianPhone     String?
   emergencyPhone    String?
+  fatherName        String?
+  fatherAge         Int?
+  fatherOccupation  String?
+  fatherPhone       String?
+  fatherEmail       String?
+  motherName        String?
+  motherAge         Int?
+  motherPhone       String?
+  motherEmail       String?
   board             String?
   schoolName        String?
   passingYear       Int?
   seatNumber        String?
+  sscMarksObtained  Float?
+  sscMaximumMarks   Float?
   percentage        Float?
+  sscResultType     String?  @default("MARKS")
+  sscSubjects       Json?
+  hscApplicable     Boolean  @default(false)
+  hscBoard          String?
+  hscSchoolName     String?
+  hscPassingYear    Int?
+  hscMarksObtained  Float?
+  hscMaximumMarks   Float?
+  hscPercentage     Float?
+  hscResultType     String?  @default("MARKS")
+  hscSubjects       Json?
   category          String?
   scienceConfirmed  Boolean  @default(false)
   currentStep       Int      @default(1)

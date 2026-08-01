@@ -1,410 +1,118 @@
 "use client";
 
 import Image from "next/image";
-import {
-  ArrowLeft,
-  ArrowRight,
-  BrainCircuit,
-  Check,
-  CheckCircle2,
-  FileCheck2,
-  Loader2,
-  LockKeyhole,
-  QrCode,
-  UploadCloud,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, CheckCircle2, Loader2, Plus, QrCode, Trash2, UploadCloud } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { admissionDocuments, requiredAdmissionDocumentTypes } from "@/lib/admissions";
+import { admissionDocuments, getRequiredAdmissionDocumentTypes } from "@/lib/admissions";
+import { validateAdmissionStep } from "@/lib/admission-validation";
 
-type CourseOption = {
-  id: string;
-  slug: string;
-  title: string;
-  fees: number;
-  eligibility: string;
-  durationMonths: number;
-  batches: Array<{ id: string; label: string; startDate: string; seats: number }>;
-};
-
+type CourseOption = { id: string; slug: string; title: string; fees: number; eligibility: string; durationMonths: number };
+type SubjectMark = { subject: string; maximum: string; obtained: string; grade: string };
 type WizardData = {
-  courseId: string;
-  batchId: string;
-  name: string;
-  phone: string;
-  email: string;
-  contactConsent: boolean;
-  dateOfBirth: string;
-  gender: string;
-  addressLine: string;
-  city: string;
-  district: string;
-  state: string;
-  pinCode: string;
-  guardianName: string;
-  guardianRelation: string;
-  guardianPhone: string;
-  emergencyPhone: string;
-  board: string;
-  schoolName: string;
-  passingYear: string;
-  seatNumber: string;
-  percentage: string;
-  category: string;
-  scienceConfirmed: boolean;
-  declarationAccepted: boolean;
-  paymentTxnRef: string;
-  paymentDate: string;
-  paymentProofUrl: string;
+  courseId: string; name: string; phone: string; email: string; contactConsent: boolean;
+  dateOfBirth: string; gender: string; placeOfBirth: string; nationality: string; domicile: string; bloodGroup: string; aadhaarNumber: string; category: string;
+  fatherName: string; fatherAge: string; fatherOccupation: string; fatherPhone: string; fatherEmail: string;
+  motherName: string; motherAge: string; motherPhone: string; motherEmail: string;
+  addressLine: string; city: string; district: string; state: string; pinCode: string; residencePhone: string;
+  permanentSameAsPresent: boolean; permanentAddressLine: string; permanentCity: string; permanentDistrict: string; permanentState: string; permanentPinCode: string; permanentResidencePhone: string;
+  board: string; schoolName: string; passingYear: string; seatNumber: string; sscResultType: string; sscMarksObtained: string; sscMaximumMarks: string; percentage: string; sscSubjects: SubjectMark[]; scienceConfirmed: boolean;
+  hscApplicable: boolean; hscBoard: string; hscSchoolName: string; hscPassingYear: string; hscResultType: string; hscMarksObtained: string; hscMaximumMarks: string; hscPercentage: string; hscSubjects: SubjectMark[];
+  declarationAccepted: boolean; paymentTxnRef: string; paymentDate: string; paymentProofUrl: string;
 };
+type UploadedDocument = { type: string; fileName: string; fileUrl: string; aiStatus?: string | null; aiSummary?: string | null };
+type SetField = <K extends keyof WizardData>(key: K, value: WizardData[K]) => void;
 
-type UploadedDocument = { type: string; fileName: string; fileUrl: string; aiStatus?: string | null; aiScore?: number | null; aiVisibilityScore?: number | null; aiAuthenticity?: string | null; aiSummary?: string | null; aiIssues?: string[] };
-
-const steps = ["Course & Contact", "Personal Details", "Education", "Documents", "Review", "Payment"];
+const blankSubject = (): SubjectMark => ({ subject: "", maximum: "", obtained: "", grade: "" });
+const blankSubjects = (): SubjectMark[] => [blankSubject()];
 const initialData: WizardData = {
-  courseId: "", batchId: "", name: "", phone: "", email: "", contactConsent: true,
-  dateOfBirth: "", gender: "", addressLine: "", city: "", district: "Ahilyanagar",
-  state: "Maharashtra", pinCode: "", guardianName: "", guardianRelation: "",
-  guardianPhone: "", emergencyPhone: "", board: "", schoolName: "", passingYear: "",
-  seatNumber: "", percentage: "", category: "OPEN", scienceConfirmed: false,
+  courseId: "", name: "", phone: "", email: "", contactConsent: true,
+  dateOfBirth: "", gender: "", placeOfBirth: "", nationality: "Indian", domicile: "MAHARASHTRA", bloodGroup: "", aadhaarNumber: "", category: "OPEN",
+  fatherName: "", fatherAge: "", fatherOccupation: "", fatherPhone: "", fatherEmail: "", motherName: "", motherAge: "", motherPhone: "", motherEmail: "",
+  addressLine: "", city: "", district: "Ahilyanagar", state: "Maharashtra", pinCode: "", residencePhone: "", permanentSameAsPresent: true,
+  permanentAddressLine: "", permanentCity: "", permanentDistrict: "", permanentState: "Maharashtra", permanentPinCode: "", permanentResidencePhone: "",
+  board: "", schoolName: "", passingYear: "", seatNumber: "", sscResultType: "MARKS", sscMarksObtained: "", sscMaximumMarks: "", percentage: "", sscSubjects: blankSubjects(), scienceConfirmed: false,
+  hscApplicable: false, hscBoard: "", hscSchoolName: "", hscPassingYear: "", hscResultType: "MARKS", hscMarksObtained: "", hscMaximumMarks: "", hscPercentage: "", hscSubjects: blankSubjects(),
   declarationAccepted: false, paymentTxnRef: "", paymentDate: "", paymentProofUrl: "",
 };
-
-const inputClass = "w-full rounded-xl border border-[#cdd8de] bg-white px-4 py-3 text-sm text-[#011e2c] outline-none transition focus:border-[#2086b8] focus:ring-2 focus:ring-[#2086b8]/15";
+const steps = ["Course & Contact", "Identity", "Family & Address", "Education", "Documents", "Declaration & Fee"];
+const today = new Date();
+const inputClass = "w-full rounded-xl border border-[#cdd8de] bg-white px-4 py-3 text-sm text-[#011e2c] outline-none transition focus:border-[#2086b8] focus:ring-2 focus:ring-[#2086b8]/15 invalid:border-red-500 invalid:ring-2 invalid:ring-red-500/15";
 const labelClass = "mb-1.5 block text-xs font-bold uppercase tracking-wide text-[#04415f]/70";
+const boardOptions = ["Maharashtra State Board", "CBSE", "ICSE", "Other"];
 
 export default function AdmissionWizard({ courses, initialCourseId, feeQrUrl }: { courses: CourseOption[]; initialCourseId?: string; feeQrUrl?: string }) {
   const [step, setStep] = useState(1);
   const [data, setData] = useState<WizardData>({ ...initialData, courseId: initialCourseId ?? "" });
-  const [applicationId, setApplicationId] = useState("");
-  const [applicationNo, setApplicationNo] = useState("");
-  const [accessToken, setAccessToken] = useState("");
-  const [documents, setDocuments] = useState<UploadedDocument[]>([]);
-  const [busy, setBusy] = useState(false);
-  const [uploading, setUploading] = useState("");
-  const [error, setError] = useState("");
-  const [hydrated, setHydrated] = useState(false);
-  const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving…" | "Offline">("Saved");
-  const creatingDraft = useRef(false);
-
-  /* Restoring a persisted multi-step draft requires hydrating several related state values together. */
-  /* eslint-disable react-hooks/set-state-in-effect */
-  useEffect(() => {
-    const saved = window.localStorage.getItem("vimsmch-admission-draft");
-    if (!saved) {
-      setHydrated(true);
-      return;
-    }
-    try {
-      const draft = JSON.parse(saved) as { step: number; data: WizardData; applicationId: string; applicationNo: string; accessToken: string; documents: UploadedDocument[] };
-      if (draft.applicationId && draft.accessToken) {
-        setStep(draft.step);
-        setData(draft.data);
-        setApplicationId(draft.applicationId);
-        setApplicationNo(draft.applicationNo);
-        setAccessToken(draft.accessToken);
-        setDocuments(draft.documents ?? []);
-      }
-    } catch {
-      window.localStorage.removeItem("vimsmch-admission-draft");
-    } finally {
-      setHydrated(true);
-    }
-  }, []);
-  /* eslint-enable react-hooks/set-state-in-effect */
-
-  useEffect(() => {
-    if (!hydrated) return;
-    if (step === 7) {
-      window.localStorage.removeItem("vimsmch-admission-draft");
-      return;
-    }
-    window.localStorage.setItem("vimsmch-admission-draft", JSON.stringify({ step, data, applicationId, applicationNo, accessToken, documents }));
-  }, [hydrated, step, data, applicationId, applicationNo, accessToken, documents]);
-
+  const [applicationId, setApplicationId] = useState(""); const [applicationNo, setApplicationNo] = useState(""); const [accessToken, setAccessToken] = useState("");
+  const [documents, setDocuments] = useState<UploadedDocument[]>([]); const [busy, setBusy] = useState(false); const [uploading, setUploading] = useState(""); const [error, setError] = useState("");
+  const [hydrated, setHydrated] = useState(false); const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving…" | "Offline">("Saved"); const creatingDraft = useRef(false);
   const selectedCourse = useMemo(() => courses.find((course) => course.id === data.courseId), [courses, data.courseId]);
+  const requiredTypes = getRequiredAdmissionDocumentTypes(data);
+  const setField: SetField = (key, value) => setData((current) => ({ ...current, [key]: value }));
 
-  const setField = <K extends keyof WizardData>(key: K, value: WizardData[K]) => setData((current) => ({ ...current, [key]: value }));
+  /* Restoring one persisted draft requires hydrating its related state values together. */
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => { const saved = localStorage.getItem("vimsmch-admission-draft"); if (saved) { try { const draft = JSON.parse(saved); setStep(draft.step); setData({ ...initialData, ...draft.data, sscSubjects: draft.data.sscSubjects ?? blankSubjects(), hscSubjects: draft.data.hscSubjects ?? blankSubjects() }); setApplicationId(draft.applicationId); setApplicationNo(draft.applicationNo); setAccessToken(draft.accessToken); setDocuments(draft.documents ?? []); } catch { localStorage.removeItem("vimsmch-admission-draft"); } } setHydrated(true); }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
+  useEffect(() => { if (!hydrated) return; if (step === 7) localStorage.removeItem("vimsmch-admission-draft"); else localStorage.setItem("vimsmch-admission-draft", JSON.stringify({ step, data, applicationId, applicationNo, accessToken, documents })); }, [hydrated, step, data, applicationId, applicationNo, accessToken, documents]);
 
   const createDraft = useCallback(async () => {
-    if (applicationId) return { id: applicationId, accessToken, applicationNo };
-    if (creatingDraft.current) return null;
-    creatingDraft.current = true;
-    setSaveStatus("Saving…");
-    try {
-      const response = await fetch("/api/admissions", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error);
-      setApplicationId(result.application.id);
-      setApplicationNo(result.application.applicationNo);
-      setAccessToken(result.application.accessToken);
-      setSaveStatus("Saved");
-      return result.application as { id: string; accessToken: string; applicationNo: string };
-    } catch (caught) {
-      setSaveStatus("Offline");
-      setError(caught instanceof Error ? caught.message : "Unable to create your draft.");
-      return null;
-    } finally {
-      creatingDraft.current = false;
-    }
+    if (applicationId) return { id: applicationId, accessToken, applicationNo }; if (creatingDraft.current) return null;
+    creatingDraft.current = true; setSaveStatus("Saving…");
+    try { const response = await fetch("/api/admissions", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }); const result = await response.json(); if (!response.ok) throw new Error(result.error); setApplicationId(result.application.id); setApplicationNo(result.application.applicationNo); setAccessToken(result.application.accessToken); setSaveStatus("Saved"); return result.application; }
+    catch (caught) { setSaveStatus("Offline"); setError(caught instanceof Error ? caught.message : "Unable to create your draft."); return null; } finally { creatingDraft.current = false; }
   }, [applicationId, applicationNo, accessToken, data]);
-
-  useEffect(() => {
-    if (applicationId || !data.courseId || !data.name.trim() || !/^[0-9+\-\s]{10,20}$/.test(data.phone.trim())) return;
-    const timer = window.setTimeout(() => { void createDraft(); }, 900);
-    return () => window.clearTimeout(timer);
-  }, [applicationId, createDraft, data.courseId, data.name, data.phone]);
-
-  useEffect(() => {
-    if (!applicationId || !accessToken || step > 6) return;
-    const timer = window.setTimeout(async () => {
-      setSaveStatus("Saving…");
-      try {
-        const response = await fetch(`/api/admissions/${applicationId}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json", "x-application-token": accessToken },
-          body: JSON.stringify({ autosave: true, step, data }),
-        });
-        if (!response.ok) throw new Error();
-        setSaveStatus("Saved");
-      } catch {
-        setSaveStatus("Offline");
-      }
-    }, 700);
-    return () => window.clearTimeout(timer);
-  }, [applicationId, accessToken, data, step]);
+  useEffect(() => { if (applicationId || !data.courseId || !data.name.trim() || !/^[0-9+\-\s]{10,20}$/.test(data.phone.trim())) return; const timer = setTimeout(() => void createDraft(), 900); return () => clearTimeout(timer); }, [applicationId, createDraft, data.courseId, data.name, data.phone]);
+  useEffect(() => { if (!applicationId || !accessToken || step > 6) return; const timer = setTimeout(async () => { setSaveStatus("Saving…"); try { const response = await fetch(`/api/admissions/${applicationId}`, { method: "PATCH", headers: { "Content-Type": "application/json", "x-application-token": accessToken }, body: JSON.stringify({ autosave: true, step, data }) }); if (!response.ok) throw new Error(); setSaveStatus("Saved"); } catch { setSaveStatus("Offline"); } }, 700); return () => clearTimeout(timer); }, [applicationId, accessToken, data, step]);
 
   const validateStep = () => {
-    if (step === 1 && (!data.courseId || !data.name.trim() || !data.phone.trim())) return "Select a course and enter the required contact details.";
-    if (step === 2 && (!data.dateOfBirth || !data.gender || !data.addressLine || !data.city || !data.pinCode || !data.guardianName || !data.guardianPhone)) return "Complete all required personal, address, and guardian fields.";
-    if (step === 3 && (!data.board || !data.schoolName || !data.passingYear || !data.seatNumber || !data.percentage || !data.scienceConfirmed)) return "Complete the educational details and science-subject confirmation.";
-    if (step === 4) {
-      const present = new Set(documents.filter((document) => document.aiStatus !== "REUPLOAD").map((document) => document.type));
-      if (requiredAdmissionDocumentTypes.some((type) => !present.has(type))) return "Upload every required document before continuing.";
-    }
-    if (step === 5 && !data.declarationAccepted) return "Accept the declaration before continuing.";
-    if (step === 6 && (!data.paymentTxnRef || !data.paymentDate || !data.paymentProofUrl)) return "Enter payment details and upload the successful payment screenshot.";
+    const fieldError = validateAdmissionStep(data as unknown as Record<string, unknown>, step); if (fieldError) return fieldError;
+    if (step === 5) { const present = new Set(documents.filter((item) => item.aiStatus !== "REUPLOAD").map((item) => item.type)); if (requiredTypes.some((type) => !present.has(type))) return "Upload every required document before continuing."; }
+    if (step === 6 && (!data.declarationAccepted || !data.paymentTxnRef || !data.paymentDate || !data.paymentProofUrl)) return "Accept the declaration and provide the ₹50 application-fee payment details.";
     return "";
   };
+  const saveAndContinue = async () => { const validation = validateStep(); if (validation) return setError(validation); setError(""); setBusy(true); try { let id = applicationId, token = accessToken; if (!id || !token) { const draft = await createDraft(); if (!draft) throw new Error("Please wait while your draft is saved."); id = draft.id; token = draft.accessToken; } const response = await fetch(`/api/admissions/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json", "x-application-token": token }, body: JSON.stringify({ step, data }) }); const result = await response.json(); if (!response.ok) throw new Error(result.error); setStep(step === 6 ? 7 : step + 1); scrollTo({ top: 0, behavior: "smooth" }); } catch (caught) { setError(caught instanceof Error ? caught.message : "Unable to save."); } finally { setBusy(false); } };
+  const uploadFile = async (file: File, type: string, label: string, payment = false) => { if (!applicationId || !accessToken) return setError("Save your contact details before uploading files."); if (file.size > 4 * 1024 * 1024) return setError("Each file must be 4 MB or smaller."); setUploading(type); setError(""); try { const formData = new FormData(); formData.append("file", file); formData.append("type", type); const uploadResponse = await fetch("/api/admissions/upload", { method: "POST", headers: { "x-application-id": applicationId, "x-application-token": accessToken }, body: formData }); const uploadResult = await uploadResponse.json(); if (!uploadResponse.ok) throw new Error(uploadResult.error); if (payment) setField("paymentProofUrl", uploadResult.blob.url); else { const response = await fetch(`/api/admissions/${applicationId}/documents`, { method: "POST", headers: { "Content-Type": "application/json", "x-application-token": accessToken }, body: JSON.stringify({ type, fileUrl: uploadResult.blob.url, fileName: file.name }) }); const result = await response.json(); if (!response.ok) throw new Error(result.error); setDocuments((current) => [...current.filter((item) => item.type !== type), result.document]); if (result.document.aiStatus === "REUPLOAD") setError(result.document.aiSummary || `Please upload a clearer ${label}.`); } } catch (caught) { setError(caught instanceof Error ? caught.message : `Unable to upload ${label}.`); } finally { setUploading(""); } };
 
-  const saveAndContinue = async () => {
-    const validationError = validateStep();
-    if (validationError) return setError(validationError);
-    setError("");
-    setBusy(true);
-    try {
-      let currentId = applicationId;
-      let currentToken = accessToken;
-      if (!currentId || !currentToken) {
-        const draft = await createDraft();
-        if (!draft) throw new Error("Please wait while your draft is saved.");
-        currentId = draft.id;
-        currentToken = draft.accessToken;
-      }
-      {
-        const response = await fetch(`/api/admissions/${currentId}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json", "x-application-token": currentToken },
-          body: JSON.stringify({ step, data }),
-        });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.error);
-        if (step === 6) {
-          window.localStorage.removeItem("vimsmch-admission-draft");
-          setStep(7);
-        } else setStep((current) => current + 1);
-      }
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Unable to save. Please try again.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const uploadFile = async (file: File, type: string, label: string, payment = false) => {
-    if (!applicationId || !accessToken) return setError("Save your contact details before uploading files.");
-    if (file.size > 4 * 1024 * 1024) return setError("Each file must be 4 MB or smaller.");
-    setError("");
-    setUploading(type);
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("type", type);
-      const uploadResponse = await fetch("/api/admissions/upload", {
-        method: "POST",
-        headers: { "x-application-id": applicationId, "x-application-token": accessToken },
-        body: formData,
-      });
-      const uploadResult = await uploadResponse.json();
-      if (!uploadResponse.ok) throw new Error(uploadResult.error || "Unable to upload the file.");
-      const blob = uploadResult.blob as { url: string };
-      if (payment) {
-        setField("paymentProofUrl", blob.url);
-      } else {
-        const response = await fetch(`/api/admissions/${applicationId}/documents`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "x-application-token": accessToken },
-          body: JSON.stringify({ type, fileUrl: blob.url, fileName: file.name }),
-        });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.error);
-        setDocuments((current) => [...current.filter((item) => item.type !== type), result.document]);
-        if (result.document.aiStatus === "REUPLOAD") setError(result.document.aiSummary || `Please upload a clearer ${label}.`);
-      }
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : `Unable to upload ${label}.`);
-    } finally {
-      setUploading("");
-    }
-  };
-
-  if (!hydrated) {
-    return (
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-        <div className="animate-pulse">
-          <div className="h-3 w-32 rounded bg-[#b8dfea]" />
-          <div className="mt-4 h-10 w-80 max-w-full rounded-xl bg-[#dcecf2]" />
-          <div className="mt-8 h-16 rounded-2xl border border-[#e2eaee] bg-white" />
-          <div className="mt-7 h-96 rounded-3xl border border-[#e2eaee] bg-white shadow-sm" />
-        </div>
-      </div>
-    );
-  }
-
-  if (step === 7) {
-    return (
-      <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
-        <div className="rounded-3xl border border-emerald-200 bg-white p-8 text-center shadow-sm sm:p-12">
-          <CheckCircle2 size={52} className="mx-auto mb-5 text-emerald-600" />
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">Application submitted</p>
-          <h1 className="mt-3 text-3xl font-bold text-[#011e2c]">Thank you, {data.name}</h1>
-          <p className="mt-4 text-[#010608]/60">Your documents and payment proof are under review. The admissions team may call you for verification.</p>
-          <div className="mx-auto mt-7 max-w-sm rounded-2xl bg-[#f1f5f7] p-5">
-            <p className="text-xs uppercase tracking-wide text-[#010608]/45">Application number</p>
-            <p className="mt-1 font-display text-2xl font-bold text-[#04415f]">{applicationNo}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      <div className="mb-8">
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#2086b8]">Online admission</p>
-        <h1 className="mt-2 font-display text-3xl font-bold text-[#011e2c] sm:text-4xl">Apply for the 2026 Batch</h1>
-        <p className="mt-2 text-sm text-[#010608]/55">Your progress is saved after each step. The admissions team can assist you if needed.</p>
-      </div>
-
-      <div className="mb-7 overflow-x-auto rounded-2xl border border-[#e2eaee] bg-white p-4">
-        <div className="flex min-w-[680px] items-center">
-          {steps.map((label, index) => {
-            const number = index + 1;
-            const completed = number < step;
-            return (
-              <div key={label} className="flex flex-1 items-center last:flex-none">
-                <div className="flex items-center gap-2">
-                  <span className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${completed ? "bg-emerald-600 text-white" : number === step ? "bg-[#04415f] text-white" : "bg-[#e6edf0] text-[#010608]/40"}`}>
-                    {completed ? <Check size={15} /> : number}
-                  </span>
-                  <span className={`text-xs font-semibold ${number === step ? "text-[#04415f]" : "text-[#010608]/45"}`}>{label}</span>
-                </div>
-                {number < steps.length && <div className={`mx-3 h-px flex-1 ${completed ? "bg-emerald-300" : "bg-[#cdd8de]"}`} />}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="rounded-3xl border border-[#e2eaee] bg-white p-5 shadow-sm sm:p-8">
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-[#010608]/45">
-          <p>{applicationNo ? <>Draft application: <span className="text-[#04415f]">{applicationNo}</span></> : "Your first entries are saved on this device."}</p>
-          <p aria-live="polite" className={saveStatus === "Offline" ? "text-amber-700" : saveStatus === "Saving…" ? "text-[#2086b8]" : "text-emerald-700"}>{saveStatus}</p>
-        </div>
-
-        {step === 1 && <CourseContactStep courses={courses} data={data} setField={setField} selectedCourse={selectedCourse} inputClass={inputClass} labelClass={labelClass} />}
-        {step === 2 && <PersonalStep data={data} setField={setField} inputClass={inputClass} labelClass={labelClass} />}
-        {step === 3 && <EducationStep data={data} setField={setField} inputClass={inputClass} labelClass={labelClass} />}
-        {step === 4 && (
-          <div>
-            <StepHeading title="Upload Required Documents" description="Upload clear PDF, JPG, PNG, or WebP files. Each upload is screened for visibility, completeness, and standard visual authenticity indicators. Final verification is completed by admissions staff. Maximum size: 4 MB." />
-            <div className="grid gap-3 sm:grid-cols-2">
-              {admissionDocuments.map((document) => {
-                const uploaded = documents.find((item) => item.type === document.type);
-                return (
-                  <label key={document.type} className={`relative overflow-hidden rounded-xl border p-4 transition ${uploading === document.type ? "min-h-36 border-[#56b9dd] bg-gradient-to-br from-[#e8f7fc] via-white to-[#dff3fa] shadow-[0_10px_35px_rgba(32,134,184,0.18)]" : uploaded ? "border-emerald-200 bg-emerald-50" : "border-[#e2eaee] bg-[#f8fafb]"}`}>
-                    {uploading === document.type && <span aria-hidden="true" className="pointer-events-none absolute inset-0"><span className="absolute inset-x-0 top-0 h-px animate-pulse bg-gradient-to-r from-transparent via-[#2086b8] to-transparent" /><span className="absolute -left-1/4 top-0 h-full w-1/2 animate-[admission-scan_1.8s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-[#8cdef4]/35 to-transparent blur-sm" /><span className="absolute right-5 top-5 h-14 w-14 animate-pulse rounded-full bg-[#8cdef4]/30 blur-xl" /></span>}
-                    <span className="flex items-start gap-3">
-                      {uploading === document.type ? <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#04415f] text-white shadow-lg shadow-[#2086b8]/25"><BrainCircuit size={20} className="animate-pulse" /><span className="absolute -right-1 -top-1 h-2.5 w-2.5 animate-ping rounded-full bg-[#56c8ee]" /></span> : uploaded ? <FileCheck2 size={19} className="mt-0.5 text-emerald-600" /> : <UploadCloud size={19} className="mt-0.5 text-[#2086b8]" />}
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-sm font-semibold text-[#011e2c]">{document.label} {document.required && <span className="text-red-500">*</span>}</span>
-                        {uploading === document.type ? <span className="mt-2 block"><span className="block text-xs font-bold uppercase tracking-[0.12em] text-[#0878ad]">AI document scan active</span><span className="mt-1 block text-xs text-[#294956]">Analyzing visibility, completeness and authenticity indicators...</span><span className="mt-3 flex gap-1.5"><span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#0878ad] [animation-delay:-0.3s]" /><span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#2086b8] [animation-delay:-0.15s]" /><span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#56b9dd]" /></span></span> : <span className="mt-1 block truncate text-xs text-[#010608]/45">{uploaded?.fileName ?? "Choose file"}</span>}
-                        {uploaded?.aiStatus && <span className={`mt-2 block text-xs font-semibold ${uploaded.aiStatus === "ACCEPTABLE" ? "text-emerald-700" : uploaded.aiStatus === "REUPLOAD" ? "text-red-700" : "text-amber-700"}`}>AI check: {uploaded.aiStatus === "ACCEPTABLE" ? "Looks good" : uploaded.aiStatus === "REUPLOAD" ? "Please re-upload" : uploaded.aiStatus === "ERROR" ? "Manual review required" : "Needs staff review"}{typeof uploaded.aiScore === "number" ? ` · ${uploaded.aiScore}/100` : ""}</span>}
-                        {uploaded?.aiAuthenticity && <span className="mt-1 block text-[11px] font-medium text-[#07577b]">Visual authenticity: {uploaded.aiAuthenticity === "NO_OBVIOUS_CONCERNS" ? "No obvious concerns" : uploaded.aiAuthenticity === "CONCERNS" ? "Concerns detected — staff review required" : "Could not be determined"}{typeof uploaded.aiVisibilityScore === "number" ? ` · Visibility ${uploaded.aiVisibilityScore}/100` : ""}</span>}
-                        {uploaded?.aiSummary && <span className="mt-1 block text-xs leading-relaxed text-[#294956]">{uploaded.aiSummary}</span>}
-                      </span>
-                    </span>
-                    <input type="file" accept=".pdf,.png,.jpg,.jpeg,.webp" className="hidden" disabled={Boolean(uploading)} onChange={(event) => { const file = event.target.files?.[0]; if (file) uploadFile(file, document.type, document.label); }} />
-                  </label>
-                );
-              })}
-            </div>
-            <style jsx>{`@keyframes admission-scan { 0%, 100% { transform: translateX(-45%); opacity: .35; } 50% { transform: translateX(245%); opacity: .9; } }`}</style>
-          </div>
-        )}
-        {step === 5 && <ReviewStep data={data} setField={setField} selectedCourse={selectedCourse} documents={documents} />}
-        {step === 6 && <PaymentStep data={data} setField={setField} selectedCourse={selectedCourse} feeQrUrl={feeQrUrl} uploading={uploading} uploadFile={uploadFile} inputClass={inputClass} labelClass={labelClass} />}
-
-        {error && <div role="alert" className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">{error}</div>}
-
-        <div className="mt-8 flex items-center justify-between border-t border-[#e6edf0] pt-6">
-          <button type="button" onClick={() => setStep((current) => Math.max(1, current - 1))} disabled={step === 1 || busy} className="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-[#04415f] transition hover:bg-[#f1f5f7] disabled:invisible">
-            <ArrowLeft size={16} /> Back
-          </button>
-          <button type="button" onClick={saveAndContinue} disabled={busy || Boolean(uploading)} className="inline-flex items-center gap-2 rounded-xl bg-[#04415f] px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#011e2c] disabled:opacity-60">
-            {busy && <Loader2 size={16} className="animate-spin" />}
-            {step === 6 ? "Submit Application" : "Continue"}
-            {!busy && <ArrowRight size={16} />}
-          </button>
-        </div>
-      </div>
-
-      <p className="mt-5 flex items-center justify-center gap-2 text-center text-xs text-[#010608]/45"><LockKeyhole size={13} /> Your information and documents are handled securely.</p>
-    </div>
-  );
+  if (!hydrated) return <div className="mx-auto max-w-6xl p-10 text-sm text-[#04415f]">Loading application…</div>;
+  if (step === 7) return <div className="mx-auto max-w-3xl px-4 py-20"><div className="rounded-3xl border border-emerald-200 bg-white p-10 text-center shadow-sm"><CheckCircle2 size={52} className="mx-auto text-emerald-600"/><h1 className="mt-4 text-3xl font-bold">Application submitted</h1><p className="mt-3 text-[#010608]/60">Your documents and ₹50 application fee are under review.</p><p className="mx-auto mt-6 max-w-sm rounded-2xl bg-[#f1f5f7] p-5 text-2xl font-bold text-[#04415f]">{applicationNo}</p></div></div>;
+  return <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6"><p className="text-xs font-bold uppercase tracking-[.18em] text-[#2086b8]">Online admission</p><h1 className="mt-2 text-3xl font-bold text-[#011e2c]">Application for Vocational Training</h1><p className="mt-2 text-sm text-[#010608]/55">Incomplete or incorrect information may lead to rejection. Your progress is saved automatically.</p>
+    <div className="my-7 overflow-x-auto rounded-2xl border bg-white p-4"><div className="flex min-w-[760px] items-center">{steps.map((label, index) => { const number = index + 1; return <div key={label} className="flex flex-1 items-center"><span className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${number < step ? "bg-emerald-600 text-white" : number === step ? "bg-[#04415f] text-white" : "bg-[#e6edf0] text-[#010608]/40"}`}>{number < step ? <Check size={15}/> : number}</span><span className="ml-2 text-xs font-semibold">{label}</span>{number < steps.length && <span className="mx-3 h-px flex-1 bg-[#cdd8de]"/>}</div>; })}</div></div>
+    <div className="rounded-3xl border bg-white p-5 shadow-sm sm:p-8"><div className="mb-5 flex justify-between text-xs"><span>{applicationNo ? `Draft: ${applicationNo}` : "Saved on this device until draft creation"}</span><span className={saveStatus === "Offline" ? "text-amber-700" : "text-emerald-700"}>{saveStatus}</span></div>
+      {step === 1 && <CourseStep courses={courses} data={data} setField={setField}/>} {step === 2 && <IdentityStep data={data} setField={setField}/>} {step === 3 && <FamilyAddressStep data={data} setField={setField}/>} {step === 4 && <EducationStep data={data} setField={setField}/>} {step === 5 && <DocumentsStep documents={documents} data={data} uploading={uploading} uploadFile={uploadFile}/>} {step === 6 && <DeclarationFeeStep data={data} setField={setField} selectedCourse={selectedCourse} feeQrUrl={feeQrUrl} uploading={uploading} uploadFile={uploadFile}/>}
+      {error && <p role="alert" className="mt-5 rounded-xl bg-red-50 p-4 text-sm text-red-700">{error}</p>}<div className="mt-7 flex justify-between"><button type="button" disabled={step === 1 || busy} onClick={() => setStep((s) => s - 1)} className="inline-flex items-center gap-2 rounded-xl border px-5 py-3 text-sm font-bold disabled:opacity-30"><ArrowLeft size={16}/> Back</button><button type="button" disabled={busy} onClick={saveAndContinue} className="inline-flex items-center gap-2 rounded-xl bg-[#04415f] px-6 py-3 text-sm font-bold text-white disabled:opacity-60">{busy && <Loader2 size={16} className="animate-spin"/>}{step === 6 ? "Submit application" : "Save & continue"}<ArrowRight size={16}/></button></div>
+    </div></div>;
 }
 
-type SetField = <K extends keyof WizardData>(key: K, value: WizardData[K]) => void;
+const Heading = ({ title, text }: { title: string; text: string }) => <div className="mb-6"><h2 className="text-xl font-bold text-[#011e2c]">{title}</h2><p className="mt-1 text-sm text-[#010608]/55">{text}</p></div>;
+const Field = ({ label, value, onChange, type = "text", required = false, min, max, pattern, invalid = false }: { label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean; min?: string | number; max?: string | number; pattern?: string; invalid?: boolean }) => <label><span className={labelClass}>{label}{required ? " *" : ""}</span><input className={`${inputClass} ${invalid ? "border-red-500 ring-2 ring-red-500/15" : ""}`} aria-invalid={invalid} type={type} required={required} min={min ?? (type === "number" && label === "Age" ? 18 : undefined)} max={max ?? (type === "number" && label === "Age" ? 120 : type === "date" ? new Date().toISOString().slice(0, 10) : undefined)} pattern={pattern ?? (type === "tel" ? "[0-9+\\-\\s]{10,20}" : label.includes("PIN code") ? "\\d{6}" : label === "Aadhaar number" ? "\\d{12}" : undefined)} value={value} onChange={(e) => onChange(e.target.value)}/></label>;
+const Select = ({ label, value, options, onChange, required = false }: { label: string; value: string; options: string[]; onChange: (v: string) => void; required?: boolean }) => <label><span className={labelClass}>{label}{required ? " *" : ""}</span><select className={inputClass} required={required} value={value} onChange={(e) => onChange(e.target.value)}><option value="">Select</option>{options.map((o) => <option key={o} value={o}>{o.replaceAll("_", " ")}</option>)}</select></label>;
+const Grid = ({ children }: { children: React.ReactNode }) => <div className="grid gap-4 sm:grid-cols-2">{children}</div>;
 
-function StepHeading({ title, description }: { title: string; description: string }) {
-  return <div className="mb-6"><h2 className="text-xl font-bold text-[#011e2c] sm:text-2xl">{title}</h2><p className="mt-1 text-sm text-[#010608]/55">{description}</p></div>;
+function CourseStep({ courses, data, setField }: { courses: CourseOption[]; data: WizardData; setField: SetField }) { return <><Heading title="Course & Student Contact" text="Enter your name surname-first, exactly as printed on the SSC marksheet."/><Grid><label><span className={labelClass}>Course applied for *</span><select className={inputClass} value={data.courseId} onChange={(e) => setField("courseId", e.target.value)}><option value="">Select course</option>{courses.map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}</select></label><Field label="Full name (surname first)" required value={data.name} onChange={(v) => setField("name", v.toUpperCase())}/><Field label="Student mobile" required type="tel" value={data.phone} onChange={(v) => setField("phone", v)}/><Field label="Student email" type="email" value={data.email} onChange={(v) => setField("email", v)}/></Grid></>; }
+function IdentityStep({ data, setField }: { data: WizardData; setField: SetField }) { const birth = data.dateOfBirth ? new Date(`${data.dateOfBirth}T00:00:00`) : null; const age = birth ? today.getFullYear() - birth.getFullYear() - (today.getMonth() < birth.getMonth() || (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate()) ? 1 : 0) : null; return <><Heading title="Personal & Identity Details" text="These details must match the applicant's official documents."/><Grid><Field label="Date of birth" required type="date" value={data.dateOfBirth} onChange={(v) => setField("dateOfBirth", v)}/><Field label="Age (calculated)" value={age === null ? "" : `${Math.max(0, age)} years`} onChange={() => {}}/><Select label="Gender" required value={data.gender} options={["Female", "Male", "Other"]} onChange={(v) => setField("gender", v)}/><Field label="Place of birth" required value={data.placeOfBirth} onChange={(v) => setField("placeOfBirth", v)}/><Field label="Nationality" required value={data.nationality} onChange={(v) => setField("nationality", v)}/><Select label="Domicile" required value={data.domicile} options={["MAHARASHTRA", "OTHER_STATE"]} onChange={(v) => setField("domicile", v)}/><Select label="Blood group" required value={data.bloodGroup} options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]} onChange={(v) => setField("bloodGroup", v)}/><Field label="Aadhaar number" required value={data.aadhaarNumber} onChange={(v) => setField("aadhaarNumber", v.replace(/\D/g, "").slice(0, 12))}/><Select label="Caste / category" value={data.category} options={["OPEN", "OBC", "SC", "ST", "VJNT", "EWS", "OTHER"]} onChange={(v) => setField("category", v)}/></Grid></>; }
+function FamilyAddressStep({ data, setField }: { data: WizardData; setField: SetField }) { return <><Heading title="Parents & Addresses" text="Provide both parents' contact details and the present and permanent addresses."/><h3 className="mb-3 font-bold">Father</h3><Grid><Field label="Father's name" required value={data.fatherName} onChange={(v) => setField("fatherName", v)}/><Field label="Age" type="number" value={data.fatherAge} onChange={(v) => setField("fatherAge", v)}/><Field label="Occupation" value={data.fatherOccupation} onChange={(v) => setField("fatherOccupation", v)}/><Field label="Mobile" required type="tel" value={data.fatherPhone} onChange={(v) => setField("fatherPhone", v)}/><Field label="Email" type="email" value={data.fatherEmail} onChange={(v) => setField("fatherEmail", v)}/></Grid><h3 className="mb-3 mt-6 font-bold">Mother</h3><Grid><Field label="Mother's name" required value={data.motherName} onChange={(v) => setField("motherName", v)}/><Field label="Age" type="number" value={data.motherAge} onChange={(v) => setField("motherAge", v)}/><Field label="Mobile" required type="tel" value={data.motherPhone} onChange={(v) => setField("motherPhone", v)}/><Field label="Email" type="email" value={data.motherEmail} onChange={(v) => setField("motherEmail", v)}/></Grid><AddressFields title="Present address" prefix="" data={data} setField={setField}/><label className="mt-5 flex gap-3 rounded-xl bg-[#edf8fc] p-4 text-sm font-medium"><input type="checkbox" checked={data.permanentSameAsPresent} onChange={(e) => setField("permanentSameAsPresent", e.target.checked)}/>Permanent address is the same as present address</label>{!data.permanentSameAsPresent && <AddressFields title="Permanent address" prefix="permanent" data={data} setField={setField}/>}</>; }
+function AddressFields({ title, prefix, data, setField }: { title: string; prefix: "" | "permanent"; data: WizardData; setField: SetField }) { const key = (name: string) => (prefix ? `permanent${name}` : name[0].toLowerCase() + name.slice(1)) as keyof WizardData; return <div className="mt-6"><h3 className="mb-3 font-bold">{title}</h3><Grid><Field label="Address" required value={String(data[key("AddressLine")])} onChange={(v) => setField(key("AddressLine"), v as never)}/><Field label="City" required value={String(data[key("City")])} onChange={(v) => setField(key("City"), v as never)}/><Field label="District" required value={String(data[key("District")])} onChange={(v) => setField(key("District"), v as never)}/><Field label="State" required value={String(data[key("State")])} onChange={(v) => setField(key("State"), v as never)}/><Field label="PIN code" required value={String(data[key("PinCode")])} onChange={(v) => setField(key("PinCode"), v.replace(/\D/g, "").slice(0, 6) as never)}/><Field label="Residence phone" value={String(data[key("ResidencePhone")])} onChange={(v) => setField(key("ResidencePhone"), v as never)}/></Grid></div>; }
+function SubjectTable({ title, resultType, marks, onChange }: { title: string; resultType: string; marks: SubjectMark[]; onChange: (marks: SubjectMark[]) => void }) {
+  const update = (i: number, key: keyof SubjectMark, value: string) => onChange(marks.map((row, index) => index === i ? { ...row, [key]: value } : row));
+  const add = () => { if (marks.length < 6) onChange([...marks, blankSubject()]); };
+  const remove = (i: number) => onChange(marks.length === 1 ? [blankSubject()] : marks.filter((_, index) => index !== i));
+  const grades = resultType === "GRADES";
+  return <div className="mt-5 overflow-x-auto">
+    <div className="mb-2 flex flex-wrap items-center justify-between gap-3"><p className="text-sm font-bold">{title} subject-wise {grades ? "grades" : "marks"} (optional)</p><button type="button" disabled={marks.length >= 6} onClick={add} className="inline-flex items-center gap-1.5 rounded-lg border border-[#2086b8] px-3 py-2 text-xs font-bold text-[#04415f] disabled:cursor-not-allowed disabled:opacity-40"><Plus size={14}/>Add subject</button></div>
+    <p className="mb-3 text-xs text-[#010608]/50">{grades ? "Enter the grade printed for each subject. Example: English | A2." : "Enter one subject per row. Example: English | 100 | 72."} Up to 6 subjects can be added.</p>
+    <table className="w-full min-w-[600px] text-sm"><thead><tr className="bg-[#edf8fc] text-left"><th className="p-2">Subject name</th>{grades ? <th className="p-2">Grade</th> : <><th className="p-2">Maximum marks</th><th className="p-2">Marks obtained</th></>}<th className="w-14 p-2"><span className="sr-only">Actions</span></th></tr></thead><tbody>{marks.map((row, i) => {
+      const rowStarted = Boolean(row.subject || row.maximum || row.obtained || row.grade);
+      const marksInvalid = !grades && row.obtained !== "" && row.maximum !== "" && Number(row.obtained) > Number(row.maximum);
+      return <tr key={i} className="border-b"><td className="p-1"><input required={rowStarted} aria-label={`${title} subject ${i + 1} name`} placeholder={`Subject ${i + 1} (e.g. English)`} className={inputClass} value={row.subject} onChange={(e) => update(i, "subject", e.target.value)}/></td>{grades ? <td className="p-1"><input required={rowStarted} aria-label={`${title} subject ${i + 1} grade`} placeholder="e.g. A2" className={inputClass} value={row.grade} onChange={(e) => update(i, "grade", e.target.value.toUpperCase())}/></td> : <><td className="p-1"><input required={rowStarted} aria-label={`${title} subject ${i + 1} maximum marks`} placeholder="e.g. 100" type="number" min="1" className={inputClass} value={row.maximum} onChange={(e) => update(i, "maximum", e.target.value)}/></td><td className="p-1"><input required={rowStarted} aria-invalid={marksInvalid} aria-label={`${title} subject ${i + 1} marks obtained`} placeholder="e.g. 72" type="number" min="0" max={row.maximum || undefined} className={`${inputClass} ${marksInvalid ? "border-red-500 ring-2 ring-red-500/15" : ""}`} value={row.obtained} onChange={(e) => update(i, "obtained", e.target.value)}/></td></>}<td className="p-1 text-center"><button type="button" onClick={() => remove(i)} aria-label={`Remove ${title} subject ${i + 1}`} className="rounded-lg p-2 text-red-600 transition hover:bg-red-50"><Trash2 size={16}/></button></td></tr>;
+    })}</tbody></table>
+  </div>;
 }
-
-function CourseContactStep({ courses, data, setField, selectedCourse, inputClass, labelClass }: { courses: CourseOption[]; data: WizardData; setField: SetField; selectedCourse?: CourseOption; inputClass: string; labelClass: string }) {
-  return <div><StepHeading title="Choose Your Course" description="Select a programme and share your contact details so our admissions team can assist you." /><div className="grid gap-4 sm:grid-cols-2">{courses.map((course) => <button key={course.id} type="button" onClick={() => { setField("courseId", course.id); setField("batchId", ""); }} className={`relative overflow-hidden rounded-2xl border-2 p-5 text-left shadow-sm transition-all duration-200 ${data.courseId === course.id ? "border-[#0878ad] bg-[#e5f6fd] shadow-md ring-4 ring-[#2086b8]/15" : "border-[#c6dce6] bg-white hover:-translate-y-0.5 hover:border-[#3ca6ce] hover:shadow-md"}`}><span className={`mb-3 inline-flex rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${data.courseId === course.id ? "bg-[#0878ad] text-white" : "bg-[#e8f4f8] text-[#07577b]"}`}>{data.courseId === course.id ? "Selected" : `${course.durationMonths} month course`}</span><p className="text-base font-extrabold text-[#011e2c]">{course.title}</p><p className="mt-3 font-bold text-[#07577b]">₹{course.fees.toLocaleString("en-IN")}</p><p className="mt-2 text-sm leading-relaxed text-[#294956]">{course.eligibility}</p></button>)}</div>{selectedCourse?.batches.length ? <div className="mt-5"><label className={labelClass}>Preferred batch</label><select className={inputClass} value={data.batchId} onChange={(event) => setField("batchId", event.target.value)}><option value="">Select a batch</option>{selectedCourse.batches.map((batch) => <option key={batch.id} value={batch.id}>{batch.label} — starts {new Date(batch.startDate).toLocaleDateString("en-IN")}</option>)}</select></div> : null}<div className="mt-7 grid gap-4 sm:grid-cols-3"><Field label="Full name *" value={data.name} onChange={(value) => setField("name", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="Mobile number *" value={data.phone} onChange={(value) => setField("phone", value)} inputClass={inputClass} labelClass={labelClass} type="tel" /><Field label="Email" value={data.email} onChange={(value) => setField("email", value)} inputClass={inputClass} labelClass={labelClass} type="email" /></div></div>;
+function EducationStep({ data, setField }: { data: WizardData; setField: SetField }) {
+  const sscMarksInvalid = data.sscResultType === "MARKS" && data.sscMarksObtained !== "" && data.sscMaximumMarks !== "" && Number(data.sscMarksObtained) > Number(data.sscMaximumMarks);
+  const hscMarksInvalid = data.hscResultType === "MARKS" && data.hscMarksObtained !== "" && data.hscMaximumMarks !== "" && Number(data.hscMarksObtained) > Number(data.hscMaximumMarks);
+  const currentYear = new Date().getFullYear();
+  return <><Heading title="Educational Details" text="Select the board and enter marks or grades exactly as shown on the marksheet."/><h3 className="mb-3 font-bold">SSC (10th)</h3><Grid><Field label="Year of passing" required type="number" min={1980} max={currentYear} value={data.passingYear} onChange={(v) => setField("passingYear", v)}/><Field label="School name" required value={data.schoolName} onChange={(v) => setField("schoolName", v)}/><Select label="Board" required value={data.board} options={boardOptions} onChange={(v) => setField("board", v)}/><Field label="Seat / roll number" value={data.seatNumber} onChange={(v) => setField("seatNumber", v)}/><Select label="Result shown as" required value={data.sscResultType} options={["MARKS", "GRADES"]} onChange={(v) => setField("sscResultType", v)}/>{data.sscResultType === "MARKS" && <><Field label="Marks obtained" required type="number" min={0} max={data.sscMaximumMarks || undefined} invalid={sscMarksInvalid} value={data.sscMarksObtained} onChange={(v) => setField("sscMarksObtained", v)}/><Field label="Maximum marks" required type="number" min={1} value={data.sscMaximumMarks} onChange={(v) => setField("sscMaximumMarks", v)}/></>}<Field label={data.sscResultType === "GRADES" ? "Equivalent percentage" : "Percentage"} required type="number" min={0.01} max={100} value={data.percentage} onChange={(v) => setField("percentage", v)}/></Grid><SubjectTable title="SSC" resultType={data.sscResultType} marks={data.sscSubjects} onChange={(v) => setField("sscSubjects", v)}/><label className="mt-4 flex gap-3 rounded-xl bg-[#edf8fc] p-4 text-sm"><input required type="checkbox" checked={data.scienceConfirmed} onChange={(e) => setField("scienceConfirmed", e.target.checked)}/>I confirm Science was one of my SSC subjects.</label><label className="mt-5 flex gap-3 rounded-xl border p-4 text-sm font-bold"><input type="checkbox" checked={data.hscApplicable} onChange={(e) => setField("hscApplicable", e.target.checked)}/>I have completed HSC (12th)</label>{data.hscApplicable && <div className="mt-5"><h3 className="mb-3 font-bold">HSC (12th)</h3><Grid><Field label="Year of passing" required type="number" min={1980} max={currentYear} value={data.hscPassingYear} onChange={(v) => setField("hscPassingYear", v)}/><Field label="School / college" required value={data.hscSchoolName} onChange={(v) => setField("hscSchoolName", v)}/><Select label="Board" required value={data.hscBoard} options={boardOptions} onChange={(v) => setField("hscBoard", v)}/><Select label="Result shown as" required value={data.hscResultType} options={["MARKS", "GRADES"]} onChange={(v) => setField("hscResultType", v)}/>{data.hscResultType === "MARKS" && <><Field label="Marks obtained" required type="number" min={0} max={data.hscMaximumMarks || undefined} invalid={hscMarksInvalid} value={data.hscMarksObtained} onChange={(v) => setField("hscMarksObtained", v)}/><Field label="Maximum marks" required type="number" min={1} value={data.hscMaximumMarks} onChange={(v) => setField("hscMaximumMarks", v)}/></>}<Field label={data.hscResultType === "GRADES" ? "Equivalent percentage" : "Percentage"} required type="number" min={0.01} max={100} value={data.hscPercentage} onChange={(v) => setField("hscPercentage", v)}/></Grid><SubjectTable title="HSC" resultType={data.hscResultType} marks={data.hscSubjects} onChange={(v) => setField("hscSubjects", v)}/></div>}</>;
 }
-
-function PersonalStep({ data, setField, inputClass, labelClass }: { data: WizardData; setField: SetField; inputClass: string; labelClass: string }) {
-  return <div><StepHeading title="Personal & Guardian Details" description="Enter information exactly as it appears on your official documents." /><div className="grid gap-4 sm:grid-cols-2"><Field label="Date of birth *" value={data.dateOfBirth} onChange={(value) => setField("dateOfBirth", value)} inputClass={inputClass} labelClass={labelClass} type="date" /><SelectField label="Gender *" value={data.gender} options={["Male", "Female", "Other"]} onChange={(value) => setField("gender", value)} inputClass={inputClass} labelClass={labelClass} /><div className="sm:col-span-2"><Field label="Residential address *" value={data.addressLine} onChange={(value) => setField("addressLine", value)} inputClass={inputClass} labelClass={labelClass} /></div><Field label="City / Village *" value={data.city} onChange={(value) => setField("city", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="District *" value={data.district} onChange={(value) => setField("district", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="State *" value={data.state} onChange={(value) => setField("state", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="PIN code *" value={data.pinCode} onChange={(value) => setField("pinCode", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="Parent / guardian name *" value={data.guardianName} onChange={(value) => setField("guardianName", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="Relationship" value={data.guardianRelation} onChange={(value) => setField("guardianRelation", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="Guardian mobile *" value={data.guardianPhone} onChange={(value) => setField("guardianPhone", value)} inputClass={inputClass} labelClass={labelClass} type="tel" /><Field label="Emergency contact" value={data.emergencyPhone} onChange={(value) => setField("emergencyPhone", value)} inputClass={inputClass} labelClass={labelClass} type="tel" /></div></div>;
-}
-
-function EducationStep({ data, setField, inputClass, labelClass }: { data: WizardData; setField: SetField; inputClass: string; labelClass: string }) {
-  return <div><StepHeading title="Educational Details" description="Provide your SSC examination information for eligibility verification." /><div className="grid gap-4 sm:grid-cols-2"><Field label="Board *" value={data.board} onChange={(value) => setField("board", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="School name *" value={data.schoolName} onChange={(value) => setField("schoolName", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="Passing year *" value={data.passingYear} onChange={(value) => setField("passingYear", value)} inputClass={inputClass} labelClass={labelClass} type="number" /><Field label="Seat / roll number *" value={data.seatNumber} onChange={(value) => setField("seatNumber", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="Percentage *" value={data.percentage} onChange={(value) => setField("percentage", value)} inputClass={inputClass} labelClass={labelClass} type="number" /><SelectField label="Category" value={data.category} options={["OPEN", "OBC", "SC", "ST", "VJNT", "EWS", "OTHER"]} onChange={(value) => setField("category", value)} inputClass={inputClass} labelClass={labelClass} /></div><label className="mt-5 flex items-start gap-3 rounded-xl border border-[#b8dfea] bg-[#edf8fc] p-4 text-sm font-medium text-[#04415f]"><input type="checkbox" checked={data.scienceConfirmed} onChange={(event) => setField("scienceConfirmed", event.target.checked)} className="mt-1" /><span>I confirm that Science was one of my SSC subjects.</span></label></div>;
-}
-
-function ReviewStep({ data, setField, selectedCourse, documents }: { data: WizardData; setField: SetField; selectedCourse?: CourseOption; documents: UploadedDocument[] }) {
-  const items = [["Course", selectedCourse?.title], ["Student", data.name], ["Mobile", data.phone], ["Date of birth", data.dateOfBirth], ["Address", `${data.addressLine}, ${data.city}, ${data.district}`], ["School", data.schoolName], ["SSC result", `${data.percentage}% (${data.passingYear})`], ["Documents", `${documents.length} uploaded`]];
-  return <div><StepHeading title="Review Your Application" description="Check the information below before proceeding to payment." /><div className="grid gap-3 sm:grid-cols-2">{items.map(([label, value]) => <div key={label} className="rounded-xl bg-[#f1f5f7] p-4"><p className="text-xs uppercase tracking-wide text-[#010608]/40">{label}</p><p className="mt-1 text-sm font-semibold text-[#011e2c]">{value || "—"}</p></div>)}</div><label className="mt-6 flex items-start gap-3 rounded-xl border border-[#b8dfea] bg-[#edf8fc] p-4 text-sm text-[#04415f]"><input type="checkbox" checked={data.declarationAccepted} onChange={(event) => setField("declarationAccepted", event.target.checked)} className="mt-1" /><span>I declare that the information and documents provided are genuine and understand that admission is subject to verification.</span></label></div>;
-}
-
-function PaymentStep({ data, setField, selectedCourse, feeQrUrl, uploading, uploadFile, inputClass, labelClass }: { data: WizardData; setField: SetField; selectedCourse?: CourseOption; feeQrUrl?: string; uploading: string; uploadFile: (file: File, type: string, label: string, payment?: boolean) => void; inputClass: string; labelClass: string }) {
-  return <div><StepHeading title="Payment & Final Submission" description="Scan the QR code, complete payment, and upload the successful transaction screenshot." /><div className="grid gap-6 lg:grid-cols-[300px_1fr]"><div className="rounded-2xl border border-[#b8dfea] bg-[#edf8fc] p-5 text-center"><QrCode size={24} className="mx-auto text-[#04415f]" /><p className="mt-2 text-sm font-bold text-[#011e2c]">Course Fee</p><p className="font-display text-3xl font-bold text-[#04415f]">₹{selectedCourse?.fees.toLocaleString("en-IN")}</p>{feeQrUrl ? <Image src={feeQrUrl} alt="Scan to pay admission fee" width={176} height={176} className="mx-auto mt-4 h-44 w-44 rounded-xl border bg-white p-2" /> : <p className="mt-4 rounded-lg bg-amber-100 p-3 text-xs text-amber-800">Payment QR is not configured. Contact admissions before submitting.</p>}</div><div className="space-y-4"><Field label="UPI transaction / reference number *" value={data.paymentTxnRef} onChange={(value) => setField("paymentTxnRef", value)} inputClass={inputClass} labelClass={labelClass} /><Field label="Payment date *" value={data.paymentDate} onChange={(value) => setField("paymentDate", value)} inputClass={inputClass} labelClass={labelClass} type="date" /><label className={`block rounded-xl border p-5 ${data.paymentProofUrl ? "border-emerald-200 bg-emerald-50" : "border-dashed border-[#8ccfe7] bg-[#f8fafb]"}`}><span className="flex items-center gap-3">{uploading === "PAYMENT_PROOF" ? <Loader2 size={20} className="animate-spin text-[#2086b8]" /> : data.paymentProofUrl ? <CheckCircle2 size={20} className="text-emerald-600" /> : <UploadCloud size={20} className="text-[#2086b8]" />}<span><span className="block text-sm font-bold text-[#011e2c]">Payment screenshot *</span><span className="text-xs text-[#010608]/45">{data.paymentProofUrl ? "Uploaded successfully" : "Choose a clear image or PDF"}</span></span></span><input type="file" accept=".pdf,.png,.jpg,.jpeg,.webp" className="hidden" disabled={Boolean(uploading)} onChange={(event) => { const file = event.target.files?.[0]; if (file) uploadFile(file, "PAYMENT_PROOF", "payment screenshot", true); }} /></label><p className="rounded-xl bg-amber-50 p-4 text-xs leading-relaxed text-amber-800"><strong>Important:</strong> Your payment will remain under review until verified by the admissions team. Keep the original transaction receipt.</p></div></div></div>;
-}
-
-function Field({ label, value, onChange, inputClass, labelClass, type = "text" }: { label: string; value: string; onChange: (value: string) => void; inputClass: string; labelClass: string; type?: string }) {
-  return <label><span className={labelClass}>{label}</span><input type={type} value={value} onChange={(event) => onChange(event.target.value)} className={inputClass} /></label>;
-}
-
-function SelectField({ label, value, options, onChange, inputClass, labelClass }: { label: string; value: string; options: string[]; onChange: (value: string) => void; inputClass: string; labelClass: string }) {
-  return <label><span className={labelClass}>{label}</span><select value={value} onChange={(event) => onChange(event.target.value)} className={inputClass}><option value="">Select</option>{options.map((option) => <option key={option} value={option}>{option}</option>)}</select></label>;
-}
+function DocumentsStep({ documents, data, uploading, uploadFile }: { documents: UploadedDocument[]; data: WizardData; uploading: string; uploadFile: (file: File, type: string, label: string) => void }) { const required = getRequiredAdmissionDocumentTypes(data); return <><Heading title="Upload Documents" text="PDF, JPG, PNG or WebP; maximum 4 MB per file. Four physical photographs may be requested at admission."/><div className="grid gap-3 sm:grid-cols-2">{admissionDocuments.map((definition) => { const existing = documents.find((d) => d.type === definition.type); const isRequired = required.includes(definition.type); return <label key={definition.type} className={`rounded-xl border p-4 ${existing ? "border-emerald-200 bg-emerald-50" : "border-dashed"}`}><span className="flex items-center gap-3">{uploading === definition.type ? <Loader2 className="animate-spin" size={20}/> : existing ? <CheckCircle2 className="text-emerald-600" size={20}/> : <UploadCloud className="text-[#2086b8]" size={20}/>}<span><b className="block text-sm">{definition.label}{isRequired ? " *" : ""}</b><span className="text-xs text-[#010608]/45">{existing?.fileName ?? (isRequired ? "Required" : "If applicable")}</span></span></span><input hidden type="file" accept=".pdf,.png,.jpg,.jpeg,.webp" onChange={(e) => { const file = e.target.files?.[0]; if (file) uploadFile(file, definition.type, definition.label); }}/></label>; })}</div></>; }
+function DeclarationFeeStep({ data, setField, selectedCourse, feeQrUrl, uploading, uploadFile }: { data: WizardData; setField: SetField; selectedCourse?: CourseOption; feeQrUrl?: string; uploading: string; uploadFile: (file: File, type: string, label: string, payment?: boolean) => void }) { return <><Heading title="Declaration, Review & Application Fee" text="Review the summary, accept the declaration, and pay the ₹50 application fee."/><div className="grid gap-3 sm:grid-cols-2">{[["Course", selectedCourse?.title], ["Student", data.name], ["Mobile", data.phone], ["SSC", `${data.percentage}% (${data.passingYear})`], ["Category", data.category], ["Address", `${data.addressLine}, ${data.city}`]].map(([label, value]) => <div key={label} className="rounded-xl bg-[#f1f5f7] p-4"><p className="text-xs uppercase text-[#010608]/40">{label}</p><p className="mt-1 text-sm font-bold">{value || "—"}</p></div>)}</div><label className="mt-5 flex items-start gap-3 rounded-xl border border-[#b8dfea] bg-[#edf8fc] p-4 text-sm leading-relaxed"><input type="checkbox" className="mt-1" checked={data.declarationAccepted} onChange={(e) => setField("declarationAccepted", e.target.checked)}/><span>I declare that the information and documents supplied are genuine. I have read the course details, fee structure, institute rules and disciplinary requirements, and understand that incorrect, misleading or forged information may result in rejection or discontinuation.</span></label><div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]"><div className="rounded-2xl bg-[#edf8fc] p-5 text-center"><QrCode className="mx-auto"/><p className="mt-2 text-sm font-bold">Application fee</p><p className="text-3xl font-bold text-[#04415f]">₹50</p>{feeQrUrl ? <Image src={feeQrUrl} alt="QR code for ₹50 application fee" width={176} height={176} className="mx-auto mt-3 rounded-xl bg-white p-2"/> : <p className="mt-3 text-xs text-amber-800">Payment QR is not configured. Contact admissions.</p>}</div><div className="space-y-4"><Field label="UPI transaction ID" required value={data.paymentTxnRef} onChange={(v) => setField("paymentTxnRef", v)}/><Field label="Payment date" required type="date" value={data.paymentDate} onChange={(v) => setField("paymentDate", v)}/><label className="block rounded-xl border border-dashed p-5"><span className="flex items-center gap-3">{uploading === "PAYMENT_PROOF" ? <Loader2 className="animate-spin"/> : data.paymentProofUrl ? <CheckCircle2 className="text-emerald-600"/> : <UploadCloud/>}<b>Application-fee payment screenshot *</b></span><input hidden type="file" accept=".pdf,.png,.jpg,.jpeg,.webp" onChange={(e) => { const file = e.target.files?.[0]; if (file) uploadFile(file, "PAYMENT_PROOF", "payment screenshot", true); }}/></label></div></div></>; }

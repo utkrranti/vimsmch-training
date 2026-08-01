@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
     const phone = cleanText(body.phone, 20);
     const email = cleanText(body.email, 160);
     const courseId = cleanText(body.courseId, 80);
-    const batchId = cleanText(body.batchId, 80);
 
     if (!name || !phone || !courseId) {
       return NextResponse.json(
@@ -27,11 +26,6 @@ export async function POST(request: NextRequest) {
 
     const course = await prisma.course.findFirst({ where: { id: courseId, isActive: true } });
     if (!course) return NextResponse.json({ error: "Selected course is unavailable." }, { status: 400 });
-
-    if (batchId) {
-      const batch = await prisma.batch.findFirst({ where: { id: batchId, courseId, isActive: true } });
-      if (!batch) return NextResponse.json({ error: "Selected batch is unavailable." }, { status: 400 });
-    }
 
     const ipAddress = getClientIp(request);
     if (ipAddress) {
@@ -54,12 +48,11 @@ export async function POST(request: NextRequest) {
         phone,
         email,
         courseId,
-        batchId,
         contactConsent: true,
         currentStep: 1,
         completionPercent: 15,
         callbackStatus: "NEW_LEAD",
-        paymentAmount: course.fees,
+        paymentAmount: 50,
         ipAddress,
       },
       select: { id: true, applicationNo: true, accessToken: true },
