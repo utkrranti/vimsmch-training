@@ -1,7 +1,7 @@
 type Data = Record<string, unknown>;
 type SubjectRow = { subject?: unknown; maximum?: unknown; obtained?: unknown; grade?: unknown };
 const present = (v: unknown) => typeof v === "string" && v.trim().length > 0;
-const phone = (v: unknown) => typeof v === "string" && /^[0-9+\-\s]{10,20}$/.test(v.trim());
+const phone = (v: unknown) => typeof v === "string" && /^\d{10}$/.test(v.trim());
 const email = (v: unknown) => !present(v) || (typeof v === "string" && /^\S+@\S+\.\S+$/.test(v.trim()));
 const numeric = (v: unknown) => v !== "" && Number.isFinite(Number(v));
 const percent = (v: unknown) => numeric(v) && Number(v) > 0 && Number(v) <= 100;

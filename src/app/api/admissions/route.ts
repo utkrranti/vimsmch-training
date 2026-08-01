@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-    if (!/^[0-9+\-\s]{10,20}$/.test(phone)) {
-      return NextResponse.json({ error: "Enter a valid phone number." }, { status: 400 });
+    if (!/^\d{10}$/.test(phone)) {
+      return NextResponse.json({ error: "Enter a valid 10-digit mobile number." }, { status: 400 });
     }
     if (email && !/^\S+@\S+\.\S+$/.test(email)) {
       return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 });
