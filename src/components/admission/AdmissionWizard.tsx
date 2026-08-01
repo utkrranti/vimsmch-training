@@ -81,7 +81,8 @@ export default function AdmissionWizard({ courses, initialCourseId, feeQrUrl }: 
 
   const validateStep = () => {
     const fieldError = validateAdmissionStep(data as unknown as Record<string, unknown>, step); if (fieldError) return fieldError;
-    if (step === 5) { const present = new Set(documents.filter((item) => item.aiStatus !== "REUPLOAD").map((item) => item.type)); if (requiredTypes.some((type) => !present.has(type))) return "Upload every required document before continuing."; }
+    // TEMP (testing only): `false &&` disables the document requirement so the wizard can be tested past step 5 — remove before launch.
+    if (false && step === 5) { const present = new Set(documents.filter((item) => item.aiStatus !== "REUPLOAD").map((item) => item.type)); if (requiredTypes.some((type) => !present.has(type))) return "Upload every required document before continuing."; }
     if (step === 6 && (!data.declarationAccepted || !data.paymentTxnRef || !data.paymentDate || !data.paymentProofUrl)) return "Accept the declaration and provide the ₹50 application-fee payment details.";
     return "";
   };

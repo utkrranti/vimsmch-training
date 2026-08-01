@@ -115,7 +115,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     } else if (step === 5) {
       const uploadedDocuments = await prisma.admissionDocument.findMany({ where: { applicationId: id }, select: { type: true, aiStatus: true } });
       const uploadedTypes = new Set(uploadedDocuments.filter((document) => document.aiStatus !== "REUPLOAD").map((document) => document.type));
-      if (getRequiredAdmissionDocumentTypes(data).some((type) => !uploadedTypes.has(type))) return NextResponse.json({ error: "Upload all required documents before continuing." }, { status: 400 });
+      // TEMP (testing only): `false &&` disables the document requirement so the wizard can be tested past step 5 — remove before launch.
+      if (false && getRequiredAdmissionDocumentTypes(data).some((type) => !uploadedTypes.has(type))) return NextResponse.json({ error: "Upload all required documents before continuing." }, { status: 400 });
       Object.assign(update, { currentStep: 6, completionPercent: 85 });
     } else if (step === 6) {
       if (data.declarationAccepted !== true) return NextResponse.json({ error: "The declaration must be accepted." }, { status: 400 });
