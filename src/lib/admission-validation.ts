@@ -72,9 +72,6 @@ export function validateAdmissionStep(data: Data, step: number): string {
     }
   } else if (step === 6) {
     if (data.declarationAccepted !== true) return "Accept the declaration before submitting.";
-    if (!present(data.paymentTxnRef) || String(data.paymentTxnRef).trim().length < 4) return "Enter a valid payment transaction reference.";
-    if (!validDate(data.paymentDate)) return "Enter a valid payment date.";
-    if (new Date(`${data.paymentDate}T23:59:59`) > new Date()) return "Payment date cannot be in the future.";
     if (!present(data.paymentProofUrl)) return "Upload the application-fee payment proof.";
   }
   return "";

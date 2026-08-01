@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
         currentStep: 1,
         completionPercent: 15,
         callbackStatus: "NEW_LEAD",
-        paymentAmount: 50,
+        paymentAmount: 100,
         ipAddress,
       },
       select: { id: true, applicationNo: true, accessToken: true },

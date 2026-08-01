@@ -18,7 +18,7 @@ function applicationFields(data: Record<string, unknown>) {
     permanentAddressLine: data.permanentSameAsPresent === true ? cleanText(data.addressLine, 300) : cleanText(data.permanentAddressLine, 300), permanentCity: data.permanentSameAsPresent === true ? cleanText(data.city, 80) : cleanText(data.permanentCity, 80), permanentDistrict: data.permanentSameAsPresent === true ? cleanText(data.district, 80) : cleanText(data.permanentDistrict, 80), permanentState: data.permanentSameAsPresent === true ? cleanText(data.state, 80) : cleanText(data.permanentState, 80), permanentPinCode: data.permanentSameAsPresent === true ? cleanText(data.pinCode, 6) : cleanText(data.permanentPinCode, 6), permanentResidencePhone: data.permanentSameAsPresent === true ? cleanText(data.residencePhone, 20) : cleanText(data.permanentResidencePhone, 20),
     board: cleanText(data.board, 100), schoolName: cleanText(data.schoolName, 180), passingYear: numberOrNull(data.passingYear), seatNumber: cleanText(data.seatNumber, 60), sscResultType: data.sscResultType === "GRADES" ? "GRADES" : "MARKS", sscMarksObtained: numberOrNull(data.sscMarksObtained), sscMaximumMarks: numberOrNull(data.sscMaximumMarks), percentage: numberOrNull(data.percentage), sscSubjects: subjectsOrNull(data.sscSubjects), scienceConfirmed: data.scienceConfirmed === true,
     hscApplicable: data.hscApplicable === true, hscBoard: cleanText(data.hscBoard, 100), hscSchoolName: cleanText(data.hscSchoolName, 180), hscPassingYear: numberOrNull(data.hscPassingYear), hscResultType: data.hscResultType === "GRADES" ? "GRADES" : "MARKS", hscMarksObtained: numberOrNull(data.hscMarksObtained), hscMaximumMarks: numberOrNull(data.hscMaximumMarks), hscPercentage: numberOrNull(data.hscPercentage), hscSubjects: subjectsOrNull(data.hscSubjects),
-    declarationAccepted: data.declarationAccepted === true, paymentTxnRef: cleanText(data.paymentTxnRef, 100), paymentDate: dateOrNull(data.paymentDate), paymentProofUrl: cleanText(data.paymentProofUrl, 500), contactConsent: true,
+    declarationAccepted: data.declarationAccepted === true, paymentProofUrl: cleanText(data.paymentProofUrl, 500), contactConsent: true,
   };
 }
 
@@ -81,7 +81,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         const course = await prisma.course.findFirst({ where: { id: data.courseId, isActive: true } });
         if (course) {
           autosaveUpdate.courseId = course.id;
-          autosaveUpdate.paymentAmount = 50;
+          autosaveUpdate.paymentAmount = 100;
         }
       }
 
@@ -120,14 +120,9 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       Object.assign(update, { currentStep: 6, completionPercent: 85 });
     } else if (step === 6) {
       if (data.declarationAccepted !== true) return NextResponse.json({ error: "The declaration must be accepted." }, { status: 400 });
-      const paymentTxnRef = cleanText(data.paymentTxnRef, 100);
       const paymentProofUrl = cleanText(data.paymentProofUrl, 500);
-      const paymentDate = cleanText(data.paymentDate, 10);
-      if (!paymentTxnRef || !paymentProofUrl || !paymentDate) {
-        return NextResponse.json(
-          { error: "Payment reference, payment date, and screenshot are required." },
-          { status: 400 },
-        );
+      if (!paymentProofUrl) {
+        return NextResponse.json({ error: "Payment screenshot is required." }, { status: 400 });
       }
       if (!paymentProofUrl.includes(`/admissions/${id}/payment_proof-`)) {
         return NextResponse.json({ error: "Invalid payment proof upload." }, { status: 400 });
@@ -142,11 +137,9 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         return NextResponse.json({ error: "Upload all required documents before submitting." }, { status: 400 });
       }
       Object.assign(update, {
-        paymentTxnRef,
-        paymentAmount: 50,
+        paymentAmount: 100,
         declarationAccepted: true,
         paymentProofUrl,
-        paymentDate: new Date(`${paymentDate}T00:00:00.000Z`),
         paymentStatus: "UNDER_REVIEW",
         status: "SUBMITTED",
         callbackStatus: "APPLICATION_SUBMITTED",
