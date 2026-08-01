@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, Home } from "lucide-react";
 
@@ -25,8 +24,6 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isHome = pathname === "/";
-  const headerRef = useRef<HTMLElement>(null);
-  const [headerHeight, setHeaderHeight] = useState(0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -35,68 +32,15 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
-    const update = () => setHeaderHeight(el.offsetHeight);
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
   const overlay = isHome && !scrolled;
 
   return (
     <>
       <header
-        ref={headerRef}
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           overlay ? "bg-transparent" : "bg-white shadow-sm"
         }`}
       >
-        {/* Institute identity strip — shown on every page, above the menu bar */}
-        <div
-          className={`border-b transition-colors duration-300 ${
-            overlay ? "border-white/0" : "border-[#04415f]/10"
-          }`}
-        >
-          <div className="max-w-[1920px] mx-auto flex items-center justify-center gap-2.5 sm:gap-4 px-3 py-2 sm:py-3">
-            <div className="relative shrink-0 flex items-center justify-center h-9 w-9 sm:h-14 sm:w-14">
-              <div className="absolute inset-0 rounded-full p-[2px] sm:p-[3px] bg-[conic-gradient(from_0deg,#22c55e,#2086b8,#22c55e)] animate-spin-slow">
-                <div className="h-full w-full rounded-full bg-white" />
-              </div>
-              <Image
-                src="/images/foundation-logo.png"
-                alt="Dr. Vithalrao Vikhe Patil Foundation"
-                width={200}
-                height={151}
-                className="relative h-6 sm:h-10 w-auto"
-              />
-            </div>
-            <div className="text-center text-[#04415f] leading-tight">
-              <p className="font-display text-[11px] sm:text-base lg:text-lg font-bold">
-                Dr. Vithalrao Vikhe Patil Foundation&apos;s Paramedical Institute
-              </p>
-              <p className="hidden sm:block text-[10px] lg:text-xs font-semibold text-[#04415f]/60 mt-0.5">
-                Affiliated to NCVRT, New Delhi — Registered Number REG/NCVRT/MH/35074/VTC.
-              </p>
-            </div>
-            <div className="relative shrink-0 flex items-center justify-center h-9 w-9 sm:h-14 sm:w-14">
-              <div className="absolute inset-0 rounded-full p-[2px] sm:p-[3px] bg-[conic-gradient(from_0deg,#22c55e,#2086b8,#22c55e)] animate-spin-slow">
-                <div className="h-full w-full rounded-full bg-white" />
-              </div>
-              <Image
-                src="/images/paramedical-institute-logo.png"
-                alt="Paramedical Institute"
-                width={150}
-                height={150}
-                className="relative h-6 sm:h-10 w-auto"
-              />
-            </div>
-          </div>
-        </div>
-
         <div className="relative max-w-[1920px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-4">
           {/* Hamburger menu trigger — mobile only */}
           <button
@@ -140,7 +84,7 @@ export default function Navbar() {
       </header>
 
       {/* Reserve header space on every page except Home, where the hero overlays it */}
-      {!isHome && <div style={{ height: headerHeight }} />}
+      {!isHome && <div className="h-16" />}
 
       {/* Mobile: drawer navigation */}
       <AnimatePresence>
