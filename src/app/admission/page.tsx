@@ -33,9 +33,9 @@ const programmeConsistsOf = [
 ];
 
 const steps = [
-  { icon: ClipboardList, title: "1. Obtain the Admission Form", body: "Obtain the Admission Form from the Paramedical Institute or download it from the website." },
-  { icon: FileEdit, title: "2. Complete the Application", body: "Complete the application form with all required details." },
-  { icon: FileCheck2, title: "3. Submit Application & Documents", body: "Submit the application along with the prescribed documents." },
+  { icon: ClipboardList, title: "1. Fill Up Application Online", body: "Fill up the application form online through the Institute's website." },
+  { icon: FileEdit, title: "2. Pay the Application Fee through UPI and Obtain the Screenshot", body: "Pay the application fee through UPI and obtain the screenshot as proof of payment." },
+  { icon: FileCheck2, title: "3. Upload Documents and Submit the Application", body: "Upload documents and submit the application along with the prescribed details." },
   { icon: UserCheck2, title: "4. Document Verification", body: "Document verification by the Admission Committee." },
   { icon: IndianRupee, title: "5. Fee Payment", body: "Payment of the prescribed admission fee." },
   { icon: BadgeCheck, title: "6. Confirmation & ID Card", body: "Confirmation of admission and issue of Identity Card." },
@@ -85,7 +85,7 @@ export default async function AdmissionPage() {
               <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">Admission &amp; How to Apply</h1>
             </div>
             <Link
-              href="/contact#inquiry"
+              href="/admission/apply"
               className="group flex items-center gap-2 bg-white text-[#04415f] font-semibold px-7 py-3.5 rounded-xl hover:bg-[#e6edf0] transition-all shadow-lg shadow-black/10 hover:shadow-xl hover:-translate-y-0.5 shrink-0"
             >
               Apply Now

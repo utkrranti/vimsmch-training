@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import {
-  LayoutDashboard, BookOpen, MessageSquare, ClipboardList,
+  LayoutDashboard, BookOpen, MessageSquare, ClipboardList, ClipboardCheck,
   Users, Award, UserCog, Settings, CalendarRange, Images, Megaphone, Briefcase, HelpCircle,
 } from "lucide-react";
 
@@ -12,6 +12,7 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/courses", label: "Courses", icon: BookOpen },
   { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
+  { href: "/admin/applications", label: "Applications", icon: ClipboardCheck },
   { href: "/admin/enrollments", label: "Enrollments", icon: ClipboardList },
   { href: "/admin/batches", label: "Batches", icon: CalendarRange },
   { href: "/admin/faculty", label: "Faculty", icon: Users },

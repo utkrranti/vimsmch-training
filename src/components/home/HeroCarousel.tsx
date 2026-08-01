@@ -24,7 +24,7 @@ const slides = [
     description:
       "Affordable one-year job-oriented paramedical courses with practical hospital training at the Paramedical Institute.",
     action: "Apply Now",
-    href: "/admission",
+    href: "/admission/apply",
     position: "object-center",
   },
   {
@@ -48,7 +48,7 @@ const slides = [
     description:
       "Begin a focused healthcare career journey with experienced faculty, structured training, and employment-oriented learning.",
     action: "View Admission Details",
-    href: "/admission",
+    href: "/admission/apply",
     position: "object-center",
   },
 ] as const;

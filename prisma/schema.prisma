@@ -38,6 +38,7 @@ model Course {
 
   inquiries    Inquiry[]
   enrollments  Enrollment[]
+  admissionApplications AdmissionApplication[]
   batches      Batch[]
   galleryItems GalleryItem[]
   placements   Placement[]
@@ -90,8 +91,106 @@ model Batch {
   createdAt DateTime @default(now())
 
   enrollments Enrollment[]
+  admissionApplications AdmissionApplication[]
 
   @@map("batches")
+}
+
+model AdmissionApplication {
+  id                String   @id @default(cuid()) @map("_id")
+  applicationNo     String   @unique
+  accessToken       String   @unique
+  name              String
+  email             String?
+  phone             String
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id])
+  batchId           String?
+  batch              Batch?   @relation(fields: [batchId], references: [id])
+  dateOfBirth       DateTime?
+  gender            String?
+  addressLine       String?
+  city              String?
+  district          String?
+  state             String?
+  pinCode           String?
+  guardianName      String?
+  guardianRelation  String?
+  guardianPhone     String?
+  emergencyPhone    String?
+  board             String?
+  schoolName        String?
+  passingYear       Int?
+  seatNumber        String?
+  percentage        Float?
+  category          String?
+  scienceConfirmed  Boolean  @default(false)
+  currentStep       Int      @default(1)
+  completionPercent Int      @default(15)
+  status            String   @default("DRAFT")
+  callbackStatus    String   @default("NEW_LEAD")
+  assignedTo        String?
+  nextCallbackAt    DateTime?
+  lastContactedAt   DateTime?
+  lastActivityAt    DateTime @default(now())
+  contactConsent    Boolean  @default(false)
+  declarationAccepted Boolean @default(false)
+  paymentStatus     String   @default("NOT_STARTED")
+  paymentAmount     Int?
+  paymentTxnRef     String?
+  paymentDate       DateTime?
+  paymentProofUrl   String?
+  ipAddress         String?
+  submittedAt       DateTime?
+  enrollmentId      String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  documents AdmissionDocument[]
+  followUps AdmissionFollowUp[]
+
+  @@index([status])
+  @@index([callbackStatus])
+  @@index([phone])
+  @@map("admission_applications")
+}
+
+model AdmissionDocument {
+  id            String   @id @default(cuid()) @map("_id")
+  applicationId String
+  application   AdmissionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  type          String
+  label         String
+  fileUrl       String
+  fileName      String
+  status        String   @default("PENDING")
+  adminRemark   String?
+  aiStatus      String?
+  aiScore       Int?
+  aiVisibilityScore Int?
+  aiAuthenticity String?
+  aiSummary     String?
+  aiIssues      String[] @default([])
+  aiCheckedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([applicationId, type])
+  @@map("admission_documents")
+}
+
+model AdmissionFollowUp {
+  id             String   @id @default(cuid()) @map("_id")
+  applicationId  String
+  application    AdmissionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  outcome        String
+  note           String?
+  nextCallbackAt DateTime?
+  createdBy      String
+  createdAt      DateTime @default(now())
+
+  @@index([applicationId])
+  @@map("admission_follow_ups")
 }
 
 model GalleryItem {
