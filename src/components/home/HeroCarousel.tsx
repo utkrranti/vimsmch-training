@@ -96,8 +96,6 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
         priority
       />
 
-      <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/30" />
-      <div className="absolute inset-0 bg-gradient-to-t from-white/55 via-transparent to-white/10" />
       <div className="absolute inset-0 bg-dot-grid text-[#04415f] opacity-[0.04]" />
 
       <div className="relative mx-auto flex h-full min-h-[560px] max-w-7xl flex-col items-center justify-center px-6 py-16 sm:px-12 lg:px-20">

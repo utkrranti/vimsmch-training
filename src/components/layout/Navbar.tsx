@@ -97,41 +97,39 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="max-w-[1920px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 min-w-0">
-            {/* Hamburger menu trigger */}
-            <button
-              onClick={() => setOpen(!open)}
-              className="flex md:hidden items-center gap-2 px-3 py-2 rounded-lg border font-bold text-sm tracking-wide text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0"
-              aria-label="Open menu"
-              aria-expanded={open}
-            >
-              {open ? <X size={20} /> : <Menu size={20} />}
-              MENU
-            </button>
+        <div className="relative max-w-[1920px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-4">
+          {/* Hamburger menu trigger — mobile only */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="flex md:hidden items-center gap-2 px-3 py-2 rounded-lg border font-bold text-sm tracking-wide text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0"
+            aria-label="Open menu"
+            aria-expanded={open}
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+            MENU
+          </button>
 
-            {/* Desktop: link strip is always expanded inline, no toggle needed */}
-            <nav className="hidden md:flex items-center gap-1 min-w-0 overflow-x-auto rounded-lg border border-[#04415f]/20 bg-white/95 backdrop-blur-sm px-1.5 py-1.5 shadow-sm">
-              {navLinks.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
-                    pathname === l.href
-                      ? "text-white bg-[#04415f]"
-                      : "text-[#04415f] hover:bg-[#04415f]/8"
-                  }`}
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          {/* Desktop: link strip is always expanded, horizontally centered in the bar */}
+          <nav className="hidden md:flex items-center gap-1 md:absolute md:left-1/2 md:-translate-x-1/2 max-w-[min(90%,760px)] overflow-x-auto rounded-lg border border-[#04415f]/20 bg-white/95 backdrop-blur-sm px-1.5 py-1.5 shadow-sm">
+            {navLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={`px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
+                  pathname === l.href
+                    ? "text-white bg-[#04415f]"
+                    : "text-[#04415f] hover:bg-[#04415f]/8"
+                }`}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
 
           {!isHome && (
             <Link
               href="/"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-semibold text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-semibold text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0 ml-auto"
               aria-label="Back to Home"
             >
               <Home size={16} />
