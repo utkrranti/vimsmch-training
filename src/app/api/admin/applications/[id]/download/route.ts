@@ -2,7 +2,7 @@ import { get } from "@vercel/blob";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/lib/auth";
-import { createAdmissionFormDocx } from "@/lib/admission-form-docx";
+import { createAdmissionFormPdf } from "@/lib/admission-form-pdf";
 import { prisma } from "@/lib/prisma";
 import { createZip } from "@/lib/zip";
 
@@ -25,7 +25,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   const application = await prisma.admissionApplication.findUnique({ where: { id }, include: { course: { select: { title: true } }, batch: { select: { label: true } }, documents: { orderBy: { createdAt: "asc" } } } });
   if (!application) return NextResponse.json({ error: "Application not found." }, { status: 404 });
   try {
-    const entries = [{ name: `${safeName(application.applicationNo)}-admission-form.docx`, data: createAdmissionFormDocx(application), modifiedAt: new Date() }];
+    const entries: Array<{ name: string; data: Uint8Array; modifiedAt: Date }> = [
+      { name: `${safeName(application.applicationNo)}-admission-form.pdf`, data: await createAdmissionFormPdf(application), modifiedAt: new Date() },
+    ];
     const usedNames = new Set(entries.map(entry => entry.name.toLowerCase()));
     for (const document of application.documents) {
       const original = safeName(document.fileName); let name = `documents/${safeName(document.label)}-${original}`, suffix = 2;

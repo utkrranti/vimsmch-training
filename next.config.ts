@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  serverExternalPackages: ["pdfkit"],
   images: {
     remotePatterns: [
       // Faculty photo URLs are admin-entered and can be any domain.
