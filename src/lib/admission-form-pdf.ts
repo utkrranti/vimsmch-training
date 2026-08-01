@@ -1,4 +1,15 @@
 import PDFDocument from "pdfkit";
+import { readFileSync } from "fs";
+import { join } from "path";
+
+let foundationLogo: Buffer | null = null;
+let instituteLogo: Buffer | null = null;
+try {
+  foundationLogo = readFileSync(join(process.cwd(), "public", "images", "foundation-logo-pdf.png"));
+  instituteLogo = readFileSync(join(process.cwd(), "public", "images", "paramedical-institute-logo-pdf.png"));
+} catch {
+  // Logos are decorative — the form still generates correctly without them.
+}
 
 type Subject = { subject?: string; maximum?: number | string | null; obtained?: number | string | null; grade?: string | null };
 type Admission = Record<string, unknown> & {
@@ -142,6 +153,22 @@ export function createAdmissionFormPdf(a: Admission): Promise<Buffer> {
 
     // Header
     doc.rect(0, 0, doc.page.width, 92).fill(HEADER_FILL);
+
+    const logoSize = 62;
+    const logoTop = 14;
+    const drawLogo = (buffer: Buffer | null, centerX: number) => {
+      if (!buffer) return;
+      const r = logoSize / 2;
+      doc.save();
+      doc.circle(centerX, logoTop + r, r + 2.5).lineWidth(2.5).strokeColor("#22c55e").stroke();
+      doc.circle(centerX, logoTop + r, r).fill("#FFFFFF");
+      doc.circle(centerX, logoTop + r, r - 2).clip();
+      doc.image(buffer, centerX - r, logoTop, { fit: [logoSize, logoSize], align: "center", valign: "center" });
+      doc.restore();
+    };
+    drawLogo(foundationLogo, marginLeft + logoSize / 2 + 6);
+    drawLogo(instituteLogo, doc.page.width - doc.page.margins.right - logoSize / 2 - 6);
+
     doc.fontSize(10).font("Helvetica-Bold").fillColor(ACCENT).text("DR. VITHALRAO VIKHE PATIL FOUNDATION'S", 0, 24, { align: "center" });
     doc.fontSize(21).font("Helvetica-Bold").fillColor(BLUE).text("PARAMEDICAL INSTITUTE", { align: "center" });
     doc.fontSize(8.5).font("Helvetica").fillColor(MUTED).text("Opp. Govt. Milk Dairy, MIDC, Ahilyanagar - 414111", { align: "center" });
