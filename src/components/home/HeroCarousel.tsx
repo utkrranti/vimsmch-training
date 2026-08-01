@@ -42,22 +42,19 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const [phase, setPhase] = useState<"typing" | "deleting">("typing");
-  const [paused, setPaused] = useState(false);
   const [statIndex, setStatIndex] = useState(0);
 
   useEffect(() => {
-    if (paused) return;
     const timer = window.setInterval(() => {
       setStatIndex((i) => (i + 1) % stats.length);
     }, 3200);
     return () => window.clearInterval(timer);
-  }, [paused]);
+  }, []);
 
   const slide = slides[slideIndex];
   const fullText = `${slide.title} ${slide.accent}`;
 
   useEffect(() => {
-    if (paused) return;
     let timeout: number;
 
     if (phase === "typing") {
@@ -77,7 +74,7 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
       }
     }
     return () => window.clearTimeout(timeout);
-  }, [charCount, phase, fullText, paused]);
+  }, [charCount, phase, fullText]);
 
   const visibleText = fullText.slice(0, charCount);
   const titleLen = slide.title.length;
@@ -88,10 +85,6 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
     <section
       className="relative h-screen min-h-[560px] overflow-hidden bg-white text-[#011e2c]"
       aria-label="Paramedical Institute highlights"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
     >
       {/* Single fixed background image */}
       <Image

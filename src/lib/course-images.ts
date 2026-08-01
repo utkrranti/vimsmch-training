@@ -1,5 +1,5 @@
-// Real photos from Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital,
-// mapped by course slug. Falls back to a general hospital photo when a slug isn't listed.
+// Course-relevant clinical photos, mapped by course slug.
+// Falls back to a general hospital photo when a slug isn't listed.
 const COURSE_IMAGES: Record<string, string> = {
   "operation-theatre-assistant": "/images/course-ot-assistant.webp",
   "ecg-technology": "/images/course-ecg.webp",

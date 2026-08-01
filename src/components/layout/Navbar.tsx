@@ -41,22 +41,52 @@ export default function Navbar() {
           overlay ? "bg-transparent" : "bg-white shadow-sm"
         }`}
       >
-        <div className="max-w-[1920px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between">
-          {/* Hamburger menu trigger — primary navigation on every screen size */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg border font-bold text-sm tracking-wide text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors"
-            aria-label="Open menu"
-            aria-expanded={open}
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-            MENU
-          </button>
+        <div className="max-w-[1920px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            {/* Hamburger menu trigger */}
+            <button
+              onClick={() => setOpen(!open)}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border font-bold text-sm tracking-wide text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0"
+              aria-label="Open menu"
+              aria-expanded={open}
+            >
+              {open ? <X size={20} /> : <Menu size={20} />}
+              MENU
+            </button>
+
+            {/* Desktop: inline expanding link strip beside the button */}
+            <AnimatePresence>
+              {open && (
+                <motion.nav
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -8 }}
+                  transition={{ duration: 0.2 }}
+                  className="hidden md:flex items-center gap-1 min-w-0 overflow-x-auto rounded-lg border border-[#04415f]/20 bg-white/95 backdrop-blur-sm px-1.5 py-1.5 shadow-sm"
+                >
+                  {navLinks.map((l) => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      className={`px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
+                        pathname === l.href
+                          ? "text-white bg-[#04415f]"
+                          : "text-[#04415f] hover:bg-[#04415f]/8"
+                      }`}
+                    >
+                      {l.label}
+                    </Link>
+                  ))}
+                </motion.nav>
+              )}
+            </AnimatePresence>
+          </div>
 
           {!isHome && (
             <Link
               href="/"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-semibold text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-semibold text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0"
               aria-label="Back to Home"
             >
               <Home size={16} />
@@ -69,7 +99,7 @@ export default function Navbar() {
       {/* Reserve header space on every page except Home, where the hero overlays it */}
       {!isHome && <div className="h-16" />}
 
-      {/* Drawer navigation — used at every breakpoint */}
+      {/* Mobile: drawer navigation */}
       <AnimatePresence>
         {open && (
           <>
@@ -78,7 +108,7 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-[#011e2c]/40"
+              className="fixed inset-0 z-40 bg-[#011e2c]/40 md:hidden"
               onClick={() => setOpen(false)}
             />
             <motion.div
@@ -86,7 +116,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="fixed inset-y-0 left-0 z-50 w-[85%] max-w-sm overflow-y-auto shadow-2xl"
+              className="fixed inset-y-0 left-0 z-50 w-[85%] max-w-sm overflow-y-auto shadow-2xl md:hidden"
               style={{ background: "linear-gradient(180deg, #04415f 0%, #011e2c 100%)" }}
             >
               <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">
