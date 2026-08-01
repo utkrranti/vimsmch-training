@@ -3,6 +3,13 @@ import { admissionDocuments, cleanText } from "@/lib/admissions";
 import { prisma } from "@/lib/prisma";
 import { validateAdmissionDocument } from "@/lib/document-ai";
 
+function withTimeout<T>(promise: Promise<T>, milliseconds: number) {
+  return Promise.race<T>([
+    promise,
+    new Promise<T>((_, reject) => setTimeout(() => reject(new Error("Automatic document review timed out.")), milliseconds)),
+  ]);
+}
+
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
@@ -32,7 +39,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     await prisma.admissionApplication.update({ where: { id }, data: { lastActivityAt: new Date() } });
 
     try {
-      const ai = await validateAdmissionDocument(fileUrl, fileName, definition.label);
+      const ai = await withTimeout(validateAdmissionDocument(fileUrl, fileName, definition.label), 30_000);
       const reviewed = await prisma.admissionDocument.update({
         where: { id: document.id },
         data: { aiStatus: ai.status, aiScore: ai.score, aiVisibilityScore: ai.visibilityScore, aiAuthenticity: ai.authenticity, aiSummary: ai.summary, aiIssues: ai.issues, aiCheckedAt: new Date() },

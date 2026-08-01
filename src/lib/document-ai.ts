@@ -34,6 +34,7 @@ export async function validateAdmissionDocument(fileUrl: string, fileName: strin
     : { type: "input_image", image_url: `data:${contentType};base64,${encoded}`, detail: "high" };
 
   const response = await fetch("https://api.openai.com/v1/responses", {
+    signal: AbortSignal.timeout(25_000),
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({

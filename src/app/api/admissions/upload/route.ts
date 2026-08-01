@@ -5,6 +5,13 @@ import { prisma } from "@/lib/prisma";
 const allowedContentTypes = new Set(["application/pdf", "image/png", "image/jpeg", "image/webp"]);
 const maximumSize = 4 * 1024 * 1024;
 
+function withTimeout<T>(promise: Promise<T>, milliseconds: number) {
+  return Promise.race<T>([
+    promise,
+    new Promise<T>((_, reject) => setTimeout(() => reject(new Error("Private document storage timed out. Please try again.")), milliseconds)),
+  ]);
+}
+
 export async function POST(request: Request) {
   try {
     const blobToken = process.env.ADMISSION_BLOB_READ_WRITE_TOKEN;
@@ -34,11 +41,11 @@ export async function POST(request: Request) {
     }
 
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
-    const blob = await put(`admissions/${application.id}/${type.toLowerCase()}-${safeName}`, file, {
+    const blob = await withTimeout(put(`admissions/${application.id}/${type.toLowerCase()}-${safeName}`, file, {
       access: "private",
       addRandomSuffix: true,
       token: blobToken,
-    });
+    }), 20_000);
     return NextResponse.json({ success: true, blob });
   } catch (error) {
     console.error("Admission upload failed", error);

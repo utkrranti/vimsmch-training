@@ -151,7 +151,11 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       },
     });
     return NextResponse.json({ success: true, application: updated });
-  } catch {
-    return NextResponse.json({ error: "Unable to save this step. Please try again." }, { status: 500 });
+  } catch (error) {
+    console.error("Unable to update admission application", error);
+    return NextResponse.json({
+      error: "Unable to save this step. Please try again.",
+      ...(process.env.NODE_ENV === "development" && { details: error instanceof Error ? error.message : "Unknown error" }),
+    }, { status: 500 });
   }
 }
