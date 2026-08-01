@@ -54,12 +54,12 @@ export default function Navbar() {
           </button>
 
           {/* Desktop: link strip is always expanded, horizontally centered in the bar */}
-          <nav className="hidden md:flex items-center gap-1 md:absolute md:left-1/2 md:-translate-x-1/2 max-w-[min(90%,760px)] overflow-x-auto rounded-lg border border-[#04415f]/20 bg-white/95 backdrop-blur-sm px-1.5 py-1.5 shadow-sm">
+          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1 md:absolute md:left-1/2 md:-translate-x-1/2 w-max rounded-lg border border-[#04415f]/20 bg-white/95 backdrop-blur-sm px-1.5 py-1.5 shadow-sm">
             {navLinks.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
                   pathname === l.href
                     ? "text-white bg-[#04415f]"
                     : "text-[#04415f] hover:bg-[#04415f]/8"
