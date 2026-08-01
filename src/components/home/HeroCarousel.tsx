@@ -101,44 +101,6 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
       <div className="absolute inset-0 bg-dot-grid text-[#04415f] opacity-[0.04]" />
 
       <div className="relative mx-auto flex h-full min-h-[560px] max-w-7xl flex-col items-center justify-center px-6 py-16 sm:px-12 lg:px-20">
-        <div className="mb-8 flex flex-nowrap items-center justify-center gap-3 sm:gap-6 text-center">
-          <div className="relative shrink-0 flex items-center justify-center h-20 w-20 sm:h-40 sm:w-40">
-            <div className="absolute inset-0 rounded-full p-[3px] sm:p-[4px] bg-[conic-gradient(from_0deg,#22c55e,#2086b8,#22c55e)] shadow-[0_8px_30px_rgba(4,65,95,0.2)] animate-spin-slow">
-              <div className="h-full w-full rounded-full bg-white" />
-            </div>
-            <Image
-              src="/images/foundation-logo.png"
-              alt="Dr. Vithalrao Vikhe Patil Foundation"
-              width={200}
-              height={151}
-              className="relative h-12 sm:h-28 w-auto"
-            />
-          </div>
-          <div className="text-[#04415f]">
-            <p className="font-display text-lg sm:text-4xl 2xl:text-5xl font-bold leading-tight">
-              Dr. Vithalrao Vikhe Patil Foundation&apos;s
-            </p>
-            <p className="font-display text-lg sm:text-4xl 2xl:text-5xl font-bold leading-tight">
-              Paramedical Institute
-            </p>
-            <p className="mt-1.5 hidden sm:block text-sm 2xl:text-base font-semibold text-[#04415f]/70">
-              Affiliated to NCVRT, New Delhi — Registered Number REG/NCVRT/MH/35074/VTC.
-            </p>
-          </div>
-          <div className="relative shrink-0 flex items-center justify-center h-20 w-20 sm:h-40 sm:w-40">
-            <div className="absolute inset-0 rounded-full p-[3px] sm:p-[4px] bg-[conic-gradient(from_0deg,#22c55e,#2086b8,#22c55e)] shadow-[0_8px_30px_rgba(4,65,95,0.2)] animate-spin-slow">
-              <div className="h-full w-full rounded-full bg-white" />
-            </div>
-            <Image
-              src="/images/paramedical-institute-logo.png"
-              alt="Paramedical Institute"
-              width={150}
-              height={150}
-              className="relative h-12 sm:h-28 w-auto"
-            />
-          </div>
-        </div>
-
         <div className="max-w-3xl text-center mx-auto">
           <h1 className="font-display text-3xl font-semibold leading-[1.08] tracking-[-0.02em] text-[#011e2c] sm:text-4xl lg:text-5xl">
             <span className="block min-h-[1.1em]">
