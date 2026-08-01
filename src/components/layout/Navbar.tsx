@@ -1,11 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -23,101 +22,103 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const isHome = pathname === "/";
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const overlay = isHome && !scrolled;
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="relative max-w-[1920px] mx-auto px-2 sm:px-6 h-20 sm:h-28 flex items-center justify-center">
-        {/* Institute identity */}
-        <Link href="/" className="flex min-w-0 items-center gap-1 sm:gap-3 shrink-0">
-          <Image
-            src="/images/foundation-logo.png"
-            alt="Dr. Vithalrao Vikhe Patil Foundation"
-            width={200}
-            height={151}
-            className="h-9 sm:h-20 w-auto shrink-0"
-            priority
-          />
-          <div className="max-w-[760px] text-center text-[#04415f] bg-[#04415f]/6 rounded-xl px-2 sm:px-5 py-1 sm:py-2 border border-[#04415f]/10">
-            <span className="block font-display text-[11px] sm:text-2xl 2xl:text-3xl font-bold leading-tight whitespace-nowrap">
-              Dr. Vithalrao Vikhe Patil Foundation&apos;s
-            </span>
-            <span className="block font-display text-[11px] sm:text-2xl 2xl:text-3xl font-bold leading-tight whitespace-nowrap">
-              Paramedical Institute
-            </span>
-            <span className="mt-1 hidden sm:block text-[9px] md:text-[10px] 2xl:text-[11px] font-bold leading-snug text-[#04415f]/80">
-              Affiliated to National Council of Vocational Research &amp; Training, New Delhi
-              (NCVRT) — Registered Number REG/NCVRT/MH/35074/VTC.
-            </span>
-          </div>
-          <Image
-            src="/images/paramedical-institute-logo.png"
-            alt="Paramedical Institute"
-            width={150}
-            height={150}
-            className="h-9 sm:h-20 w-auto shrink-0"
-            priority
-          />
-        </Link>
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          overlay ? "bg-transparent" : "bg-white shadow-sm"
+        }`}
+      >
+        <div className="max-w-[1920px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between">
+          {/* Hamburger menu trigger — primary navigation on every screen size */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg border font-bold text-sm tracking-wide text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors"
+            aria-label="Open menu"
+            aria-expanded={open}
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+            MENU
+          </button>
 
-        {/* Tablet/mobile toggle */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="xl:hidden absolute right-1 sm:right-6 text-[#04415f] p-2"
-          aria-label="Toggle menu"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-
-      {/* Desktop navigation row */}
-      <div className="hidden xl:block border-t border-[#e6edf0]">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-center gap-2">
-          {navLinks.map((l) => (
+          {!isHome && (
             <Link
-              key={l.href}
-              href={l.href}
-              className={`px-2.5 py-2 text-[13px] font-medium rounded whitespace-nowrap transition-colors ${
-                pathname === l.href
-                  ? "text-[#04415f] font-semibold"
-                  : "text-[#04415f]/80 hover:text-[#2086b8]"
-              }`}
+              href="/"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-semibold text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors"
+              aria-label="Back to Home"
             >
-              {l.label}
+              <Home size={16} />
+              <span className="hidden sm:inline">Home</span>
             </Link>
-          ))}
-        </nav>
-      </div>
+          )}
+        </div>
+      </header>
 
-      {/* Mobile/tablet menu */}
+      {/* Reserve header space on every page except Home, where the hero overlays it */}
+      {!isHome && <div className="h-16" />}
+
+      {/* Drawer navigation — used at every breakpoint */}
       <AnimatePresence>
         {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="xl:hidden border-t border-[#cdd8de] overflow-hidden"
-            style={{ background: "linear-gradient(180deg, #2589b8 0%, #4ab0e0 100%)" }}
-          >
-            <div className="px-4 py-4 space-y-1 max-h-[75vh] overflow-y-auto">
-              {navLinks.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 bg-[#011e2c]/40"
+              onClick={() => setOpen(false)}
+            />
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="fixed inset-y-0 left-0 z-50 w-[85%] max-w-sm overflow-y-auto shadow-2xl"
+              style={{ background: "linear-gradient(180deg, #04415f 0%, #011e2c 100%)" }}
+            >
+              <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">
+                <span className="text-white font-bold text-sm tracking-wide">MENU</span>
+                <button
                   onClick={() => setOpen(false)}
-                  className={`block px-3 py-2.5 text-sm rounded font-medium ${
-                    pathname === l.href
-                      ? "text-white bg-white/20"
-                      : "text-white/80 hover:text-white hover:bg-white/10"
-                  }`}
+                  className="text-white/70 hover:text-white p-1.5"
+                  aria-label="Close menu"
                 >
-                  {l.label}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
+                  <X size={22} />
+                </button>
+              </div>
+              <div className="px-4 py-4 space-y-1">
+                {navLinks.map((l) => (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className={`block px-4 py-3 text-sm rounded-lg font-medium transition-colors ${
+                      pathname === l.href
+                        ? "text-white bg-white/15"
+                        : "text-white/75 hover:text-white hover:bg-white/8"
+                    }`}
+                  >
+                    {l.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

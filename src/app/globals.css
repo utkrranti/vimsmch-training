@@ -103,4 +103,35 @@
     background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
     background-size: 28px 28px;
   }
+
+  /* Continuous horizontal scroll for the stats ticker */
+  .animate-marquee {
+    animation: marquee-scroll 26s linear infinite;
+  }
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+
+  /* Slow clockwise spin, used for the logo ring border */
+  .animate-spin-slow {
+    animation: spin-slow 6s linear infinite;
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
