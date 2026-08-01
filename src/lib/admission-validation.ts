@@ -53,6 +53,8 @@ export function validateAdmissionStep(data: Data, step: number): string {
       if (!numeric(data.sscMaximumMarks) || Number(data.sscMaximumMarks) <= 0) return "SSC maximum marks must be greater than 0.";
       if (!numeric(data.sscMarksObtained) || Number(data.sscMarksObtained) < 0) return "Enter valid SSC marks obtained.";
       if (Number(data.sscMarksObtained) > Number(data.sscMaximumMarks)) return "SSC marks obtained cannot be greater than maximum marks.";
+      const calculated = Number(((Number(data.sscMarksObtained) / Number(data.sscMaximumMarks)) * 100).toFixed(2));
+      if (Math.abs(Number(data.percentage) - calculated) > 0.01) return `SSC percentage must be ${calculated}% based on the entered marks.`;
     }
     const sscError = validateSubjects(data.sscSubjects, data.sscResultType, "SSC"); if (sscError) return sscError;
     if (data.scienceConfirmed !== true) return "Confirm that Science was one of the SSC subjects.";
@@ -63,6 +65,8 @@ export function validateAdmissionStep(data: Data, step: number): string {
         if (!numeric(data.hscMaximumMarks) || Number(data.hscMaximumMarks) <= 0) return "HSC maximum marks must be greater than 0.";
         if (!numeric(data.hscMarksObtained) || Number(data.hscMarksObtained) < 0) return "Enter valid HSC marks obtained.";
         if (Number(data.hscMarksObtained) > Number(data.hscMaximumMarks)) return "HSC marks obtained cannot be greater than maximum marks.";
+        const calculated = Number(((Number(data.hscMarksObtained) / Number(data.hscMaximumMarks)) * 100).toFixed(2));
+        if (Math.abs(Number(data.hscPercentage) - calculated) > 0.01) return `HSC percentage must be ${calculated}% based on the entered marks.`;
       }
       const hscError = validateSubjects(data.hscSubjects, data.hscResultType, "HSC"); if (hscError) return hscError;
     }

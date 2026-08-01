@@ -39,6 +39,11 @@ const today = new Date();
 const inputClass = "w-full rounded-xl border border-[#cdd8de] bg-white px-4 py-3 text-sm text-[#011e2c] outline-none transition focus:border-[#2086b8] focus:ring-2 focus:ring-[#2086b8]/15 invalid:border-red-500 invalid:ring-2 invalid:ring-red-500/15";
 const labelClass = "mb-1.5 block text-xs font-bold uppercase tracking-wide text-[#04415f]/70";
 const boardOptions = ["Maharashtra State Board", "CBSE", "ICSE", "Other"];
+const calculatedPercentage = (obtained: string, maximum: string) => {
+  const obtainedNumber = Number(obtained), maximumNumber = Number(maximum);
+  if (!Number.isFinite(obtainedNumber) || !Number.isFinite(maximumNumber) || obtainedNumber < 0 || maximumNumber <= 0 || obtainedNumber > maximumNumber) return "";
+  return Number(((obtainedNumber / maximumNumber) * 100).toFixed(2)).toString();
+};
 
 export default function AdmissionWizard({ courses, initialCourseId, feeQrUrl }: { courses: CourseOption[]; initialCourseId?: string; feeQrUrl?: string }) {
   const [step, setStep] = useState(1);
@@ -48,7 +53,16 @@ export default function AdmissionWizard({ courses, initialCourseId, feeQrUrl }: 
   const [hydrated, setHydrated] = useState(false); const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving…" | "Offline">("Saved"); const creatingDraft = useRef(false);
   const selectedCourse = useMemo(() => courses.find((course) => course.id === data.courseId), [courses, data.courseId]);
   const requiredTypes = getRequiredAdmissionDocumentTypes(data);
-  const setField: SetField = (key, value) => setData((current) => ({ ...current, [key]: value }));
+  const setField: SetField = (key, value) => setData((current) => {
+    if (key === "percentage" && current.sscResultType === "MARKS") return current;
+    if (key === "hscPercentage" && current.hscResultType === "MARKS") return current;
+    const next = { ...current, [key]: value } as WizardData;
+    if ((key === "sscMarksObtained" || key === "sscMaximumMarks") && next.sscResultType === "MARKS") next.percentage = calculatedPercentage(next.sscMarksObtained, next.sscMaximumMarks);
+    if ((key === "hscMarksObtained" || key === "hscMaximumMarks") && next.hscResultType === "MARKS") next.hscPercentage = calculatedPercentage(next.hscMarksObtained, next.hscMaximumMarks);
+    if (key === "sscResultType" && value === "MARKS") next.percentage = calculatedPercentage(next.sscMarksObtained, next.sscMaximumMarks);
+    if (key === "hscResultType" && value === "MARKS") next.hscPercentage = calculatedPercentage(next.hscMarksObtained, next.hscMaximumMarks);
+    return next;
+  });
 
   /* Restoring one persisted draft requires hydrating its related state values together. */
   /* eslint-disable react-hooks/set-state-in-effect */
@@ -105,7 +119,7 @@ export default function AdmissionWizard({ courses, initialCourseId, feeQrUrl }: 
 }
 
 const Heading = ({ title, text }: { title: string; text: string }) => <div className="mb-6"><h2 className="text-xl font-bold text-[#011e2c]">{title}</h2><p className="mt-1 text-sm text-[#010608]/55">{text}</p></div>;
-const Field = ({ label, value, onChange, type = "text", required = false, min, max, pattern, invalid = false }: { label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean; min?: string | number; max?: string | number; pattern?: string; invalid?: boolean }) => <label><span className={labelClass}>{label}{required ? " *" : ""}</span><input className={`${inputClass} ${invalid ? "border-red-500 ring-2 ring-red-500/15" : ""}`} aria-invalid={invalid} type={type} inputMode={type === "tel" ? "numeric" : undefined} maxLength={type === "tel" ? 10 : undefined} required={required} min={min ?? (type === "number" && label === "Age" ? 18 : undefined)} max={max ?? (type === "number" && label === "Age" ? 120 : type === "date" ? new Date().toISOString().slice(0, 10) : undefined)} step={type === "number" && label.toLowerCase().includes("percentage") ? "0.01" : undefined} pattern={pattern ?? (type === "tel" ? "\\d{10}" : label.includes("PIN code") ? "\\d{6}" : label === "Aadhaar number" ? "\\d{12}" : undefined)} value={value} onChange={(e) => onChange(type === "tel" ? e.target.value.replace(/\D/g, "").slice(0, 10) : e.target.value)}/></label>;
+const Field = ({ label, value, onChange, type = "text", required = false, min, max, pattern, invalid = false }: { label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean; min?: string | number; max?: string | number; pattern?: string; invalid?: boolean }) => <label><span className={labelClass}>{label}{required ? " *" : ""}</span><input className={`${inputClass} ${invalid ? "border-red-500 ring-2 ring-red-500/15" : ""} ${label === "Percentage" ? "cursor-not-allowed bg-[#f1f5f7]" : ""}`} aria-invalid={invalid} type={type} inputMode={type === "tel" ? "numeric" : undefined} maxLength={type === "tel" ? 10 : undefined} readOnly={label === "Percentage"} required={required} min={min ?? (type === "number" && label === "Age" ? 18 : undefined)} max={max ?? (type === "number" && label === "Age" ? 120 : type === "date" ? new Date().toISOString().slice(0, 10) : undefined)} step={type === "number" && label.toLowerCase().includes("percentage") ? "0.01" : undefined} pattern={pattern ?? (type === "tel" ? "\\d{10}" : label.includes("PIN code") ? "\\d{6}" : label === "Aadhaar number" ? "\\d{12}" : undefined)} value={value} onChange={(e) => onChange(type === "tel" ? e.target.value.replace(/\D/g, "").slice(0, 10) : e.target.value)}/></label>;
 const Select = ({ label, value, options, onChange, required = false }: { label: string; value: string; options: string[]; onChange: (v: string) => void; required?: boolean }) => <label><span className={labelClass}>{label}{required ? " *" : ""}</span><select className={inputClass} required={required} value={value} onChange={(e) => onChange(e.target.value)}><option value="">Select</option>{options.map((o) => <option key={o} value={o}>{o.replaceAll("_", " ")}</option>)}</select></label>;
 const Grid = ({ children }: { children: React.ReactNode }) => <div className="grid gap-4 sm:grid-cols-2">{children}</div>;
 
