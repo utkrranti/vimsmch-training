@@ -153,9 +153,11 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return NextResponse.json({ success: true, application: updated });
   } catch (error) {
     console.error("Unable to update admission application", error);
+    const message = error instanceof Error ? error.message : "";
+    const schemaMismatch = message.includes("Unknown argument") || message.includes("Unknown field");
     return NextResponse.json({
-      error: "Unable to save this step. Please try again.",
-      ...(process.env.NODE_ENV === "development" && { details: error instanceof Error ? error.message : "Unknown error" }),
+      error: schemaMismatch ? "The admission service schema is out of date. Please redeploy the latest build." : "Unable to save this step. Please try again.",
+      ...(process.env.NODE_ENV === "development" && { details: message || "Unknown error" }),
     }, { status: 500 });
   }
 }
