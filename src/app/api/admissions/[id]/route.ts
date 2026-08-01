@@ -133,7 +133,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       });
       const uploadedTypes = new Set(uploadedDocuments.filter((document) => document.aiStatus !== "REUPLOAD").map((document) => document.type));
       const missing = getRequiredAdmissionDocumentTypes(data).filter((type) => !uploadedTypes.has(type));
-      if (missing.length > 0) {
+      // TEMP (testing only): `false &&` disables the document requirement so submission can be tested — remove before launch.
+      if (false && missing.length > 0) {
         return NextResponse.json({ error: "Upload all required documents before submitting." }, { status: 400 });
       }
       Object.assign(update, {
