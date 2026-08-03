@@ -85,6 +85,11 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         }
       }
 
+      if (data.batchId && data.batchId !== application.batchId) {
+        const batch = await prisma.batch.findFirst({ where: { id: data.batchId, courseId: data.courseId || application.courseId, isActive: true } });
+        if (batch) autosaveUpdate.batchId = batch.id;
+      }
+
       await prisma.admissionApplication.update({ where: { id }, data: autosaveUpdate });
       return NextResponse.json({ success: true, savedAt: new Date().toISOString() });
     }
@@ -93,10 +98,14 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     if (fieldError) return NextResponse.json({ error: fieldError }, { status: 400 });
 
     if (step === 1) {
-      if (!cleanText(data.name, 120) || !cleanText(data.phone, 20) || !cleanText(data.courseId, 80)) {
-        return NextResponse.json({ error: "Complete course and contact details." }, { status: 400 });
+      if (!cleanText(data.name, 120) || !cleanText(data.phone, 20) || !cleanText(data.courseId, 80) || !cleanText(data.batchId, 80)) {
+        return NextResponse.json({ error: "Complete course, batch, and contact details." }, { status: 400 });
       }
-      Object.assign(update, { currentStep: 2, completionPercent: 25, callbackStatus: "APPLICATION_IN_PROGRESS" });
+      const batch = await prisma.batch.findFirst({ where: { id: data.batchId, courseId: data.courseId, isActive: true } });
+      if (!batch) return NextResponse.json({ error: "Selected batch is unavailable." }, { status: 400 });
+      const takenSeats = await prisma.admissionApplication.count({ where: { batchId: batch.id, status: { in: ["SUBMITTED", "APPROVED", "ENROLLED"] } } });
+      if (takenSeats >= batch.seats) return NextResponse.json({ error: "This batch is now full. Please choose another batch." }, { status: 400 });
+      Object.assign(update, { batchId: batch.id, currentStep: 2, completionPercent: 25, callbackStatus: "APPLICATION_IN_PROGRESS" });
     } else if (step === 2) {
       if (!cleanText(data.dateOfBirth, 10) || !cleanText(data.gender, 30) || !cleanText(data.placeOfBirth, 100) || !cleanText(data.nationality, 80) || !cleanText(data.domicile, 50) || !cleanText(data.bloodGroup, 10) || !/^\d{12}$/.test(cleanText(data.aadhaarNumber, 12) ?? "")) return NextResponse.json({ error: "Complete valid identity details." }, { status: 400 });
       Object.assign(update, applicationFieldsForStep(data, 2, application), { currentStep: 3, completionPercent: 40 });

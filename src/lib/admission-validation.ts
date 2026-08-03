@@ -30,6 +30,7 @@ function validateSubjects(value: unknown, resultType: unknown, level: string) {
 export function validateAdmissionStep(data: Data, step: number): string {
   if (step === 1) {
     if (!present(data.courseId) || !present(data.name)) return "Select a course and enter the student's full name.";
+    if (!present(data.batchId)) return "Select a batch.";
     if (!phone(data.phone)) return "Enter a valid student phone number.";
     if (!email(data.email)) return "Enter a valid student email address.";
   } else if (step === 2) {
