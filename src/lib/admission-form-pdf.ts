@@ -231,7 +231,6 @@ export function createAdmissionFormPdf(a: Admission): Promise<Buffer> {
       ["SSC school", a.schoolName],
       ["SSC board", a.board],
       ["SSC year of passing", a.passingYear],
-      ["SSC seat / roll number", a.seatNumber],
       ["SSC result format", a.sscResultType],
       ["SSC marks", a.sscResultType === "GRADES" ? "Grade based" : `${val(a.sscMarksObtained)} / ${val(a.sscMaximumMarks)}`],
       ["SSC percentage", a.percentage == null ? "—" : `${a.percentage}%`],
