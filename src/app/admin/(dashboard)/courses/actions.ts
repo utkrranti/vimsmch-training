@@ -27,7 +27,7 @@ export async function saveCourse(
     syllabus: { unit: string; topics: string[] }[];
     clinicalPostings: string[];
     outcomes: string[]; tags: string[]; category: string;
-    batchMonths: string[]; isActive: boolean;
+    batchMonths: string[]; isActive: boolean; imageUrl: string;
   }
 ) {
   if (id) {

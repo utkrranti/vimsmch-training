@@ -4,6 +4,8 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2, Save, Loader2 } from "lucide-react";
 import { saveCourse } from "./actions";
+import FileUploadField from "@/components/admin/FileUploadField";
+import Image from "next/image";
 
 type FeeItem = { label: string; amount: number };
 type SyllabusUnit = { unit: string; topics: string[] };
@@ -20,6 +22,7 @@ type CourseFormProps = {
     syllabus: SyllabusUnit[]; clinicalPostings: string[];
     outcomes: string[]; tags: string[];
     category: string; batchMonths: string[]; isActive: boolean;
+    imageUrl: string;
   };
 };
 
@@ -37,6 +40,7 @@ const empty = {
   clinicalPostings: [""],
   outcomes: [""], tags: [""], category: "Allied Health",
   batchMonths: ["July"], isActive: true,
+  imageUrl: "",
 };
 
 export default function CourseForm({ id, initial }: CourseFormProps) {
@@ -141,6 +145,22 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
           <div className="col-span-2">
             <label className={labelCls}>Full Description</label>
             <textarea className={`${inputCls} resize-y min-h-[100px]`} value={form.fullDesc} onChange={(e) => set("fullDesc", e.target.value)} placeholder="Detailed course description..." />
+          </div>
+        </div>
+      </div>
+
+      {/* Image */}
+      <div className={sectionCls}>
+        <h2 className="font-bold text-[#011e2c] text-sm border-b border-[#e6edf0] pb-3">Course Image</h2>
+        <div className="flex items-start gap-5">
+          {form.imageUrl && (
+            <div className="relative h-24 w-36 shrink-0 overflow-hidden rounded-xl border border-[#e6edf0]">
+              <Image src={form.imageUrl} alt="Course image preview" fill sizes="144px" className="object-cover" />
+            </div>
+          )}
+          <div className="flex-1">
+            <FileUploadField value={form.imageUrl} onChange={(url) => set("imageUrl", url)} accept="image/png,image/jpeg,image/webp" />
+            <p className="mt-2 text-xs text-[#010608]/40">Shown on the course card and detail page. Leave empty to use the default photo for this course.</p>
           </div>
         </div>
       </div>

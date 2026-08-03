@@ -40,6 +40,7 @@ export default async function EditCoursePage({ params }: PageProps) {
     category: course.category,
     batchMonths: course.batchMonths as string[],
     isActive: course.isActive,
+    imageUrl: course.imageUrl ?? "",
   };
 
   return (

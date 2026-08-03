@@ -26,6 +26,7 @@ export type CourseRow = {
   category: string;
   batchMonths: string[];
   isActive: boolean;
+  imageUrl: string | null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
