@@ -27,6 +27,16 @@ export async function POST(request: NextRequest) {
     const course = await prisma.course.findFirst({ where: { id: courseId, isActive: true } });
     if (!course) return NextResponse.json({ error: "Selected course is unavailable." }, { status: 400 });
 
+    const alreadyEnrolled = await prisma.admissionApplication.findFirst({
+      where: { phone, status: { in: ["APPROVED", "ENROLLED"] } },
+    });
+    if (alreadyEnrolled) {
+      return NextResponse.json(
+        { error: "This mobile number is already enrolled in a course. Contact admissions if you need to apply for another course." },
+        { status: 400 },
+      );
+    }
+
     const ipAddress = getClientIp(request);
     if (ipAddress) {
       const recent = await prisma.admissionApplication.count({

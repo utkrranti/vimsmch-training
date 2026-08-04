@@ -12,8 +12,8 @@ const subjectsOrNull = (value: unknown) => Array.isArray(value)
 function applicationFields(data: Record<string, unknown>) {
   return {
     name: cleanText(data.name, 120), phone: cleanText(data.phone, 20), email: cleanText(data.email, 160),
-    dateOfBirth: dateOrNull(data.dateOfBirth), gender: cleanText(data.gender, 30), placeOfBirth: cleanText(data.placeOfBirth, 100), nationality: cleanText(data.nationality, 80), domicile: cleanText(data.domicile, 50), bloodGroup: cleanText(data.bloodGroup, 10), aadhaarNumber: cleanText(data.aadhaarNumber, 12), category: cleanText(data.category, 50),
-    fatherName: cleanText(data.fatherName, 120), fatherAge: numberOrNull(data.fatherAge), fatherOccupation: cleanText(data.fatherOccupation, 120), fatherPhone: cleanText(data.fatherPhone, 20), fatherEmail: cleanText(data.fatherEmail, 160), motherName: cleanText(data.motherName, 120), motherAge: numberOrNull(data.motherAge), motherPhone: cleanText(data.motherPhone, 20), motherEmail: cleanText(data.motherEmail, 160),
+    dateOfBirth: dateOrNull(data.dateOfBirth), gender: cleanText(data.gender, 30), placeOfBirth: cleanText(data.placeOfBirth, 100), nationality: cleanText(data.nationality, 80), domicile: cleanText(data.domicile, 50), bloodGroup: cleanText(data.bloodGroup, 10), aadhaarNumber: cleanText(data.aadhaarNumber, 12), category: cleanText(data.category, 50), religion: cleanText(data.religion, 50),
+    fatherName: cleanText(data.fatherName, 120), fatherAge: numberOrNull(data.fatherAge), fatherOccupation: cleanText(data.fatherOccupation, 120), fatherAnnualIncome: numberOrNull(data.fatherAnnualIncome), fatherPhone: cleanText(data.fatherPhone, 20), fatherEmail: cleanText(data.fatherEmail, 160), motherName: cleanText(data.motherName, 120), motherAge: numberOrNull(data.motherAge), motherPhone: cleanText(data.motherPhone, 20), motherEmail: cleanText(data.motherEmail, 160),
     addressLine: cleanText(data.addressLine, 300), city: cleanText(data.city, 80), district: cleanText(data.district, 80), state: cleanText(data.state, 80), pinCode: cleanText(data.pinCode, 6), residencePhone: cleanText(data.residencePhone, 20), permanentSameAsPresent: data.permanentSameAsPresent === true,
     permanentAddressLine: data.permanentSameAsPresent === true ? cleanText(data.addressLine, 300) : cleanText(data.permanentAddressLine, 300), permanentCity: data.permanentSameAsPresent === true ? cleanText(data.city, 80) : cleanText(data.permanentCity, 80), permanentDistrict: data.permanentSameAsPresent === true ? cleanText(data.district, 80) : cleanText(data.permanentDistrict, 80), permanentState: data.permanentSameAsPresent === true ? cleanText(data.state, 80) : cleanText(data.permanentState, 80), permanentPinCode: data.permanentSameAsPresent === true ? cleanText(data.pinCode, 6) : cleanText(data.permanentPinCode, 6), permanentResidencePhone: data.permanentSameAsPresent === true ? cleanText(data.residencePhone, 20) : cleanText(data.permanentResidencePhone, 20),
     board: cleanText(data.board, 100), schoolName: cleanText(data.schoolName, 180), passingYear: numberOrNull(data.passingYear), sscResultType: data.sscResultType === "GRADES" ? "GRADES" : "MARKS", sscMarksObtained: numberOrNull(data.sscMarksObtained), sscMaximumMarks: numberOrNull(data.sscMaximumMarks), percentage: numberOrNull(data.percentage), sscSubjects: subjectsOrNull(data.sscSubjects), scienceConfirmed: data.scienceConfirmed === true,
@@ -23,8 +23,8 @@ function applicationFields(data: Record<string, unknown>) {
 }
 
 const contactKeys = ["name", "phone", "email", "contactConsent"] as const;
-const identityKeys = ["dateOfBirth", "gender", "placeOfBirth", "nationality", "domicile", "bloodGroup", "aadhaarNumber", "category"] as const;
-const familyAddressKeys = ["fatherName", "fatherAge", "fatherOccupation", "fatherPhone", "fatherEmail", "motherName", "motherAge", "motherPhone", "motherEmail", "addressLine", "city", "district", "state", "pinCode", "residencePhone", "permanentSameAsPresent", "permanentAddressLine", "permanentCity", "permanentDistrict", "permanentState", "permanentPinCode", "permanentResidencePhone"] as const;
+const identityKeys = ["dateOfBirth", "gender", "placeOfBirth", "nationality", "domicile", "bloodGroup", "aadhaarNumber", "category", "religion"] as const;
+const familyAddressKeys = ["fatherName", "fatherAge", "fatherOccupation", "fatherAnnualIncome", "fatherPhone", "fatherEmail", "motherName", "motherAge", "motherPhone", "motherEmail", "addressLine", "city", "district", "state", "pinCode", "residencePhone", "permanentSameAsPresent", "permanentAddressLine", "permanentCity", "permanentDistrict", "permanentState", "permanentPinCode", "permanentResidencePhone"] as const;
 const educationKeys = ["board", "schoolName", "passingYear", "sscResultType", "sscMarksObtained", "sscMaximumMarks", "percentage", "sscSubjects", "scienceConfirmed", "hscApplicable", "hscBoard", "hscSchoolName", "hscPassingYear", "hscResultType", "hscMarksObtained", "hscMaximumMarks", "hscPercentage", "hscSubjects"] as const;
 
 function applicationFieldsForStep(data: Record<string, unknown>, step: number, application: { name: string; phone: string; email: string | null }) {
@@ -124,8 +124,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     } else if (step === 5) {
       const uploadedDocuments = await prisma.admissionDocument.findMany({ where: { applicationId: id }, select: { type: true, aiStatus: true } });
       const uploadedTypes = new Set(uploadedDocuments.filter((document) => document.aiStatus !== "REUPLOAD").map((document) => document.type));
-      // TEMP (testing only): `false &&` disables the document requirement so the wizard can be tested past step 5 — remove before launch.
-      if (false && getRequiredAdmissionDocumentTypes(data).some((type) => !uploadedTypes.has(type))) return NextResponse.json({ error: "Upload all required documents before continuing." }, { status: 400 });
+      if (getRequiredAdmissionDocumentTypes(data).some((type) => !uploadedTypes.has(type))) return NextResponse.json({ error: "Upload all required documents before continuing." }, { status: 400 });
       Object.assign(update, { currentStep: 6, completionPercent: 85 });
     } else if (step === 6) {
       if (data.declarationAccepted !== true) return NextResponse.json({ error: "The declaration must be accepted." }, { status: 400 });
@@ -142,8 +141,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       });
       const uploadedTypes = new Set(uploadedDocuments.filter((document) => document.aiStatus !== "REUPLOAD").map((document) => document.type));
       const missing = getRequiredAdmissionDocumentTypes(data).filter((type) => !uploadedTypes.has(type));
-      // TEMP (testing only): `false &&` disables the document requirement so submission can be tested — remove before launch.
-      if (false && missing.length > 0) {
+      if (missing.length > 0) {
         return NextResponse.json({ error: "Upload all required documents before submitting." }, { status: 400 });
       }
       Object.assign(update, {

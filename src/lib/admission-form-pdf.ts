@@ -199,6 +199,7 @@ export function createAdmissionFormPdf(a: Admission): Promise<Buffer> {
       ["Blood group", a.bloodGroup],
       ["Aadhaar number", a.aadhaarNumber],
       ["Caste / category", a.category],
+      ["Religion", a.religion],
       ["Contact consent", yesNo(a.contactConsent)],
     ]);
 
@@ -207,6 +208,7 @@ export function createAdmissionFormPdf(a: Admission): Promise<Buffer> {
       ["Father's name", a.fatherName],
       ["Father's age", a.fatherAge],
       ["Father's occupation", a.fatherOccupation],
+      ["Father's annual income", a.fatherAnnualIncome != null ? `Rs. ${a.fatherAnnualIncome}` : null],
       ["Father's mobile", a.fatherPhone],
       ["Father's email", a.fatherEmail],
       ["Mother's name", a.motherName],

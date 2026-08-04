@@ -83,20 +83,12 @@ export default async function AboutPage() {
               </span>
               <h2 className="text-3xl font-bold text-[#011e2c] mb-4 leading-snug">
                 Dr. Vithalrao Vikhe Patil Foundation&apos;s<br />
-                Vocational Training Centre
+                Paramedical Institute
               </h2>
               <div className="w-14 h-0.5 bg-[#2086b8] mb-6" />
               <p className="text-[#010608]/65 text-sm leading-relaxed mb-6">
                 {s["about.mission"]}
               </p>
-              <a
-                href="https://vimsmch.edu.in"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#04415f] hover:bg-[#011e2c] text-white text-sm font-semibold px-6 py-3 rounded-lg transition-colors"
-              >
-                Visit Main Website →
-              </a>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {quickFacts.map((c) => (

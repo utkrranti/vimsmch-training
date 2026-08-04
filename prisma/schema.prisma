@@ -135,6 +135,7 @@ model AdmissionApplication {
   fatherName        String?
   fatherAge         Int?
   fatherOccupation  String?
+  fatherAnnualIncome Int?
   fatherPhone       String?
   fatherEmail       String?
   motherName        String?
@@ -160,6 +161,7 @@ model AdmissionApplication {
   hscResultType     String?  @default("MARKS")
   hscSubjects       Json?
   category          String?
+  religion          String?
   scienceConfirmed  Boolean  @default(false)
   currentStep       Int      @default(1)
   completionPercent Int      @default(15)
