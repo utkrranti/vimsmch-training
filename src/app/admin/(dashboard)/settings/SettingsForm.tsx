@@ -5,7 +5,7 @@ import { Save, Loader2, CheckCircle } from "lucide-react";
 import { saveSettings } from "./actions";
 import FileUploadField from "@/components/admin/FileUploadField";
 
-type Field = { key: string; label: string; placeholder?: string; multiline?: boolean; file?: boolean; accept?: string };
+type Field = { key: string; label: string; placeholder?: string; multiline?: boolean; file?: boolean; accept?: string; type?: string };
 type Group = { title: string; description?: string; fields: Field[] };
 
 const GROUPS: Group[] = [
@@ -45,10 +45,11 @@ const GROUPS: Group[] = [
   },
   {
     title: "Admission",
-    description: "Downloadable admission form and fee-payment QR code, shown on the Admission page. Leave blank to hide.",
+    description: "Downloadable admission form and fee-payment QR code, shown on the Admission page. Leave blank to hide. The last date closes new applications, document uploads, and final submission once it has passed.",
     fields: [
       { key: "admission.formUrl", label: "Admission Form (PDF)", file: true, accept: "application/pdf" },
       { key: "admission.feeQrUrl", label: "Fee Payment QR Code (image)", file: true, accept: "image/*" },
+      { key: "admission.lastDate", label: "Last Date for Application", type: "date" },
     ],
   },
   {
@@ -121,6 +122,7 @@ export default function SettingsForm({ initial }: { initial: Record<string, stri
                   />
                 ) : (
                   <input
+                    type={f.type ?? "text"}
                     className={inputCls}
                     value={values[f.key] ?? ""}
                     onChange={(e) => set(f.key, e.target.value)}

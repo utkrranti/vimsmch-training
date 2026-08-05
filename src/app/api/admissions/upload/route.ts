@@ -1,6 +1,7 @@
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { isAdmissionClosed, ADMISSION_CLOSED_MESSAGE } from "@/lib/admission-deadline";
 
 const allowedContentTypes = new Set(["application/pdf", "image/png", "image/jpeg", "image/webp"]);
 const maximumSize = 4 * 1024 * 1024;
@@ -14,6 +15,8 @@ function withTimeout<T>(promise: Promise<T>, milliseconds: number) {
 
 export async function POST(request: Request) {
   try {
+    if (await isAdmissionClosed()) return NextResponse.json({ error: ADMISSION_CLOSED_MESSAGE }, { status: 403 });
+
     const blobToken = process.env.ADMISSION_BLOB_READ_WRITE_TOKEN;
     if (!blobToken) return NextResponse.json({ error: "Private admission storage is not configured." }, { status: 503 });
 

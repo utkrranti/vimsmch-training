@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanText, makeApplicationNumber } from "@/lib/admissions";
 import { getClientIp } from "@/lib/ratelimit";
+import { isAdmissionClosed, ADMISSION_CLOSED_MESSAGE } from "@/lib/admission-deadline";
 
 export async function POST(request: NextRequest) {
   try {
+    if (await isAdmissionClosed()) return NextResponse.json({ error: ADMISSION_CLOSED_MESSAGE }, { status: 403 });
+
     const body = await request.json();
     const name = cleanText(body.name, 120);
     const phone = cleanText(body.phone, 20);

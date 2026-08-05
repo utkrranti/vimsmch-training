@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, Home } from "lucide-react";
+import { Menu, X, Home, ChevronDown } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -19,10 +19,19 @@ const navLinks = [
   { href: "/faq", label: "FAQ" },
 ];
 
+const importantLinks = [
+  { href: "https://drvpf.org", label: "Dr. Vithalrao Vikhe Patil Foundation" },
+  { href: "https://www.vimsmch.edu.in/", label: "Medical College & Hospital" },
+  { href: "https://msbsvet.edu.in/", label: "MSBSVET" },
+  { href: "https://www.ncvrtindia.org/", label: "NCVRT" },
+];
+
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [linksOpen, setLinksOpen] = useState(false);
+  const linksRef = useRef<HTMLDivElement>(null);
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -31,6 +40,13 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!linksOpen) return;
+    const onClick = (e: MouseEvent) => { if (linksRef.current && !linksRef.current.contains(e.target as Node)) setLinksOpen(false); };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [linksOpen]);
 
   const overlay = isHome && !scrolled;
 
@@ -68,6 +84,40 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
+            <div className="relative" ref={linksRef}>
+              <button
+                onClick={() => setLinksOpen((v) => !v)}
+                className="flex items-center gap-1 px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors text-[#04415f] hover:bg-[#04415f]/8"
+                aria-expanded={linksOpen}
+              >
+                Important Links
+                <ChevronDown size={14} className={`transition-transform ${linksOpen ? "rotate-180" : ""}`} />
+              </button>
+              <AnimatePresence>
+                {linksOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-0 top-full mt-2 w-72 rounded-xl border border-[#04415f]/15 bg-white shadow-lg p-2 z-50"
+                  >
+                    {importantLinks.map((l) => (
+                      <a
+                        key={l.href}
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setLinksOpen(false)}
+                        className="block px-3 py-2.5 rounded-lg text-sm font-medium text-[#04415f] hover:bg-[#04415f]/8 transition-colors"
+                      >
+                        {l.label}
+                      </a>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </nav>
 
           {!isHome && (
@@ -130,6 +180,19 @@ export default function Navbar() {
                   >
                     {l.label}
                   </Link>
+                ))}
+                <p className="px-4 pt-4 pb-1 text-xs font-bold uppercase tracking-wide text-white/40">Important Links</p>
+                {importantLinks.map((l) => (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setOpen(false)}
+                    className="block px-4 py-3 text-sm rounded-lg font-medium text-white/75 hover:text-white hover:bg-white/8 transition-colors"
+                  >
+                    {l.label}
+                  </a>
                 ))}
               </div>
             </motion.div>

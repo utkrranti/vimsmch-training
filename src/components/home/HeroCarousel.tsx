@@ -121,7 +121,13 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
               Paramedical Institute
             </p>
             <p className="mt-1.5 hidden sm:block text-sm 2xl:text-base font-semibold text-[#04415f]/70">
-              Affiliated to Maharashtra State Board of Vocational Education &amp; Training (MSBSVET) and National Council for Vocational Research &amp; Training (NCVRT), New Delhi — Reg. No. REG/NCVRT/MH/35074/VTC.
+              Affiliated to
+            </p>
+            <p className="hidden sm:block text-sm 2xl:text-base font-semibold text-[#04415f]/70">
+              Maharashtra State Board of Vocational Education &amp; Training (MSBSVET)
+            </p>
+            <p className="hidden sm:block text-sm 2xl:text-base font-semibold text-[#04415f]/70">
+              National Council for Vocational and Research Training (NCVRT), New Delhi — Reg. No. REG/NCVRT/MH/35074/VTC.
             </p>
           </div>
           <div className="relative shrink-0 flex items-center justify-center h-20 w-20 sm:h-40 sm:w-40">
