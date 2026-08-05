@@ -314,12 +314,23 @@ model Certificate {
 model AdminUser {
   id        String   @id @default(cuid()) @map("_id")
   email     String   @unique
-  password  String
+  password  String?
   name      String
   role      String   @default("EDITOR")
   createdAt DateTime @default(now())
 
   @@map("admin_users")
+}
+
+model AdminOtp {
+  id        String   @id @default(cuid()) @map("_id")
+  email     String
+  code      String
+  expiresAt DateTime
+  consumed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("admin_otps")
 }
 
 model Setting {

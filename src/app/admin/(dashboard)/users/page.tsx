@@ -23,7 +23,7 @@ export default async function AdminUsersPage() {
         <ShieldCheck size={18} className="text-[#04415f] shrink-0 mt-0.5" />
         <p className="text-xs text-[#010608]/65 leading-relaxed">
           Admin accounts can only be created via the database seed script (<code className="bg-white border border-[#e6edf0] rounded px-1.5 py-0.5 font-mono text-[11px]">npm run db:seed-admin</code>).
-          Password reset must also be done from the server. This keeps credentials out of the browser.
+          Sign-in uses a one-time code emailed to the account&apos;s address — there is no password to manage or reset.
         </p>
       </div>
 

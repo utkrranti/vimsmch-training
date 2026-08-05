@@ -130,6 +130,17 @@ export function inquiryReplyHtml(name: string, courseName: string | null, replyM
   `, `Reply from VIMSMCH regarding your enquiry`);
 }
 
+export function adminOtpHtml(name: string, code: string) {
+  return layout(`
+    <h1>Your admin login code</h1>
+    <p>Hi ${name}, use the code below to sign in to the VIMSMCH admin portal. It expires in 10 minutes.</p>
+    <div style="text-align:center;margin:28px 0;">
+      <span style="display:inline-block;background:#f1f5f7;border:1px solid #e6edf0;border-radius:12px;padding:16px 32px;font-size:32px;font-weight:700;letter-spacing:10px;color:#011e2c;">${code}</span>
+    </div>
+    <p style="font-size:12px;opacity:0.5;">If you did not request this code, you can safely ignore this email.</p>
+  `, `Your admin login code is ${code}`);
+}
+
 // ─── Send helper ──────────────────────────────────────────────────────────────
 export async function sendEmail({
   to,
