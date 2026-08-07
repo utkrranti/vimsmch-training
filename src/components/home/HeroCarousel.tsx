@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight, Download, GraduationCap, Clock3, BedDouble, CalendarCheck } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const slides = [
@@ -27,13 +27,6 @@ const slides = [
   },
 ] as const;
 
-const stats = [
-  { icon: GraduationCap, value: "5", label: "Certificate Courses", sub: "One-Year Programmes" },
-  { icon: Clock3, value: "1 Year", label: "Course Duration", sub: "Theory + Practical + Clinical" },
-  { icon: BedDouble, value: "800+", label: "Bed Teaching Hospital", sub: "Hands-On Clinical Training" },
-  { icon: CalendarCheck, value: "2026", label: "First Batch", sub: "Admissions Open Now" },
-] as const;
-
 type HeroCarouselProps = {
   prospectusUrl?: string;
 };
@@ -42,14 +35,6 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const [phase, setPhase] = useState<"typing" | "deleting">("typing");
-  const [statIndex, setStatIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setStatIndex((i) => (i + 1) % stats.length);
-    }, 3200);
-    return () => window.clearInterval(timer);
-  }, []);
 
   const slide = slides[slideIndex];
   const fullText = `${slide.title} ${slide.accent}`;
@@ -189,32 +174,6 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
               )}
             </motion.div>
           </AnimatePresence>
-
-          <div className="mt-10 flex justify-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`stat-${statIndex}`}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-3 rounded-2xl border border-[#04415f]/12 bg-white/75 px-5 py-3 backdrop-blur-md shadow-sm"
-              >
-                {(() => {
-                  const Stat = stats[statIndex];
-                  const Icon = Stat.icon;
-                  return (
-                    <>
-                      <Icon size={20} className="shrink-0 text-[#2086b8]" />
-                      <span className="font-display text-xl font-bold text-[#04415f]">{Stat.value}</span>
-                      <span className="text-sm font-semibold text-[#011e2c]">{Stat.label}</span>
-                      <span className="hidden sm:inline text-xs text-[#04415f]/55">— {Stat.sub}</span>
-                    </>
-                  );
-                })()}
-              </motion.div>
-            </AnimatePresence>
-          </div>
         </div>
       </div>
 
