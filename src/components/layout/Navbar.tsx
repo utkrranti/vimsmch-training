@@ -128,7 +128,7 @@ export default function Navbar() {
           {!isHome && (
             <Link
               href="/"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-semibold text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0 ml-auto"
+              className="flex md:hidden items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-semibold text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0 ml-auto"
               aria-label="Back to Home"
             >
               <Home size={16} />
