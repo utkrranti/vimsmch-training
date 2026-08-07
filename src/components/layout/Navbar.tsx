@@ -55,7 +55,7 @@ export default function Navbar() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           overlay ? "bg-transparent" : "bg-white shadow-sm"
-        }`}
+        } md:bg-gradient-to-r md:from-[#04415f]/90 md:via-[#2086b8]/80 md:to-[#04415f]/90 md:backdrop-blur-lg md:shadow-lg md:border-b md:border-white/10`}
       >
         <div className="relative max-w-[1920px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-4">
           {/* Hamburger menu trigger — mobile only */}
@@ -69,25 +69,30 @@ export default function Navbar() {
             MENU
           </button>
 
-          {/* Desktop: link strip is always expanded, horizontally centered in the bar */}
-          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1 md:absolute md:left-1/2 md:-translate-x-1/2 w-max rounded-lg border border-[#04415f]/20 bg-white/95 backdrop-blur-sm px-1.5 py-1.5 shadow-sm">
+          {/* Desktop: link strip spans the full header width */}
+          <nav className="hidden md:flex md:flex-1 items-center justify-center gap-0.5 lg:gap-1">
             {navLinks.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 className={`px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
                   pathname === l.href
-                    ? "text-white bg-[#04415f]"
-                    : "text-[#04415f] hover:bg-[#04415f]/8"
+                    ? "text-white bg-white/20"
+                    : "text-white/90 hover:bg-white/15 hover:text-white"
                 }`}
               >
                 {l.label}
               </Link>
             ))}
-            <div className="relative" ref={linksRef}>
+            <div
+              className="relative"
+              ref={linksRef}
+              onMouseEnter={() => setLinksOpen(true)}
+              onMouseLeave={() => setLinksOpen(false)}
+            >
               <button
                 onClick={() => setLinksOpen((v) => !v)}
-                className="flex items-center gap-1 px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors text-[#04415f] hover:bg-[#04415f]/8"
+                className="flex items-center gap-1 px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors text-white/90 hover:bg-white/15 hover:text-white"
                 aria-expanded={linksOpen}
               >
                 Important Links
@@ -100,7 +105,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-0 top-full mt-2 w-72 rounded-xl border border-[#04415f]/15 bg-white shadow-lg p-2 z-50"
+                    className="absolute left-0 top-full w-72 rounded-xl border border-[#04415f]/15 bg-white shadow-lg p-2 z-50"
                   >
                     {importantLinks.map((l) => (
                       <a

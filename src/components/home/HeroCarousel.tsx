@@ -83,7 +83,7 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
 
   return (
     <section
-      className="relative h-screen min-h-[560px] overflow-hidden bg-white text-[#011e2c]"
+      className="relative h-[80vh] min-h-[560px] overflow-hidden bg-white text-[#011e2c]"
       aria-label="Paramedical Institute highlights"
     >
       {/* Single fixed background image */}

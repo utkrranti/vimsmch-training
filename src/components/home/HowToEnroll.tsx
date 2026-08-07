@@ -16,7 +16,7 @@ const steps = [
   },
   {
     num: "03",
-    title: "Confirm &amp; Join",
+    title: "Confirm & Join",
     desc: "Visit the admissions office, complete documentation, pay the applicable fee, and join the next available batch.",
     cta: null,
   },

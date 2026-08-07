@@ -6,36 +6,43 @@ const reasons = [
     icon: Clock,
     title: "One-Year Certificate Courses",
     desc: "Job-oriented programmes designed to make you employment-ready in one year.",
+    color: "#04415f",
   },
   {
     icon: Building2,
     title: "Practical Training in an 800-Bedded Multi-Specialty Teaching Hospital",
     desc: "Hands-on clinical exposure inside a real, functioning hospital — not just a classroom.",
+    color: "#059652",
   },
   {
     icon: GraduationCap,
     title: "Experienced Doctors as Faculty",
     desc: "Taught by practising doctors and medical professionals from VIMSMCH's Medical College & Hospital.",
+    color: "#2086b8",
   },
   {
     icon: FlaskConical,
     title: "Modern Laboratories",
     desc: "Access to well-equipped labs and hospital departments relevant to your certificate course.",
+    color: "#7c3aed",
   },
   {
     icon: IndianRupee,
     title: "Affordable Fees",
     desc: "Quality paramedical education priced to be accessible, with no hidden charges.",
+    color: "#ff9800",
   },
   {
     icon: Users,
     title: "Placement Assistance",
     desc: "Career counselling, personality development, and placement support to help you find work in healthcare.",
+    color: "#0d9488",
   },
   {
     icon: Briefcase,
     title: "Possible Opportunity for Employment in Foundation Hospital*",
     desc: "*Subject to performance and vacancies.",
+    color: "#df1529",
   },
 ];
 
@@ -53,11 +60,14 @@ export default function WhyChooseUs() {
         </Reveal>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {reasons.map(({ icon: Icon, title, desc }, i) => (
+          {reasons.map(({ icon: Icon, title, desc, color }, i) => (
             <Reveal key={title} delay={(i % 4) * 0.06}>
               <div className="flex items-start gap-3 bg-white rounded-xl p-4 h-full shadow-sm hover:shadow-md transition-all duration-300 group border border-[#e6edf0]">
-                <div className="w-9 h-9 rounded-lg bg-[#04415f]/10 flex items-center justify-center shrink-0 group-hover:bg-[#04415f] transition-colors">
-                  <Icon size={16} className="text-[#04415f] group-hover:text-white transition-colors" />
+                <div
+                  className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110"
+                  style={{ backgroundColor: color }}
+                >
+                  <Icon size={16} className="text-white" />
                 </div>
                 <div className="min-w-0">
                   <h3 className="text-[#011e2c] font-bold text-xs leading-snug mb-1">{title}</h3>
