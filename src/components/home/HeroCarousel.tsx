@@ -105,15 +105,14 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
             <p className="font-display text-lg sm:text-4xl 2xl:text-5xl font-bold leading-tight">
               Paramedical Institute
             </p>
-            <p className="mt-1.5 hidden sm:block text-sm 2xl:text-base font-semibold text-[#04415f]/70">
-              Affiliated to
-            </p>
-            <p className="hidden sm:block text-sm 2xl:text-base font-semibold text-[#04415f]/70">
-              Maharashtra State Board of Vocational Education &amp; Training (MSBSVET)
-            </p>
-            <p className="hidden sm:block text-sm 2xl:text-base font-semibold text-[#04415f]/70">
-              National Council for Vocational and Research Training (NCVRT), New Delhi — Reg. No. REG/NCVRT/MH/35074/VTC.
-            </p>
+            <div className="mt-2 hidden sm:block text-left text-sm 2xl:text-base font-semibold text-[#04415f]/80">
+              <p className="font-bold text-[#04415f]">1. Skill Development Institute</p>
+              <p>Affiliated to Maharashtra State Board of Skill, Vocational Education and Training</p>
+              <p className="mt-2 font-bold text-[#04415f]">2. Vocational Training Centre</p>
+              <p>Accredited by National Council of Vocational and Research Training, New Delhi</p>
+              <p>(Accreditation No - NCVRT/MH/35074/VTC)</p>
+              <p className="mt-2 text-[#04415f]">Admission is open for Vocational Training Centre for the Academic Year 2026-27</p>
+            </div>
           </div>
           <div className="relative shrink-0 flex items-center justify-center h-20 w-20 sm:h-40 sm:w-40">
             <div className="absolute inset-0 rounded-full p-[3px] sm:p-[4px] bg-[conic-gradient(from_0deg,#22c55e,#2086b8,#22c55e)] shadow-[0_8px_30px_rgba(4,65,95,0.2)] animate-spin-slow">
