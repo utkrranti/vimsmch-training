@@ -16,8 +16,8 @@ export default async function ContactDetails() {
     {
       icon: Phone,
       label: "Phone",
-      value: "1800 123 4858 | +91 241-2778042",
-      href: "tel:+912412778042",
+      value: "1800 123 4858 | +91 8956263701",
+      href: "tel:+918956263701",
     },
     ...(admissionHelpline
       ? [

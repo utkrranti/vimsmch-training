@@ -60,7 +60,7 @@ export default function Footer() {
               <span>
                 <a href="tel:18001234858" className="text-white/90 hover:text-white transition-colors">1800 123 4858</a>
                 <span className="text-white/55">{" | "}</span>
-                <a href="tel:+912412778042" className="text-white/90 hover:text-white transition-colors">+91 241-2778042</a>
+                <a href="tel:+918956263701" className="text-white/90 hover:text-white transition-colors">+91 8956263701</a>
               </span>
             </li>
             <li className="flex items-center gap-3">
