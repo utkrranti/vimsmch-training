@@ -6,7 +6,29 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const slides = [
+type HeroSlide = {
+  title: string;
+  accent: string;
+  action: string;
+  href: string;
+};
+
+type InstituteNotice = {
+  unit1Title: string;
+  unit1Text: string;
+  unit2Title: string;
+  unit2Text: string;
+  unit2Extra: string;
+  admissionLine: string;
+};
+
+type HeroCarouselProps = {
+  prospectusUrl?: string;
+  carouselSlides?: HeroSlide[];
+  instituteNotice?: InstituteNotice;
+};
+
+const defaultSlides: HeroSlide[] = [
   {
     title: "Learn Skills. Save Lives.",
     accent: "Build Your Career.",
@@ -25,46 +47,31 @@ const slides = [
     action: "View Admission Details",
     href: "/admission/apply",
   },
-] as const;
+];
 
-type HeroCarouselProps = {
-  prospectusUrl?: string;
+const defaultNotice: InstituteNotice = {
+  unit1Title: "1. Skill Development Institute",
+  unit1Text: "Affiliated to Maharashtra State Board of Skill, Vocational Education and Training",
+  unit2Title: "2. Vocational Training Centre",
+  unit2Text: "Accredited by National Council of Vocational and Research Training, New Delhi",
+  unit2Extra: "(Accreditation No - NCVRT/MH/35074/VTC)",
+  admissionLine: "Admission is open for Vocational Training Centre for the Academic Year 2026-27",
 };
 
-export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
+export default function HeroCarousel({ prospectusUrl, carouselSlides, instituteNotice }: HeroCarouselProps) {
   const [slideIndex, setSlideIndex] = useState(0);
-  const [charCount, setCharCount] = useState(0);
-  const [phase, setPhase] = useState<"typing" | "deleting">("typing");
 
-  const slide = slides[slideIndex];
-  const fullText = `${slide.title} ${slide.accent}`;
+  const slides = (carouselSlides && carouselSlides.length ? carouselSlides : defaultSlides) as HeroSlide[];
+  const notice = instituteNotice ?? defaultNotice;
+  const slide = slides[slideIndex % slides.length];
 
   useEffect(() => {
-    let timeout: number;
+    const timer = window.setInterval(() => {
+      setSlideIndex((i) => (i + 1) % slides.length);
+    }, 5000);
 
-    if (phase === "typing") {
-      if (charCount < fullText.length) {
-        timeout = window.setTimeout(() => setCharCount((c) => c + 1), 45);
-      } else {
-        timeout = window.setTimeout(() => setPhase("deleting"), 2400);
-      }
-    } else {
-      if (charCount > 0) {
-        timeout = window.setTimeout(() => setCharCount((c) => c - 1), 22);
-      } else {
-        timeout = window.setTimeout(() => {
-          setSlideIndex((i) => (i + 1) % slides.length);
-          setPhase("typing");
-        }, 350);
-      }
-    }
-    return () => window.clearTimeout(timeout);
-  }, [charCount, phase, fullText]);
-
-  const visibleText = fullText.slice(0, charCount);
-  const titleLen = slide.title.length;
-  const visibleTitle = visibleText.slice(0, Math.min(charCount, titleLen));
-  const visibleAccent = visibleText.slice(titleLen).replace(/^ /, "");
+    return () => window.clearInterval(timer);
+  }, [slides.length]);
 
   return (
     <section
@@ -81,99 +88,62 @@ export default function HeroCarousel({ prospectusUrl }: HeroCarouselProps) {
         priority
       />
 
-      <div className="absolute inset-0 bg-white/50" />
       <div className="absolute inset-0 bg-dot-grid text-[#04415f] opacity-[0.04]" />
 
       <div className="relative mx-auto flex h-full min-h-[560px] max-w-7xl flex-col items-center justify-center px-6 py-16 sm:px-12 lg:px-20">
-        <div className="mb-8 flex flex-nowrap items-center justify-center gap-3 sm:gap-6 text-center">
-          <div className="relative shrink-0 flex items-center justify-center h-20 w-20 sm:h-40 sm:w-40">
-            <div className="absolute inset-0 rounded-full p-[3px] sm:p-[4px] bg-[conic-gradient(from_0deg,#22c55e,#2086b8,#22c55e)] shadow-[0_8px_30px_rgba(4,65,95,0.2)] animate-spin-slow">
-              <div className="h-full w-full rounded-full bg-white" />
+        <div className="w-full rounded-[24px] border border-[#04415f]/10 bg-white/90 px-3 py-3 shadow-sm backdrop-blur-sm sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-5">
+            <div className="flex w-full items-center justify-center gap-3 sm:w-auto sm:gap-5">
+              <div className="relative flex h-16 w-16 shrink-0 items-center justify-center sm:h-24 sm:w-24">
+                <Image
+                  src="/images/foundation-logo.png"
+                  alt="Dr. Vithalrao Vikhe Patil Foundation"
+                  width={200}
+                  height={151}
+                  className="h-12 w-auto sm:h-20"
+                />
+              </div>
+
+              <div className="min-w-0 text-center text-[#04415f]">
+                <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
+                  Dr. Vithalrao Vikhe Patil Foundation&apos;s
+                </p>
+                <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
+                  Paramedical Institute
+                </p>
+              </div>
+
+              <div className="relative flex h-16 w-16 shrink-0 items-center justify-center sm:h-24 sm:w-24">
+                <Image
+                  src="/images/paramedical-institute-logo.png"
+                  alt="Paramedical Institute"
+                  width={150}
+                  height={150}
+                  className="h-12 w-auto sm:h-20"
+                />
+              </div>
             </div>
-            <Image
-              src="/images/foundation-logo.png"
-              alt="Dr. Vithalrao Vikhe Patil Foundation"
-              width={200}
-              height={151}
-              className="relative h-12 sm:h-28 w-auto"
-            />
+
           </div>
-          <div className="text-[#04415f]">
-            <p className="font-display text-lg sm:text-4xl 2xl:text-5xl font-bold leading-tight">
-              Dr. Vithalrao Vikhe Patil Foundation&apos;s
-            </p>
-            <p className="font-display text-lg sm:text-4xl 2xl:text-5xl font-bold leading-tight">
-              Paramedical Institute
-            </p>
-            <div className="mt-2 hidden sm:block text-left text-sm 2xl:text-base font-semibold text-[#04415f]/80">
-              <p className="font-bold text-[#04415f]">1. Skill Development Institute</p>
-              <p>Affiliated to Maharashtra State Board of Skill, Vocational Education and Training</p>
-              <p className="mt-2 font-bold text-[#04415f]">2. Vocational Training Centre</p>
-              <p>Accredited by National Council of Vocational and Research Training, New Delhi</p>
-              <p>(Accreditation No - NCVRT/MH/35074/VTC)</p>
-              <p className="mt-2 text-[#04415f]">Admission is open for Vocational Training Centre for the Academic Year 2026-27</p>
+          <div className="mt-3 flex max-w-[760px] flex-col gap-2 text-left text-[10px] sm:text-sm 2xl:text-base font-medium tracking-[0.01em] text-[#04415f]/80 mx-auto">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+              <div className="min-w-0 flex-1 rounded-2xl border border-[#04415f]/10 bg-[#f8fbfd] p-3">
+                <p className="font-semibold text-[#04415f]">{notice.unit1Title}</p>
+                <p className="mt-1 leading-relaxed">{notice.unit1Text}</p>
+              </div>
+              <div className="min-w-0 flex-1 rounded-2xl border border-[#04415f]/10 bg-[#fffdf7] p-3">
+                <p className="font-semibold text-[#04415f]">{notice.unit2Title}</p>
+                <p className="mt-1 leading-relaxed">{notice.unit2Text}</p>
+                <p className="mt-1 leading-relaxed">{notice.unit2Extra}</p>
+              </div>
             </div>
-          </div>
-          <div className="relative shrink-0 flex items-center justify-center h-20 w-20 sm:h-40 sm:w-40">
-            <div className="absolute inset-0 rounded-full p-[3px] sm:p-[4px] bg-[conic-gradient(from_0deg,#22c55e,#2086b8,#22c55e)] shadow-[0_8px_30px_rgba(4,65,95,0.2)] animate-spin-slow">
-              <div className="h-full w-full rounded-full bg-white" />
+            <div className="rounded-2xl border border-[#04415f]/10 bg-[#f6fcf7] p-3 text-[#04415f]">
+              <p className="leading-relaxed">{notice.admissionLine}</p>
             </div>
-            <Image
-              src="/images/paramedical-institute-logo.png"
-              alt="Paramedical Institute"
-              width={150}
-              height={150}
-              className="relative h-12 sm:h-28 w-auto"
-            />
           </div>
         </div>
 
-        <div className="max-w-3xl text-center mx-auto">
-          <h1 className="font-display text-3xl font-semibold leading-[1.08] tracking-[-0.02em] text-[#011e2c] sm:text-4xl lg:text-5xl">
-            <span className="block min-h-[1.1em]">
-              {visibleTitle}
-              {visibleTitle.length < titleLen && (
-                <span className="inline-block w-[2px] h-[0.9em] bg-[#04415f] ml-0.5 align-middle animate-pulse" />
-              )}
-            </span>
-            <span className="block italic text-[#2086b8] min-h-[1.1em]">
-              {visibleAccent}
-              {visibleTitle.length >= titleLen && (
-                <span className="inline-block w-[2px] h-[0.85em] bg-[#2086b8] ml-0.5 align-middle animate-pulse" />
-              )}
-            </span>
-          </h1>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`cta-${slideIndex}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.35 }}
-              className="mt-9 flex flex-wrap items-center justify-center gap-3"
-            >
-              <Link
-                href={slide.href}
-                className="group inline-flex items-center gap-3 rounded-xl bg-[#04415f] px-6 py-3.5 font-bold text-white shadow-[0_14px_32px_rgba(4,65,95,0.2)] transition-all hover:-translate-y-0.5 hover:bg-[#011e2c]"
-              >
-                {slide.action}
-                <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
-              </Link>
-              {prospectusUrl && (
-                <a
-                  href={prospectusUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                  className="inline-flex items-center gap-2 rounded-xl border border-[#04415f]/25 bg-[#04415f]/5 px-5 py-3.5 font-semibold text-[#04415f] transition-colors hover:bg-[#04415f]/10"
-                >
-                  <Download size={16} /> Download Prospectus
-                </a>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+        <div className="max-w-3xl text-center mx-auto" />
       </div>
 
       <div className="absolute inset-x-0 bottom-5 flex items-center justify-center gap-2">
