@@ -14,9 +14,9 @@ export default async function HeroSection() {
   return (
     <HeroCarousel
       instituteNotice={{
-        unit1Title: settings["hero.notice.unit1Title"] || "1. Skill Development Institute",
+        unit1Title: settings["hero.notice.unit1Title"] || "Skill Development Institute",
         unit1Text: settings["hero.notice.unit1Text"] || "Affiliated to Maharashtra State Board of Skill, Vocational Education and Training",
-        unit2Title: settings["hero.notice.unit2Title"] || "2. Vocational Training Centre",
+        unit2Title: settings["hero.notice.unit2Title"] || "Vocational Training Centre",
         unit2Text: settings["hero.notice.unit2Text"] || "Accredited by National Council of Vocational and Research Training, New Delhi",
         unit2Extra: settings["hero.notice.unit2Extra"] || "(Accreditation No - NCVRT/MH/35074/VTC)",
         admissionLine: settings["hero.notice.admission"] || "Admission is open for Vocational Training Centre for the Academic Year 2026-27",

@@ -15,9 +15,9 @@ type HeroCarouselProps = {
 };
 
 const defaultNotice: InstituteNotice = {
-  unit1Title: "1. Skill Development Institute",
+  unit1Title: "Skill Development Institute",
   unit1Text: "Affiliated to Maharashtra State Board of Skill, Vocational Education and Training",
-  unit2Title: "2. Vocational Training Centre",
+  unit2Title: "Vocational Training Centre",
   unit2Text: "Accredited by National Council of Vocational and Research Training, New Delhi",
   unit2Extra: "(Accreditation No - NCVRT/MH/35074/VTC)",
   admissionLine: "Admission is open for Vocational Training Centre for the Academic Year 2026-27",
@@ -46,10 +46,16 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
           <div className="flex flex-col items-center gap-8">
             {/* Heading */}
             <div className="text-center">
-              <p className="font-display text-xl font-bold leading-tight text-[#04415f] sm:text-3xl">
+              <p
+                className="font-display text-xl font-bold leading-tight text-[#04415f] sm:text-3xl"
+                style={{ fontVariationSettings: '"WONK" 0' }}
+              >
                 Dr. Vithalrao Vikhe Patil Foundation&apos;s
               </p>
-              <h1 className="font-display text-4xl font-bold leading-tight text-[#011e2c] sm:text-5xl lg:text-6xl">
+              <h1
+                className="font-display text-4xl font-bold leading-tight text-[#026e9c] sm:text-5xl lg:text-6xl"
+                style={{ fontVariationSettings: '"WONK" 0' }}
+              >
                 Paramedical Institute
               </h1>
               <div

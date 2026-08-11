@@ -10,18 +10,21 @@ const stats = [
 function StatItem({ s }: { s: (typeof stats)[number] }) {
   return (
     <div className="flex items-center gap-2.5 shrink-0 px-8">
-      <s.icon size={16} className="text-[#2086b8] shrink-0" />
-      <span className="font-display text-lg font-semibold text-[#04415f]">{s.value}</span>
-      <span className="text-[#011e2c] font-medium text-sm whitespace-nowrap">{s.label}</span>
-      <span className="text-[#04415f]/50 text-xs whitespace-nowrap">— {s.sub}</span>
-      <span className="w-1 h-1 rounded-full bg-[#04415f]/25 ml-6" />
+      <s.icon size={16} className="text-white/85 shrink-0" />
+      <span className="font-display text-lg font-semibold text-white">{s.value}</span>
+      <span className="text-white/95 font-medium text-sm whitespace-nowrap">{s.label}</span>
+      <span className="text-white/60 text-xs whitespace-nowrap">— {s.sub}</span>
+      <span className="w-1 h-1 rounded-full bg-white/30 ml-6" />
     </div>
   );
 }
 
 export default function StatsSection() {
   return (
-    <section className="relative py-5 overflow-hidden bg-[#f1f5f7] border-y border-[#e6edf0]">
+    <section
+      className="relative py-5 overflow-hidden"
+      style={{ background: "linear-gradient(90deg, #04713f 0%, #059652 50%, #04713f 100%)" }}
+    >
       <div className="flex w-max animate-marquee">
         <div className="flex items-center">
           {stats.map((s) => (
