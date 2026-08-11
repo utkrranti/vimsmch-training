@@ -66,7 +66,10 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
             {/* Notice cards */}
             <div className="w-full max-w-[780px]">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
-                <div className="flex min-w-0 flex-1 flex-col gap-4 rounded-2xl border border-black/5 bg-white/95 p-6 shadow-[0_12px_32px_rgba(4,65,95,0.12)]">
+                <div
+                  className="flex min-w-0 flex-1 flex-col gap-4 rounded-2xl border border-black/5 p-6 shadow-[0_12px_32px_rgba(4,65,95,0.12)]"
+                  style={{ background: "linear-gradient(160deg, #eafbf1 0%, #ffffff 100%)" }}
+                >
                   <div className="flex items-start gap-4">
                     <div
                       className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-md ring-4 ring-[#059652]/10"
@@ -84,7 +87,10 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
                   <p className="text-left text-sm leading-relaxed text-[#010608]/60 sm:text-base">{notice.unit1Text}</p>
                 </div>
 
-                <div className="flex min-w-0 flex-1 flex-col gap-4 rounded-2xl border border-black/5 bg-white/95 p-6 shadow-[0_12px_32px_rgba(4,65,95,0.12)]">
+                <div
+                  className="flex min-w-0 flex-1 flex-col gap-4 rounded-2xl border border-black/5 p-6 shadow-[0_12px_32px_rgba(4,65,95,0.12)]"
+                  style={{ background: "linear-gradient(160deg, #cfeafb 0%, #ffffff 100%)" }}
+                >
                   <div className="flex items-start gap-4">
                     <div
                       className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-md ring-4 ring-[#2086b8]/10"
@@ -106,7 +112,7 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
                 </div>
               </div>
 
-              <div className="mt-4 flex items-center gap-3.5 rounded-2xl border border-black/5 bg-white/95 p-4 shadow-[0_12px_32px_rgba(4,65,95,0.1)]">
+              <div className="animate-pulse-glow mt-4 flex items-center gap-3.5 rounded-2xl border border-[#059652]/20 bg-[#f0faf3] p-4 shadow-[0_12px_32px_rgba(4,65,95,0.1)]">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#059652]/10">
                   <Megaphone size={18} className="text-[#059652]" />
                 </div>
