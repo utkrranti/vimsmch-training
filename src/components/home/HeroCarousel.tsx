@@ -50,7 +50,10 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
           <h1 className="font-display text-4xl font-bold leading-tight text-[#011e2c] sm:text-5xl lg:text-6xl">
             Paramedical Institute
           </h1>
-          <div className="mx-auto mt-4 h-px w-40 bg-gradient-to-r from-transparent via-[#a4802f] to-transparent" />
+          <div
+            className="mx-auto mt-4 h-px w-40"
+            style={{ background: "linear-gradient(90deg, transparent 0%, #a4802f 50%, transparent 100%)" }}
+          />
         </div>
 
         {/* Tagline pill */}
@@ -61,12 +64,15 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
         {/* Notice cards */}
         <div className="w-full max-w-[780px]">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
-            <div className="flex min-w-0 flex-1 flex-col gap-3 rounded-2xl border border-black/5 bg-white/95 p-5 shadow-[0_12px_32px_rgba(4,65,95,0.12)]">
-              <div className="flex items-center gap-3.5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0bb672] to-[#05713f] shadow-md ring-4 ring-[#059652]/10">
+            <div className="flex min-w-0 flex-1 flex-col gap-4 rounded-2xl border border-black/5 bg-white/95 p-6 shadow-[0_12px_32px_rgba(4,65,95,0.12)]">
+              <div className="flex items-start gap-4">
+                <div
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-md ring-4 ring-[#059652]/10"
+                  style={{ background: "linear-gradient(135deg, #0bb672 0%, #05713f 100%)" }}
+                >
                   <Sprout size={22} className="text-white" />
                 </div>
-                <div className="min-w-0 text-left">
+                <div className="min-w-0 pt-0.5 text-left">
                   <p className="text-[11px] font-bold uppercase tracking-wider text-[#059652] sm:text-xs">
                     Dr. Vithalrao Vikhe Patil Foundation&apos;s
                   </p>
@@ -76,12 +82,15 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
               <p className="text-left text-sm leading-relaxed text-[#010608]/60 sm:text-base">{notice.unit1Text}</p>
             </div>
 
-            <div className="flex min-w-0 flex-1 flex-col gap-3 rounded-2xl border border-black/5 bg-white/95 p-5 shadow-[0_12px_32px_rgba(4,65,95,0.12)]">
-              <div className="flex items-center gap-3.5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2fa5d6] to-[#04415f] shadow-md ring-4 ring-[#2086b8]/10">
+            <div className="flex min-w-0 flex-1 flex-col gap-4 rounded-2xl border border-black/5 bg-white/95 p-6 shadow-[0_12px_32px_rgba(4,65,95,0.12)]">
+              <div className="flex items-start gap-4">
+                <div
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-md ring-4 ring-[#2086b8]/10"
+                  style={{ background: "linear-gradient(135deg, #2fa5d6 0%, #04415f 100%)" }}
+                >
                   <BookOpen size={22} className="text-white" />
                 </div>
-                <div className="min-w-0 text-left">
+                <div className="min-w-0 pt-0.5 text-left">
                   <p className="text-[11px] font-bold uppercase tracking-wider text-[#2086b8] sm:text-xs">
                     Dr. Vithalrao Vikhe Patil Foundation&apos;s
                   </p>
