@@ -1,4 +1,14 @@
-import type { ReactNode } from "react";
+"use client";
+
+import Image from "next/image";
+import { useEffect, useState } from "react";
+
+type HeroSlide = {
+  title: string;
+  accent: string;
+  action: string;
+  href: string;
+};
 
 type InstituteNotice = {
   unit1Title: string;
@@ -10,9 +20,31 @@ type InstituteNotice = {
 };
 
 type HeroCarouselProps = {
+  prospectusUrl?: string;
+  carouselSlides?: HeroSlide[];
   instituteNotice?: InstituteNotice;
-  children?: ReactNode;
 };
+
+const defaultSlides: HeroSlide[] = [
+  {
+    title: "Learn Skills. Save Lives.",
+    accent: "Build Your Career.",
+    action: "Apply Now",
+    href: "/admission/apply",
+  },
+  {
+    title: "Train Where",
+    accent: "Healthcare Happens.",
+    action: "Explore Courses",
+    href: "/courses",
+  },
+  {
+    title: "A Strong Foundation",
+    accent: "For Your Future.",
+    action: "View Admission Details",
+    href: "/admission/apply",
+  },
+];
 
 const defaultNotice: InstituteNotice = {
   unit1Title: "1. Skill Development Institute",
@@ -23,28 +55,74 @@ const defaultNotice: InstituteNotice = {
   admissionLine: "Admission is open for Vocational Training Centre for the Academic Year 2026-27",
 };
 
-export default function HeroCarousel({ instituteNotice, children }: HeroCarouselProps) {
+export default function HeroCarousel({ prospectusUrl, carouselSlides, instituteNotice }: HeroCarouselProps) {
+  const [slideIndex, setSlideIndex] = useState(0);
+  const slides = (carouselSlides && carouselSlides.length ? carouselSlides : defaultSlides) as HeroSlide[];
   const notice = instituteNotice ?? defaultNotice;
 
-  return (
-    <section className="relative overflow-hidden bg-white text-[#011e2c]" aria-label="Paramedical Institute highlights">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(32,134,184,0.12),_transparent_70%)]" />
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setSlideIndex((i) => (i + 1) % slides.length);
+    }, 5000);
 
-      <div className="relative mx-auto flex min-h-[420px] w-full max-w-7xl flex-col justify-between px-6 py-8 sm:px-12 sm:py-10 lg:px-20 lg:py-12">
-        <div className="w-full pt-2 sm:pt-4">
+    return () => window.clearInterval(timer);
+  }, [slides.length]);
+
+  return (
+    <section
+      className="relative h-[80vh] min-h-[560px] overflow-hidden bg-white text-[#011e2c]"
+      aria-label="Paramedical Institute highlights"
+    >
+      <Image
+        src="/images/campus-entrance.jpg"
+        alt="Dr. Vithalrao Vikhe Patil Foundation's Medical College campus entrance"
+        fill
+        sizes="100vw"
+        className="object-cover object-center"
+        priority
+      />
+
+      <div className="absolute inset-0 bg-dot-grid text-[#04415f] opacity-[0.04]" />
+
+      <div className="relative mx-auto flex h-full min-h-[560px] w-full max-w-7xl flex-col justify-between px-6 py-16 sm:px-12 lg:px-20">
+        <div className="w-full pt-4 sm:pt-6">
           <div className="mx-auto w-full max-w-5xl rounded-[24px] border border-[#04415f]/10 bg-white/90 px-3 py-3 shadow-sm backdrop-blur-sm sm:px-6 lg:px-8">
-            <div className="text-center text-[#04415f]">
-              <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
-                Dr. Vithalrao Vikhe Patil Foundation&apos;s
-              </p>
-              <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
-                Paramedical Institute
-              </p>
+            <div className="flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-5">
+              <div className="flex w-full items-center justify-center gap-3 sm:w-auto sm:gap-5">
+                <div className="relative flex h-16 w-16 shrink-0 items-center justify-center sm:h-24 sm:w-24">
+                  <Image
+                    src="/images/foundation-logo.png"
+                    alt="Dr. Vithalrao Vikhe Patil Foundation"
+                    width={200}
+                    height={151}
+                    className="h-12 w-auto sm:h-20"
+                  />
+                </div>
+
+                <div className="min-w-0 text-center text-[#04415f]">
+                  <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
+                    Dr. Vithalrao Vikhe Patil Foundation&apos;s
+                  </p>
+                  <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
+                    Paramedical Institute
+                  </p>
+                </div>
+
+                <div className="relative flex h-16 w-16 shrink-0 items-center justify-center sm:h-24 sm:w-24">
+                  <Image
+                    src="/images/paramedical-institute-logo.png"
+                    alt="Paramedical Institute"
+                    width={150}
+                    height={150}
+                    className="h-12 w-auto sm:h-20"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="relative z-10 mt-4 w-full">
+        <div className="relative z-10 mb-8 mt-4 w-full sm:mb-10 lg:mb-12">
           <div className="mx-auto flex max-w-[760px] flex-col gap-2 text-left text-[10px] font-medium tracking-[0.01em] text-[#04415f]/80 sm:text-sm 2xl:text-base">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
               <div className="min-w-0 flex-1 rounded-2xl border border-[#04415f]/10 bg-[#f8fbfd] p-3">
@@ -62,8 +140,6 @@ export default function HeroCarousel({ instituteNotice, children }: HeroCarousel
             </div>
           </div>
         </div>
-
-        {children}
       </div>
     </section>
   );
