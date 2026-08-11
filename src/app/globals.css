@@ -118,9 +118,9 @@
     animation: spin-slow 6s linear infinite;
   }
 
-  /* Pulsing glow ring, used to draw attention to a highlighted card */
-  .animate-pulse-glow {
-    animation: pulse-glow 2.2s ease-in-out infinite;
+  /* Solid-color blinking highlight, used for the admission-open banner */
+  .animate-blink-highlight {
+    animation: blink-highlight 1.6s ease-in-out infinite;
   }
 }
 
@@ -142,11 +142,13 @@
   }
 }
 
-@keyframes pulse-glow {
+@keyframes blink-highlight {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgb(5 150 82 / 0.35);
+    background-color: #059652;
+    box-shadow: 0 0 0 0 rgb(5 150 82 / 0.45);
   }
   50% {
-    box-shadow: 0 0 0 10px rgb(5 150 82 / 0);
+    background-color: #04c96a;
+    box-shadow: 0 0 0 9px rgb(5 150 82 / 0);
   }
 }

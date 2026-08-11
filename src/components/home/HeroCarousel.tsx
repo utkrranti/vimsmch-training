@@ -112,11 +112,11 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
                 </div>
               </div>
 
-              <div className="animate-pulse-glow mt-4 flex items-center gap-3.5 rounded-2xl border border-[#059652]/20 bg-[#f0faf3] p-4 shadow-[0_12px_32px_rgba(4,65,95,0.1)]">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#059652]/10">
-                  <Megaphone size={18} className="text-[#059652]" />
+              <div className="animate-blink-highlight mt-4 flex items-center gap-3.5 rounded-2xl p-4 shadow-[0_12px_32px_rgba(4,65,95,0.18)]">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/20">
+                  <Megaphone size={18} className="text-white" />
                 </div>
-                <p className="flex-1 text-left text-sm font-medium leading-relaxed text-[#04415f] sm:text-center sm:text-base">
+                <p className="flex-1 text-left text-sm font-semibold leading-relaxed text-white sm:text-center sm:text-base">
                   {notice.admissionLine}
                 </p>
               </div>
