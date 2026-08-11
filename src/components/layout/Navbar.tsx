@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -57,6 +58,36 @@ export default function Navbar() {
           overlay ? "bg-transparent" : "bg-white shadow-sm"
         } md:bg-gradient-to-r md:from-[#04415f]/90 md:via-[#2086b8]/80 md:to-[#04415f]/90 md:backdrop-blur-lg md:shadow-lg md:border-b md:border-white/10`}
       >
+        <div className={`px-3 pt-3 sm:px-6 sm:pt-4 ${overlay ? "text-white" : "text-[#04415f]"}`}>
+          <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 text-center sm:gap-3">
+            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center sm:h-11 sm:w-11">
+              <Image
+                src="/images/foundation-logo.png"
+                alt="Dr. Vithalrao Vikhe Patil Foundation"
+                width={120}
+                height={91}
+                className="h-7 w-auto sm:h-9"
+              />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold leading-tight sm:text-sm">
+                Dr. Vithalrao Vikhe Patil Foundation&apos;s
+              </p>
+              <p className="text-[10px] font-semibold leading-tight sm:text-sm">
+                Paramedical Institute
+              </p>
+            </div>
+            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center sm:h-11 sm:w-11">
+              <Image
+                src="/images/paramedical-institute-logo.png"
+                alt="Paramedical Institute"
+                width={90}
+                height={90}
+                className="h-7 w-auto sm:h-9"
+              />
+            </div>
+          </div>
+        </div>
         <div className="relative max-w-[1920px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-4">
           {/* Hamburger menu trigger — mobile only */}
           <button

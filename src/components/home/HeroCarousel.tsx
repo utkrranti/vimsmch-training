@@ -86,38 +86,34 @@ export default function HeroCarousel({ prospectusUrl, carouselSlides, instituteN
 
       <div className="relative mx-auto flex h-full min-h-[560px] w-full max-w-7xl flex-col justify-between px-6 py-16 sm:px-12 lg:px-20">
         <div className="w-full pt-4 sm:pt-6">
-          <div className="mx-auto w-full max-w-5xl rounded-[24px] border border-[#04415f]/10 bg-white/90 px-3 py-3 shadow-sm backdrop-blur-sm sm:px-6 lg:px-8">
-            <div className="flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-5">
-              <div className="flex w-full items-center justify-center gap-3 sm:w-auto sm:gap-5">
-                <div className="relative flex h-16 w-16 shrink-0 items-center justify-center sm:h-24 sm:w-24">
-                  <Image
-                    src="/images/foundation-logo.png"
-                    alt="Dr. Vithalrao Vikhe Patil Foundation"
-                    width={200}
-                    height={151}
-                    className="h-12 w-auto sm:h-20"
-                  />
-                </div>
+          <div className="mx-auto flex w-full max-w-5xl items-center justify-center gap-3 text-center text-[#04415f] sm:gap-5">
+            <div className="relative flex h-16 w-16 shrink-0 items-center justify-center sm:h-24 sm:w-24">
+              <Image
+                src="/images/foundation-logo.png"
+                alt="Dr. Vithalrao Vikhe Patil Foundation"
+                width={200}
+                height={151}
+                className="h-12 w-auto sm:h-20"
+              />
+            </div>
 
-                <div className="min-w-0 text-center text-[#04415f]">
-                  <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
-                    Dr. Vithalrao Vikhe Patil Foundation&apos;s
-                  </p>
-                  <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
-                    Paramedical Institute
-                  </p>
-                </div>
+            <div className="min-w-0 text-center text-[#04415f]">
+              <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
+                Dr. Vithalrao Vikhe Patil Foundation&apos;s
+              </p>
+              <p className="font-display text-base font-bold leading-tight sm:text-3xl 2xl:text-4xl">
+                Paramedical Institute
+              </p>
+            </div>
 
-                <div className="relative flex h-16 w-16 shrink-0 items-center justify-center sm:h-24 sm:w-24">
-                  <Image
-                    src="/images/paramedical-institute-logo.png"
-                    alt="Paramedical Institute"
-                    width={150}
-                    height={150}
-                    className="h-12 w-auto sm:h-20"
-                  />
-                </div>
-              </div>
+            <div className="relative flex h-16 w-16 shrink-0 items-center justify-center sm:h-24 sm:w-24">
+              <Image
+                src="/images/paramedical-institute-logo.png"
+                alt="Paramedical Institute"
+                width={150}
+                height={150}
+                className="h-12 w-auto sm:h-20"
+              />
             </div>
           </div>
         </div>
