@@ -25,21 +25,21 @@ export default async function HomePage() {
     <>
       {/* Masthead fills exactly one viewport: hero grows to push the marquee to the bottom edge */}
       <div className="flex min-h-screen flex-col">
-        <div className="border-b border-[#04415f]/10 bg-white">
+        <div
+          className="w-full border-b border-[#04415f]/10"
+          style={{ background: "linear-gradient(90deg, #d6ecfa 0%, #a9d8f2 50%, #d6ecfa 100%)" }}
+        >
           <div className="mx-auto flex w-full max-w-[1920px] items-center px-4 py-3 sm:px-8 sm:py-4">
             <Image
               src="/images/foundation-logo.png"
               alt="Dr. Vithalrao Vikhe Patil Foundation"
               width={200}
               height={151}
-              className="h-14 w-auto shrink-0 sm:h-20"
+              className="h-16 w-auto shrink-0 sm:h-24"
             />
             <div className="mx-auto text-center leading-tight text-[#04415f]">
-              <p className="font-display text-lg font-bold sm:text-2xl lg:text-4xl">
-                Dr. Vithalrao Vikhe Patil
-              </p>
-              <p className="font-display text-lg font-bold sm:text-2xl lg:text-4xl">
-                Foundation
+              <p className="font-display text-base font-bold sm:text-2xl lg:whitespace-nowrap lg:text-4xl xl:text-5xl">
+                Dr. Vithalrao Vikhe Patil Foundation
               </p>
             </div>
             <Image
@@ -47,7 +47,7 @@ export default async function HomePage() {
               alt="Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute, Ahilyanagar"
               width={150}
               height={150}
-              className="h-14 w-auto shrink-0 sm:h-20"
+              className="h-16 w-auto shrink-0 sm:h-24"
             />
           </div>
         </div>

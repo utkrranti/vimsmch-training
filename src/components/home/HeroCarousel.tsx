@@ -47,7 +47,7 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
             {/* Heading */}
             <div className="text-center">
               <p
-                className="font-display text-xl font-bold leading-tight text-[#04415f] sm:text-3xl"
+                className="font-display text-xl font-bold leading-tight text-[#04415f] sm:text-3xl lg:whitespace-nowrap lg:text-4xl"
                 style={{ fontVariationSettings: '"WONK" 0' }}
               >
                 Dr. Vithalrao Vikhe Patil Foundation&apos;s
