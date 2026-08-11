@@ -54,7 +54,7 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
               </p>
               <h1
                 className="font-display text-4xl font-bold leading-tight text-[#026e9c] sm:text-5xl lg:text-6xl"
-                style={{ fontVariationSettings: '"WONK" 0' }}
+                style={{ fontVariationSettings: '"WONK" 0', transform: "translateX(0.09em)" }}
               >
                 Paramedical Institute
               </h1>
