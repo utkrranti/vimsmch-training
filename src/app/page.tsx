@@ -23,30 +23,43 @@ export default async function HomePage() {
 
   return (
     <>
-      <div className="border-b border-[#04415f]/10 bg-white">
-        <div className="mx-auto flex w-full max-w-[1920px] items-center justify-between px-4 py-3 sm:px-8 sm:py-4">
-          <Image
-            src="/images/foundation-logo.png"
-            alt="Dr. Vithalrao Vikhe Patil Foundation"
-            width={200}
-            height={151}
-            className="h-14 w-auto sm:h-20"
-          />
-          <Image
-            src="/images/paramedical-institute-logo.png"
-            alt="Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute, Ahilyanagar"
-            width={150}
-            height={150}
-            className="h-14 w-auto sm:h-20"
-          />
+      {/* Masthead fills exactly one viewport: hero grows to push the marquee to the bottom edge */}
+      <div className="flex min-h-dvh flex-col">
+        <div className="border-b border-[#04415f]/10 bg-white">
+          <div className="mx-auto flex w-full max-w-[1920px] items-center justify-between gap-4 px-4 py-3 sm:px-8 sm:py-4">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <Image
+                src="/images/foundation-logo.png"
+                alt="Dr. Vithalrao Vikhe Patil Foundation"
+                width={200}
+                height={151}
+                className="h-14 w-auto shrink-0 sm:h-20"
+              />
+              <div className="leading-tight text-[#04415f]">
+                <p className="font-display text-sm font-bold sm:text-xl lg:text-2xl">
+                  Dr. Vithalrao Vikhe Patil
+                </p>
+                <p className="font-display text-sm font-bold sm:text-xl lg:text-2xl">
+                  Foundation
+                </p>
+              </div>
+            </div>
+            <Image
+              src="/images/paramedical-institute-logo.png"
+              alt="Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute, Ahilyanagar"
+              width={150}
+              height={150}
+              className="h-14 w-auto shrink-0 sm:h-20"
+            />
+          </div>
         </div>
-      </div>
-      <Navbar />
-      <main className="flex-1">
+        <Navbar />
         <HeroSection />
         <TopContactBar />
         <AnnouncementBanner announcements={announcements} />
         <StatsSection />
+      </div>
+      <main className="flex-1">
         <QuickAccessGrid />
         <WhyChooseUs />
         <FeaturedCourses />

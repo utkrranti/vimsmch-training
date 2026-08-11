@@ -28,7 +28,7 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
 
   return (
     <section
-      className="relative min-h-[560px] overflow-hidden bg-white text-[#011e2c]"
+      className="relative min-h-[420px] flex-1 overflow-hidden bg-white text-[#011e2c]"
       aria-label="Paramedical Institute highlights"
     >
       <Image
@@ -41,7 +41,7 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
       />
       <div className="absolute inset-0 bg-white/55" />
 
-      <div className="relative mx-auto flex min-h-[560px] w-full max-w-7xl flex-col items-center justify-center gap-8 px-6 py-16 sm:px-12 lg:px-20">
+      <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center gap-8 px-6 py-10 sm:px-12 sm:py-14 lg:px-20">
         {/* Heading */}
         <div className="text-center">
           <p className="font-display text-xl font-bold leading-tight text-[#04415f] sm:text-3xl">
