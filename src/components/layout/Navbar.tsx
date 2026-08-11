@@ -1,23 +1,36 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X, Home, ChevronDown } from "lucide-react";
+import {
+  Menu,
+  X,
+  Home,
+  ChevronDown,
+  Users,
+  GraduationCap,
+  ClipboardList,
+  Megaphone,
+  Briefcase,
+  Landmark,
+  Image as ImageIcon,
+  HelpCircle,
+  Link2,
+} from "lucide-react";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
-  { href: "/courses", label: "Courses" },
-  { href: "/admission", label: "Admission" },
-  { href: "/faculty", label: "Faculties" },
-  { href: "/news", label: "News & Notices" },
-  { href: "/placements", label: "Placement" },
-  { href: "/facilities", label: "Facilities" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/", label: "Home", icon: Home },
+  { href: "/about", label: "About Us", icon: Users },
+  { href: "/courses", label: "Courses", icon: GraduationCap },
+  { href: "/admission", label: "Admission", icon: ClipboardList },
+  { href: "/faculty", label: "Faculties", icon: Users },
+  { href: "/news", label: "News & Notices", icon: Megaphone },
+  { href: "/placements", label: "Placement", icon: Briefcase },
+  { href: "/facilities", label: "Facilities", icon: Landmark },
+  { href: "/gallery", label: "Gallery", icon: ImageIcon },
+  { href: "/faq", label: "FAQ", icon: HelpCircle },
 ];
 
 const importantLinks = [
@@ -30,17 +43,9 @@ const importantLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [linksOpen, setLinksOpen] = useState(false);
   const linksRef = useRef<HTMLDivElement>(null);
   const isHome = pathname === "/";
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     if (!linksOpen) return;
@@ -49,50 +54,14 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", onClick);
   }, [linksOpen]);
 
-  const overlay = isHome && !scrolled;
-
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          overlay ? "bg-transparent" : "bg-white shadow-sm"
-        } md:bg-gradient-to-r md:from-[#04415f]/90 md:via-[#2086b8]/80 md:to-[#04415f]/90 md:backdrop-blur-lg md:shadow-lg md:border-b md:border-white/10`}
-      >
-        <div className={`px-3 pt-3 sm:px-6 sm:pt-4 ${overlay ? "text-white" : "text-[#04415f]"}`}>
-          <div className="mx-auto flex max-w-7xl items-center justify-center gap-2 text-center sm:gap-3">
-            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center sm:h-11 sm:w-11">
-              <Image
-                src="/images/foundation-logo.png"
-                alt="Dr. Vithalrao Vikhe Patil Foundation"
-                width={120}
-                height={91}
-                className="h-7 w-auto sm:h-9"
-              />
-            </div>
-            <div className="min-w-0">
-              <p className="text-[10px] font-semibold leading-tight sm:text-sm">
-                Dr. Vithalrao Vikhe Patil Foundation&apos;s
-              </p>
-              <p className="text-[10px] font-semibold leading-tight sm:text-sm">
-                Paramedical Institute
-              </p>
-            </div>
-            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center sm:h-11 sm:w-11">
-              <Image
-                src="/images/paramedical-institute-logo.png"
-                alt="Paramedical Institute"
-                width={90}
-                height={90}
-                className="h-7 w-auto sm:h-9"
-              />
-            </div>
-          </div>
-        </div>
+      <header className="sticky top-0 z-50 bg-[#04415f] shadow-md">
         <div className="relative max-w-[1920px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-4">
           {/* Hamburger menu trigger — mobile only */}
           <button
             onClick={() => setOpen(!open)}
-            className="flex md:hidden items-center gap-2 px-3 py-2 rounded-lg border font-bold text-sm tracking-wide text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0"
+            className="flex md:hidden items-center gap-2 px-3 py-2 rounded-lg border font-bold text-sm tracking-wide text-white bg-white/10 border-white/20 hover:bg-white/15 transition-colors shrink-0"
             aria-label="Open menu"
             aria-expanded={open}
           >
@@ -101,31 +70,36 @@ export default function Navbar() {
           </button>
 
           {/* Desktop: link strip spans the full header width */}
-          <nav className="hidden md:flex md:flex-1 items-center justify-center gap-0.5 lg:gap-1">
-            {navLinks.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
-                  pathname === l.href
-                    ? "text-white bg-white/20"
-                    : "text-white/90 hover:bg-white/15 hover:text-white"
-                }`}
-              >
-                {l.label}
-              </Link>
-            ))}
+          <nav className="hidden md:flex md:flex-1 items-stretch justify-center gap-0.5 lg:gap-1">
+            {navLinks.map((l) => {
+              const active = pathname === l.href;
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className={`flex items-center gap-1.5 px-2 lg:px-3 h-16 text-sm font-medium whitespace-nowrap transition-colors ${
+                    active
+                      ? "text-white bg-[#a4802f]"
+                      : "text-white/90 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  <l.icon size={15} className="shrink-0" />
+                  {l.label}
+                </Link>
+              );
+            })}
             <div
-              className="relative"
+              className="relative flex items-stretch"
               ref={linksRef}
               onMouseEnter={() => setLinksOpen(true)}
               onMouseLeave={() => setLinksOpen(false)}
             >
               <button
                 onClick={() => setLinksOpen((v) => !v)}
-                className="flex items-center gap-1 px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors text-white/90 hover:bg-white/15 hover:text-white"
+                className="flex items-center gap-1.5 px-2 lg:px-3 h-16 text-sm font-medium whitespace-nowrap transition-colors text-white/90 hover:bg-white/10 hover:text-white"
                 aria-expanded={linksOpen}
               >
+                <Link2 size={15} className="shrink-0" />
                 Important Links
                 <ChevronDown size={14} className={`transition-transform ${linksOpen ? "rotate-180" : ""}`} />
               </button>
@@ -159,7 +133,7 @@ export default function Navbar() {
           {!isHome && (
             <Link
               href="/"
-              className="flex md:hidden items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-semibold text-[#04415f] bg-white border-[#04415f]/20 shadow-sm hover:bg-[#04415f]/5 transition-colors shrink-0 ml-auto"
+              className="flex md:hidden items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-semibold text-white bg-white/10 border-white/20 hover:bg-white/15 transition-colors shrink-0 ml-auto"
               aria-label="Back to Home"
             >
               <Home size={16} />
@@ -168,9 +142,6 @@ export default function Navbar() {
           )}
         </div>
       </header>
-
-      {/* Reserve header space on every page except Home, where the hero overlays it */}
-      {!isHome && <div className="h-16" />}
 
       {/* Mobile: drawer navigation */}
       <AnimatePresence>
@@ -208,12 +179,13 @@ export default function Navbar() {
                     key={l.href}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className={`block px-4 py-3 text-sm rounded-lg font-medium transition-colors ${
+                    className={`flex items-center gap-2.5 px-4 py-3 text-sm rounded-lg font-medium transition-colors ${
                       pathname === l.href
-                        ? "text-white bg-white/15"
+                        ? "text-white bg-[#a4802f]"
                         : "text-white/75 hover:text-white hover:bg-white/8"
                     }`}
                   >
+                    <l.icon size={16} className="shrink-0" />
                     {l.label}
                   </Link>
                 ))}

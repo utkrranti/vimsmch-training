@@ -19,6 +19,7 @@
   --color-orange:    #ff9800;
   --color-error:     #df1529;
   --color-success:   #059652;
+  --color-gold:      #a4802f;
 }
 
 @layer base {
