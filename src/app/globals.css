@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-work-sans);
-  --font-display: var(--font-fraunces);
+  --font-sans: Tahoma, Geneva, Verdana, sans-serif;
+  --font-display: Tahoma, Geneva, Verdana, sans-serif;
 
   --color-bg:        #f1f5f7;
   --color-bg-light:  #e6edf0;

@@ -32,14 +32,17 @@ export default async function HomePage() {
         >
           <div className="mx-auto flex w-full max-w-[1920px] items-center px-4 py-3 sm:px-8 sm:py-4">
             <Image
-              src="/images/foundation-logo.png"
+              src="/images/foundation-logo-transparent.webp"
               alt="Dr. Vithalrao Vikhe Patil Foundation"
-              width={200}
-              height={151}
+              width={197}
+              height={164}
               className="h-16 w-auto shrink-0 sm:h-24"
             />
             <div className="mx-auto text-center leading-tight text-[#04415f]">
-              <p className="font-display text-base font-bold sm:text-2xl lg:whitespace-nowrap lg:text-4xl xl:text-5xl">
+              <p
+                className="font-display text-base font-bold sm:text-2xl lg:whitespace-nowrap lg:text-4xl xl:text-5xl"
+                style={{ fontFamily: "var(--font-fraunces)" }}
+              >
                 {t("foundationName")}
               </p>
             </div>

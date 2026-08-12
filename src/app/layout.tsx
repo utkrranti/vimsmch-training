@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { Work_Sans, Fraunces } from "next/font/google";
+import { Fraunces } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
-
-const workSans = Work_Sans({
-  variable: "--font-work-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -30,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${workSans.variable} ${fraunces.variable}`}>
+    <html lang={locale} className={fraunces.variable}>
       <body className="min-h-screen bg-[#f1f5f7] text-[#010608] flex flex-col font-sans">
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
