@@ -84,11 +84,15 @@ export default async function AboutPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               {quickFacts.map((c) => (
-                <div key={c.label} className="bg-[#f1f5f7] rounded-2xl p-5 border border-[#e6edf0]">
-                  <c.icon size={20} className="text-[#04415f] mb-3" />
-                  <p className="text-[#010608]/40 text-xs uppercase tracking-wide mb-1">{c.label}</p>
-                  <p className="text-[#011e2c] font-bold text-base">{c.value}</p>
-                  {c.sub && <p className="text-[#010608]/50 text-xs mt-1 leading-snug">{c.sub}</p>}
+                <div
+                  key={c.label}
+                  className="rounded-2xl p-5"
+                  style={{ background: "linear-gradient(90deg, #04415f 0%, #2086b8 50%, #04415f 100%)" }}
+                >
+                  <c.icon size={20} className="text-[#7dd3fc] mb-3" />
+                  <p className="text-white/60 text-xs uppercase tracking-wide mb-1">{c.label}</p>
+                  <p className="text-white font-bold text-base">{c.value}</p>
+                  {c.sub && <p className="text-white/60 text-xs mt-1 leading-snug">{c.sub}</p>}
                 </div>
               ))}
             </div>
