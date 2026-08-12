@@ -36,7 +36,7 @@ export default async function HomePage() {
               alt="Dr. Vithalrao Vikhe Patil Foundation"
               width={197}
               height={164}
-              className="h-16 w-auto shrink-0 sm:h-24"
+              className="h-20 w-auto shrink-0 sm:h-28"
             />
             <div className="mx-auto text-center leading-tight text-[#04415f]">
               <p
@@ -51,7 +51,7 @@ export default async function HomePage() {
               alt="Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute, Ahilyanagar"
               width={150}
               height={150}
-              className="h-16 w-auto shrink-0 sm:h-24"
+              className="h-20 w-auto shrink-0 sm:h-28"
             />
           </div>
         </div>

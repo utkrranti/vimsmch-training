@@ -114,7 +114,7 @@ export default function Navbar() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className={`flex items-center gap-1.5 px-2 lg:px-3 h-16 text-sm font-medium whitespace-nowrap transition-colors ${
+                  className={`flex items-center gap-1.5 px-2 lg:px-3 h-16 text-[16px] font-[500] whitespace-nowrap transition-colors ${
                     active
                       ? "text-white bg-[#a4802f]"
                       : "text-white/90 hover:bg-white/10 hover:text-white"
@@ -133,7 +133,7 @@ export default function Navbar() {
             >
               <button
                 onClick={() => setLinksOpen((v) => !v)}
-                className="flex items-center gap-1.5 px-2 lg:px-3 h-16 text-sm font-medium whitespace-nowrap transition-colors text-white/90 hover:bg-white/10 hover:text-white"
+                className="flex items-center gap-1.5 px-2 lg:px-3 h-16 text-[16px] font-[500] whitespace-nowrap transition-colors text-white/90 hover:bg-white/10 hover:text-white"
                 aria-expanded={linksOpen}
               >
                 <Link2 size={15} className="shrink-0" />
