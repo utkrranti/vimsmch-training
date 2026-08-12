@@ -22,15 +22,15 @@ export default async function CoursesPage() {
       <main className="flex-1">
         {/* Page title breadcrumb */}
         <div
-          className="relative text-white py-16 px-4 sm:px-6 overflow-hidden"
-          style={{ background: "linear-gradient(90deg, #04415f 0%, #2086b8 50%, #04415f 100%)" }}
+          className="relative text-[#011e2c] py-16 px-4 sm:px-6 overflow-hidden"
+          style={{ background: "linear-gradient(90deg, #d6ecfa 0%, #a9d8f2 50%, #d6ecfa 100%)" }}
         >
           <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
-          <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
+          <div className="absolute inset-0 bg-dot-grid opacity-[0.06] text-[#04415f]" />
           <div className="relative max-w-7xl mx-auto">
-            <p className="text-xs text-white/50 mb-3">{t("breadcrumb")}</p>
-            <span className="eyebrow eyebrow-light mb-4">{t("eyebrow")}</span>
-            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">{t("heading")}</h1>
+            <p className="text-xs text-[#04415f]/60 mb-3">{t("breadcrumb")}</p>
+            <span className="eyebrow mb-4">{t("eyebrow")}</span>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-[#011e2c]">{t("heading")}</h1>
           </div>
         </div>
 
@@ -56,7 +56,11 @@ export default async function CoursesPage() {
                     { icon: HeartPulse, value: "25+", label: t("statDepartments") },
                     { icon: ShieldCheck, value: t("durationValue"), label: t("statDuration") },
                   ].map((f) => (
-                    <div key={f.label} className="bg-[#04415f] rounded-2xl p-5 text-white flex items-center gap-4">
+                    <div
+                      key={f.label}
+                      className="rounded-2xl p-5 text-white flex items-center gap-4"
+                      style={{ background: "linear-gradient(90deg, #04415f 0%, #2086b8 50%, #04415f 100%)" }}
+                    >
                       <f.icon size={20} className="text-[#7dd3fc] shrink-0" />
                       <div>
                         <p className="font-display text-xl font-semibold leading-none">{f.value}</p>
