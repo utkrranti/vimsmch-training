@@ -1,0 +1,18 @@
+{
+  "submittedTitle": "Enquiry Submitted!",
+  "submittedText": "Thank you. Our counselling team will contact you within 1 working day.",
+  "submitAnother": "Submit another enquiry →",
+  "fullNameLabel": "Full Name",
+  "fullNamePlaceholder": "Your full name",
+  "phoneLabel": "Phone Number",
+  "phonePlaceholder": "+91 XXXXX XXXXX",
+  "emailLabel": "Email Address",
+  "emailPlaceholder": "your@email.com",
+  "messageLabel": "Message",
+  "messagePlaceholder": "Which course are you interested in? Any specific questions?",
+  "sending": "Sending...",
+  "send": "Send Enquiry",
+  "responseNote": "We typically respond within 1 working day.",
+  "genericError": "Something went wrong.",
+  "submissionFailed": "Submission failed."
+}

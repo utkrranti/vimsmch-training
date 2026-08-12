@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { Sprout, BookOpen, Megaphone } from "lucide-react";
 
 type InstituteNotice = {
@@ -23,8 +24,9 @@ const defaultNotice: InstituteNotice = {
   admissionLine: "Admission is open for Vocational Training Centre for the Academic Year 2026-27",
 };
 
-export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
+export default async function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
   const notice = instituteNotice ?? defaultNotice;
+  const t = await getTranslations("hero");
 
   return (
     <section
@@ -50,13 +52,13 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
                 className="font-display text-xl font-bold leading-tight text-[#04415f] sm:text-3xl lg:whitespace-nowrap lg:text-4xl"
                 style={{ fontVariationSettings: '"WONK" 0' }}
               >
-                Dr. Vithalrao Vikhe Patil Foundation&apos;s
+                {t("headingLine1")}
               </p>
               <h1
                 className="font-display text-4xl font-bold leading-tight text-[#026e9c] sm:text-5xl lg:text-6xl"
                 style={{ fontVariationSettings: '"WONK" 0', transform: "translateX(0.09em)" }}
               >
-                Paramedical Institute
+                {t("headingLine2")}
               </h1>
               <div
                 className="mx-auto mt-4 h-px w-40"
@@ -66,7 +68,7 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
 
             {/* Tagline pill */}
             <div className="rounded-full bg-[#04415f] px-6 py-2.5 text-center text-xs font-semibold tracking-wide text-white sm:text-sm">
-              EMPOWERING HEALTHCARE PROFESSIONALS FOR A BETTER TOMORROW
+              {t("tagline")}
             </div>
 
             {/* Notice cards */}
@@ -85,7 +87,7 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
                     </div>
                     <div className="min-w-0 pt-0.5 text-left">
                       <p className="text-[11px] font-bold uppercase tracking-wider text-[#059652] sm:text-xs">
-                        Dr. Vithalrao Vikhe Patil Foundation&apos;s
+                        {t("foundationLine")}
                       </p>
                       <p className="mt-0.5 text-base font-bold text-[#011e2c] leading-snug sm:text-lg">{notice.unit1Title}</p>
                     </div>
@@ -106,7 +108,7 @@ export default function HeroCarousel({ instituteNotice }: HeroCarouselProps) {
                     </div>
                     <div className="min-w-0 pt-0.5 text-left">
                       <p className="text-[11px] font-bold uppercase tracking-wider text-[#2086b8] sm:text-xs">
-                        Dr. Vithalrao Vikhe Patil Foundation&apos;s
+                        {t("foundationLine")}
                       </p>
                       <p className="mt-0.5 text-base font-bold text-[#011e2c] leading-snug sm:text-lg">{notice.unit2Title}</p>
                     </div>

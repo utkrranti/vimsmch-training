@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Work_Sans, Fraunces } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 
 const workSans = Work_Sans({
@@ -23,11 +25,16 @@ export const metadata: Metadata = {
   keywords: "VIMSMCH, vocational training, paramedical courses, skill development, certificate courses, Ahilyanagar",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={`${workSans.variable} ${fraunces.variable}`}>
+    <html lang={locale} className={`${workSans.variable} ${fraunces.variable}`}>
       <body className="min-h-screen bg-[#f1f5f7] text-[#010608] flex flex-col font-sans">
-        {children}
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

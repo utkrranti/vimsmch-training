@@ -1,6 +1,8 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getActiveAnnouncements } from "@/lib/db/announcements";
+import { getLocale, getTranslations } from "next-intl/server";
+import { pickLocale, type AppLocale } from "@/lib/i18n/pickLocale";
 import { Megaphone, Paperclip } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -12,7 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default async function NewsPage() {
-  const announcements = await getActiveAnnouncements();
+  const [announcements, locale, t] = await Promise.all([
+    getActiveAnnouncements(),
+    getLocale() as Promise<AppLocale>,
+    getTranslations("newsPage"),
+  ]);
 
   return (
     <>
@@ -27,9 +33,9 @@ export default async function NewsPage() {
           <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
           <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
           <div className="relative max-w-7xl mx-auto">
-            <p className="text-xs text-white/50 mb-3">Home / News &amp; Notices</p>
-            <span className="eyebrow eyebrow-light mb-4">Stay Updated</span>
-            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">News &amp; Notices</h1>
+            <p className="text-xs text-white/50 mb-3">{t("breadcrumb")}</p>
+            <span className="eyebrow eyebrow-light mb-4">{t("eyebrow")}</span>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">{t("heading")}</h1>
           </div>
         </div>
 
@@ -38,7 +44,7 @@ export default async function NewsPage() {
             {announcements.length === 0 ? (
               <div className="text-center py-20 bg-[#f1f5f7] rounded-2xl border border-[#e6edf0]">
                 <Megaphone size={40} className="text-[#010608]/20 mx-auto mb-3" />
-                <p className="text-[#010608]/40 font-medium">No notices published yet. Check back soon.</p>
+                <p className="text-[#010608]/40 font-medium">{t("empty")}</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -47,13 +53,13 @@ export default async function NewsPage() {
                     <div className="flex items-start gap-3 mb-2">
                       <Megaphone size={18} className="text-[#04415f] mt-0.5 shrink-0" />
                       <div>
-                        <h3 className="text-[#011e2c] font-bold text-base leading-snug">{a.title}</h3>
+                        <h3 className="text-[#011e2c] font-bold text-base leading-snug">{pickLocale(locale, a.title, a.titleMr)}</h3>
                         <p className="text-[#010608]/40 text-xs mt-0.5">
                           {new Date(a.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
                         </p>
                       </div>
                     </div>
-                    <p className="text-[#010608]/65 text-sm leading-relaxed pl-[30px] whitespace-pre-wrap">{a.body}</p>
+                    <p className="text-[#010608]/65 text-sm leading-relaxed pl-[30px] whitespace-pre-wrap">{pickLocale(locale, a.body, a.bodyMr)}</p>
                     {a.attachmentUrl && (
                       <a
                         href={a.attachmentUrl}
@@ -61,7 +67,7 @@ export default async function NewsPage() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 pl-[30px] mt-2 text-[#04415f] text-xs font-semibold hover:text-[#2086b8] transition-colors"
                       >
-                        <Paperclip size={12} /> View attachment
+                        <Paperclip size={12} /> {t("viewAttachment")}
                       </a>
                     )}
                   </div>

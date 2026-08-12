@@ -1,6 +1,8 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getAllFaculty } from "@/lib/db/faculty";
+import { getLocale, getTranslations } from "next-intl/server";
+import { pickLocale, type AppLocale } from "@/lib/i18n/pickLocale";
 import { UserCircle2 } from "lucide-react";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -14,7 +16,11 @@ export const metadata: Metadata = {
 };
 
 export default async function FacultyPage() {
-  const faculty = await getAllFaculty();
+  const [faculty, locale, t] = await Promise.all([
+    getAllFaculty(),
+    getLocale() as Promise<AppLocale>,
+    getTranslations("facultyPage"),
+  ]);
 
   return (
     <>
@@ -29,17 +35,17 @@ export default async function FacultyPage() {
           <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
           <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
           <div className="relative max-w-7xl mx-auto">
-            <p className="text-xs text-white/50 mb-3">Home / Faculty</p>
-            <span className="eyebrow eyebrow-light mb-4">Meet the Team</span>
-            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">Our Faculty</h1>
+            <p className="text-xs text-white/50 mb-3">{t("breadcrumb")}</p>
+            <span className="eyebrow eyebrow-light mb-4">{t("eyebrow")}</span>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">{t("heading")}</h1>
           </div>
         </div>
 
         {/* Intro strip */}
         <div className="bg-[#04415f]/5 border-b border-[#04415f]/15 py-3 px-4 sm:px-6">
           <div className="max-w-7xl mx-auto text-xs text-[#010608]/60">
-            <span className="text-[#04415f] font-semibold">Qualified Educators: </span>
-            All programme coordinators are qualified medical professionals and subject-matter experts with clinical and teaching experience.
+            <span className="text-[#04415f] font-semibold">{t("qualifiedEducatorsLabel")} </span>
+            {t("qualifiedEducatorsText")}
           </div>
         </div>
 
@@ -49,11 +55,18 @@ export default async function FacultyPage() {
             {faculty.length === 0 ? (
               <div className="text-center py-20 bg-white rounded-2xl border border-[#e6edf0]">
                 <UserCircle2 size={40} className="text-[#010608]/20 mx-auto mb-3" />
-                <p className="text-[#010608]/40 font-medium">Faculty details will be published shortly.</p>
+                <p className="text-[#010608]/40 font-medium">{t("empty")}</p>
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-7">
-                {faculty.map((f) => (
+                {faculty.map((f) => {
+                  const designation = pickLocale(locale, f.designation, f.designationMr);
+                  const department = f.department ? pickLocale(locale, f.department, f.departmentMr) : null;
+                  const qualification = f.qualification ? pickLocale(locale, f.qualification, f.qualificationMr) : null;
+                  const specialization = f.specialization ? pickLocale(locale, f.specialization, f.specializationMr) : null;
+                  const experience = f.experience ? pickLocale(locale, f.experience, f.experienceMr) : null;
+                  const bio = f.bio ? pickLocale(locale, f.bio, f.bioMr) : null;
+                  return (
                   <div
                     key={f.id}
                     className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-300"
@@ -76,32 +89,33 @@ export default async function FacultyPage() {
                       )}
                       <div className="min-w-0">
                         <h3 className="text-[#011e2c] font-bold text-sm leading-snug mb-1">{f.name}</h3>
-                        <p className="text-[#04415f] text-xs font-medium leading-snug">{f.designation}</p>
-                        {f.department && <p className="text-[#010608]/50 text-xs mt-0.5">{f.department}</p>}
+                        <p className="text-[#04415f] text-xs font-medium leading-snug">{designation}</p>
+                        {department && <p className="text-[#010608]/50 text-xs mt-0.5">{department}</p>}
                       </div>
                     </div>
 
-                    {(f.qualification || f.experience || f.specialization) && (
+                    {(qualification || experience || specialization) && (
                       <div className="px-6 pb-4 space-y-1.5 text-xs">
-                        {f.qualification && (
-                          <p><span className="text-[#010608]/40">Qualification: </span><span className="text-[#010608]/70 font-medium">{f.qualification}</span></p>
+                        {qualification && (
+                          <p><span className="text-[#010608]/40">{t("qualificationLabel")} </span><span className="text-[#010608]/70 font-medium">{qualification}</span></p>
                         )}
-                        {f.specialization && (
-                          <p><span className="text-[#010608]/40">Specialization: </span><span className="text-[#010608]/70 font-medium">{f.specialization}</span></p>
+                        {specialization && (
+                          <p><span className="text-[#010608]/40">{t("specializationLabel")} </span><span className="text-[#010608]/70 font-medium">{specialization}</span></p>
                         )}
-                        {f.experience && (
-                          <p><span className="text-[#010608]/40">Experience: </span><span className="text-[#010608]/70 font-medium">{f.experience}</span></p>
+                        {experience && (
+                          <p><span className="text-[#010608]/40">{t("experienceLabel")} </span><span className="text-[#010608]/70 font-medium">{experience}</span></p>
                         )}
                       </div>
                     )}
 
-                    {f.bio && (
+                    {bio && (
                       <div className="px-6 pb-6 border-t border-[#e6edf0] pt-4">
-                        <p className="text-[#010608]/60 text-xs leading-relaxed">{f.bio}</p>
+                        <p className="text-[#010608]/60 text-xs leading-relaxed">{bio}</p>
                       </div>
                     )}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

@@ -1,0 +1,18 @@
+{
+  "submittedTitle": "चौकशी सबमिट केली!",
+  "submittedText": "धन्यवाद. आमची समुपदेशन टीम 1 कामकाजाच्या दिवसात तुमच्याशी संपर्क साधेल.",
+  "submitAnother": "आणखी एक चौकशी सबमिट करा →",
+  "fullNameLabel": "पूर्ण नाव",
+  "fullNamePlaceholder": "तुमचे पूर्ण नाव",
+  "phoneLabel": "फोन नंबर",
+  "phonePlaceholder": "+91 XXXXX XXXXX",
+  "emailLabel": "ईमेल पत्ता",
+  "emailPlaceholder": "your@email.com",
+  "messageLabel": "संदेश",
+  "messagePlaceholder": "तुम्हाला कोणत्या अभ्यासक्रमात रस आहे? काही विशिष्ट प्रश्न आहेत का?",
+  "sending": "पाठवत आहे...",
+  "send": "चौकशी पाठवा",
+  "responseNote": "आम्ही सहसा 1 कामकाजाच्या दिवसात प्रतिसाद देतो.",
+  "genericError": "काहीतरी चुकले.",
+  "submissionFailed": "सबमिशन अयशस्वी झाले."
+}

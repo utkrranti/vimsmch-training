@@ -1,0 +1,18 @@
+{
+  "submittedTitle": "चौकशी सबमिट केली!",
+  "submittedText": "आमचे प्रवेश समुपदेशक 1 कामकाजाच्या दिवसात याबाबत तुमच्याशी संपर्क साधतील:",
+  "fullNameLabel": "पूर्ण नाव *",
+  "fullNamePlaceholder": "तुमचे पूर्ण नाव",
+  "phoneLabel": "फोन *",
+  "phonePlaceholder": "+91 XXXXX XXXXX",
+  "emailLabel": "ईमेल पत्ता",
+  "emailPlaceholder": "your@email.com",
+  "courseLabel": "अभ्यासक्रम",
+  "messageLabel": "संदेश / प्रश्न",
+  "messagePlaceholder": "या अभ्यासक्रमाबद्दल काही विशिष्ट प्रश्न...",
+  "submitting": "सबमिट करत आहे...",
+  "submit": "चौकशी सबमिट करा",
+  "privacyNote": "तुमचे तपशील गोपनीय ठेवले जातात आणि तृतीय पक्षांसोबत सामायिक केले जात नाहीत.",
+  "genericError": "काहीतरी चुकले. कृपया पुन्हा प्रयत्न करा.",
+  "submissionFailed": "सबमिशन अयशस्वी झाले."
+}

@@ -1,21 +1,26 @@
 import { getSettings } from "@/lib/db/settings";
+import { getTranslations } from "next-intl/server";
 import { MapPin, Phone, Mail, Globe, Clock, MessageCircle, PhoneCall } from "lucide-react";
 import Reveal from "@/components/ui/Reveal";
 
 export default async function ContactDetails() {
-  const s = await getSettings(["contact.whatsapp", "contact.admissionHelpline"]);
+  const [s, t, tFooter] = await Promise.all([
+    getSettings(["contact.whatsapp", "contact.admissionHelpline"]),
+    getTranslations("contactDetails"),
+    getTranslations("footer"),
+  ]);
   const whatsapp = s["contact.whatsapp"];
   const admissionHelpline = s["contact.admissionHelpline"];
 
   const contactDetails = [
     {
       icon: MapPin,
-      label: "Address",
-      value: "Opp. Govt. Milk Dairy, Post – M.I.D.C., Vadgaon Gupta, Ahilyanagar – 414 111",
+      label: t("addressLabel"),
+      value: tFooter("address"),
     },
     {
       icon: Phone,
-      label: "Phone",
+      label: t("phoneLabel"),
       value: "1800 123 4858 | +91 8956263701",
       href: "tel:+918956263701",
     },
@@ -23,7 +28,7 @@ export default async function ContactDetails() {
       ? [
           {
             icon: PhoneCall,
-            label: "Admission Helpline",
+            label: t("admissionHelplineLabel"),
             value: admissionHelpline,
             href: `tel:${admissionHelpline.replace(/[^+\d]/g, "")}`,
           },
@@ -33,7 +38,7 @@ export default async function ContactDetails() {
       ? [
           {
             icon: MessageCircle,
-            label: "WhatsApp",
+            label: t("whatsappLabel"),
             value: whatsapp,
             href: `https://wa.me/${whatsapp.replace(/[^\d]/g, "")}`,
           },
@@ -41,20 +46,20 @@ export default async function ContactDetails() {
       : []),
     {
       icon: Mail,
-      label: "Email",
+      label: t("emailLabel"),
       value: "dean@vimsmch.edu.in",
       href: "mailto:dean@vimsmch.edu.in",
     },
     {
       icon: Globe,
-      label: "Website",
+      label: t("websiteLabel"),
       value: "vimsmch.edu.in",
       href: "https://vimsmch.edu.in",
     },
     {
       icon: Clock,
-      label: "Office Hours",
-      value: "Monday – Saturday: 9:00 AM – 5:00 PM",
+      label: t("officeHoursLabel"),
+      value: t("officeHoursValue"),
     },
   ];
 
@@ -63,8 +68,8 @@ export default async function ContactDetails() {
       <div className="max-w-7xl mx-auto">
         <Reveal>
           <div className="text-center mb-12">
-            <span className="eyebrow mb-4">Get In Touch</span>
-            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#011e2c] mb-3 tracking-tight">Contact Details</h2>
+            <span className="eyebrow mb-4">{t("eyebrow")}</span>
+            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#011e2c] mb-3 tracking-tight">{t("heading")}</h2>
             <div className="w-16 h-1 bg-[#2086b8] mx-auto rounded" />
           </div>
         </Reveal>
@@ -107,7 +112,7 @@ export default async function ContactDetails() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="VIMSMCH Location"
+                title={t("mapTitle")}
               />
             </div>
           </Reveal>

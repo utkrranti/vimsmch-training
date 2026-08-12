@@ -1,0 +1,22 @@
+{
+  "eyebrow": "Get in Touch",
+  "heading": "Interested? Let's Talk.",
+  "description": "Fill in your details and our admissions counsellor will call you within 1 working day. No commitment — just honest information.",
+  "bullet1": "Free counselling session",
+  "bullet2": "Full fee transparency — no hidden charges",
+  "bullet3": "Course duration & certificate details shared upfront",
+  "submittedTitle": "Inquiry Submitted!",
+  "submittedText": "Our counsellor will reach out to you within 1 working day.",
+  "fullNameLabel": "Full Name *",
+  "fullNamePlaceholder": "Your full name",
+  "phoneLabel": "Phone Number *",
+  "phonePlaceholder": "+91 XXXXX XXXXX",
+  "courseLabel": "Course Interested In",
+  "selectCourse": "Select a course",
+  "courseOtherOption": "Other / Not sure yet",
+  "submitting": "Submitting...",
+  "submit": "Submit Inquiry",
+  "privacyNote": "Your information is kept private and not shared with third parties.",
+  "genericError": "Something went wrong.",
+  "submissionFailed": "Submission failed."
+}

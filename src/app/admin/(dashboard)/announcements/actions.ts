@@ -5,11 +5,13 @@ import { revalidatePath } from "next/cache";
 
 export async function saveAnnouncement(
   id: string | null,
-  data: { title: string; body: string; attachmentUrl: string; isActive: boolean }
+  data: { title: string; titleMr: string; body: string; bodyMr: string; attachmentUrl: string; isActive: boolean }
 ) {
   const payload = {
     title: data.title,
+    titleMr: data.titleMr || null,
     body: data.body,
+    bodyMr: data.bodyMr || null,
     attachmentUrl: data.attachmentUrl || null,
     isActive: data.isActive,
   };

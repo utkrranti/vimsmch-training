@@ -6,21 +6,22 @@ import { Plus, Trash2, Save, Loader2 } from "lucide-react";
 import { saveCourse } from "./actions";
 import FileUploadField from "@/components/admin/FileUploadField";
 import Image from "next/image";
+import { BilingualField, BilingualTextarea } from "@/components/admin/bilingual/BilingualField";
 
-type FeeItem = { label: string; amount: number };
-type SyllabusUnit = { unit: string; topics: string[] };
+type FeeItem = { label: string; labelMr?: string; amount: number };
+type SyllabusUnit = { unit: string; unitMr?: string; topics: string[]; topicsMr?: string[] };
 
 type CourseFormProps = {
   id?: string;
   initial?: {
-    slug: string; title: string; shortDesc: string; fullDesc: string;
+    slug: string; title: string; titleMr: string; shortDesc: string; shortDescMr: string; fullDesc: string; fullDescMr: string;
     nsqf: number; durationMonths: number; durationHours: number;
     fees: number; feeBreakdown: FeeItem[];
-    seats: number; eligibility: string; ageLimit: string; certBy: string;
-    assessmentScheme: string; creditEquivalence: string;
-    objectives: string[]; highlights: string[];
-    syllabus: SyllabusUnit[]; clinicalPostings: string[];
-    outcomes: string[]; tags: string[];
+    seats: number; eligibility: string; eligibilityMr: string; ageLimit: string; ageLimitMr: string; certBy: string; certByMr: string;
+    assessmentScheme: string; assessmentSchemeMr: string; creditEquivalence: string; creditEquivalenceMr: string;
+    objectives: string[]; objectivesMr: string[]; highlights: string[]; highlightsMr: string[];
+    syllabus: SyllabusUnit[]; clinicalPostings: string[]; clinicalPostingsMr: string[];
+    outcomes: string[]; outcomesMr: string[]; tags: string[]; tagsMr: string[];
     category: string; batchMonths: string[]; isActive: boolean;
     imageUrl: string;
   };
@@ -30,15 +31,15 @@ const CATEGORIES = ["Allied Health", "Medical", "Nursing", "Pharmacy", "Administ
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const empty = {
-  slug: "", title: "", shortDesc: "", fullDesc: "",
+  slug: "", title: "", titleMr: "", shortDesc: "", shortDescMr: "", fullDesc: "", fullDescMr: "",
   nsqf: 4, durationMonths: 6, durationHours: 500,
-  fees: 0, feeBreakdown: [{ label: "Tuition Fee", amount: 0 }],
-  seats: 30, eligibility: "", ageLimit: "18–35 years", certBy: "NSDC",
-  assessmentScheme: "", creditEquivalence: "",
-  objectives: [""], highlights: [""],
-  syllabus: [{ unit: "Unit 1", topics: [""] }],
-  clinicalPostings: [""],
-  outcomes: [""], tags: [""], category: "Allied Health",
+  fees: 0, feeBreakdown: [{ label: "Tuition Fee", labelMr: "", amount: 0 }],
+  seats: 30, eligibility: "", eligibilityMr: "", ageLimit: "18–35 years", ageLimitMr: "", certBy: "NSDC", certByMr: "",
+  assessmentScheme: "", assessmentSchemeMr: "", creditEquivalence: "", creditEquivalenceMr: "",
+  objectives: [""], objectivesMr: [""], highlights: [""], highlightsMr: [""],
+  syllabus: [{ unit: "Unit 1", unitMr: "", topics: [""], topicsMr: [""] }],
+  clinicalPostings: [""], clinicalPostingsMr: [""],
+  outcomes: [""], outcomesMr: [""], tags: [""], tagsMr: [""], category: "Allied Health",
   batchMonths: ["July"], isActive: true,
   imageUrl: "",
 };
@@ -54,30 +55,42 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
   // Fee breakdown helpers
   const setFee = (i: number, k: keyof FeeItem, v: string | number) =>
     set("feeBreakdown", form.feeBreakdown.map((f, idx) => idx === i ? { ...f, [k]: v } : f));
-  const addFee = () => set("feeBreakdown", [...form.feeBreakdown, { label: "", amount: 0 }]);
+  const addFee = () => set("feeBreakdown", [...form.feeBreakdown, { label: "", labelMr: "", amount: 0 }]);
   const removeFee = (i: number) => set("feeBreakdown", form.feeBreakdown.filter((_, idx) => idx !== i));
 
   // Syllabus helpers
   const setSyllUnit = (i: number, v: string) =>
     set("syllabus", form.syllabus.map((s, idx) => idx === i ? { ...s, unit: v } : s));
+  const setSyllUnitMr = (i: number, v: string) =>
+    set("syllabus", form.syllabus.map((s, idx) => idx === i ? { ...s, unitMr: v } : s));
   const setSyllTopic = (si: number, ti: number, v: string) =>
     set("syllabus", form.syllabus.map((s, idx) =>
       idx === si ? { ...s, topics: s.topics.map((t, tidx) => tidx === ti ? v : t) } : s));
+  const setSyllTopicMr = (si: number, ti: number, v: string) =>
+    set("syllabus", form.syllabus.map((s, idx) =>
+      idx === si ? { ...s, topicsMr: (s.topicsMr ?? []).map((t, tidx) => tidx === ti ? v : t) } : s));
   const addSyllTopic = (si: number) =>
-    set("syllabus", form.syllabus.map((s, idx) => idx === si ? { ...s, topics: [...s.topics, ""] } : s));
+    set("syllabus", form.syllabus.map((s, idx) => idx === si ? { ...s, topics: [...s.topics, ""], topicsMr: [...(s.topicsMr ?? []), ""] } : s));
   const removeSyllTopic = (si: number, ti: number) =>
-    set("syllabus", form.syllabus.map((s, idx) => idx === si ? { ...s, topics: s.topics.filter((_, tidx) => tidx !== ti) } : s));
-  const addSyllUnit = () => set("syllabus", [...form.syllabus, { unit: `Unit ${form.syllabus.length + 1}`, topics: [""] }]);
+    set("syllabus", form.syllabus.map((s, idx) => idx === si ? { ...s, topics: s.topics.filter((_, tidx) => tidx !== ti), topicsMr: (s.topicsMr ?? []).filter((_, tidx) => tidx !== ti) } : s));
+  const addSyllUnit = () => set("syllabus", [...form.syllabus, { unit: `Unit ${form.syllabus.length + 1}`, unitMr: "", topics: [""], topicsMr: [""] }]);
   const removeSyllUnit = (i: number) => set("syllabus", form.syllabus.filter((_, idx) => idx !== i));
 
-  // Array field helpers (objectives, highlights, clinicalPostings, outcomes, tags)
+  // Array field helpers (objectives, highlights, clinicalPostings, outcomes, tags) — each has a parallel *Mr array
   type ArrField = "objectives" | "highlights" | "clinicalPostings" | "outcomes" | "tags";
+  const arrMrField = (field: ArrField) => `${field}Mr` as const;
   const setArr = (field: ArrField, i: number, v: string) =>
     set(field, (form[field] as string[]).map((x, idx) => idx === i ? v : x));
-  const addArr = (field: ArrField) =>
+  const setArrMr = (field: ArrField, i: number, v: string) =>
+    set(arrMrField(field), ((form[arrMrField(field)] as string[] | undefined) ?? []).map((x, idx) => idx === i ? v : x));
+  const addArr = (field: ArrField) => {
     set(field, [...(form[field] as string[]), ""]);
-  const removeArr = (field: ArrField, i: number) =>
+    set(arrMrField(field), [...((form[arrMrField(field)] as string[] | undefined) ?? []), ""]);
+  };
+  const removeArr = (field: ArrField, i: number) => {
     set(field, (form[field] as string[]).filter((_, idx) => idx !== i));
+    set(arrMrField(field), ((form[arrMrField(field)] as string[] | undefined) ?? []).filter((_, idx) => idx !== i));
+  };
 
   const toggleBatchMonth = (m: string) =>
     set("batchMonths", form.batchMonths.includes(m)
@@ -121,12 +134,18 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
         <h2 className="font-bold text-[#011e2c] text-sm border-b border-[#e6edf0] pb-3">Basic Information</h2>
         <div className="grid grid-cols-2 gap-5">
           <div className="col-span-2">
-            <label className={labelCls}>Course Title *</label>
-            <input className={inputCls} value={form.title} onChange={(e) => {
-              const title = e.target.value;
-              set("title", title);
-              if (!id) set("slug", title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""));
-            }} required placeholder="e.g. Operation Theatre Techniques" />
+            <BilingualField
+              label="Course Title"
+              required
+              value={form.title}
+              valueMr={form.titleMr}
+              onChange={(title) => {
+                set("title", title);
+                if (!id) set("slug", title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""));
+              }}
+              onChangeMr={(v) => set("titleMr", v)}
+              placeholder="e.g. Operation Theatre Techniques"
+            />
           </div>
           <div>
             <label className={labelCls}>Slug *</label>
@@ -139,12 +158,25 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
             </select>
           </div>
           <div className="col-span-2">
-            <label className={labelCls}>Short Description</label>
-            <input className={inputCls} value={form.shortDesc} onChange={(e) => set("shortDesc", e.target.value)} placeholder="One-line description shown on course cards" />
+            <BilingualField
+              label="Short Description"
+              value={form.shortDesc}
+              valueMr={form.shortDescMr}
+              onChange={(v) => set("shortDesc", v)}
+              onChangeMr={(v) => set("shortDescMr", v)}
+              placeholder="One-line description shown on course cards"
+            />
           </div>
           <div className="col-span-2">
-            <label className={labelCls}>Full Description</label>
-            <textarea className={`${inputCls} resize-y min-h-[100px]`} value={form.fullDesc} onChange={(e) => set("fullDesc", e.target.value)} placeholder="Detailed course description..." />
+            <BilingualTextarea
+              label="Full Description"
+              rows={4}
+              value={form.fullDesc}
+              valueMr={form.fullDescMr}
+              onChange={(v) => set("fullDesc", v)}
+              onChangeMr={(v) => set("fullDescMr", v)}
+              placeholder="Detailed course description..."
+            />
           </div>
         </div>
       </div>
@@ -190,24 +222,54 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
             <input type="number" min={1} className={inputCls} value={form.seats} onChange={(e) => set("seats", Number(e.target.value))} />
           </div>
           <div>
-            <label className={labelCls}>Age Limit</label>
-            <input className={inputCls} value={form.ageLimit} onChange={(e) => set("ageLimit", e.target.value)} placeholder="18–35 years" />
+            <BilingualField
+              label="Age Limit"
+              value={form.ageLimit}
+              valueMr={form.ageLimitMr}
+              onChange={(v) => set("ageLimit", v)}
+              onChangeMr={(v) => set("ageLimitMr", v)}
+              placeholder="18–35 years"
+            />
           </div>
           <div className="col-span-2">
-            <label className={labelCls}>Eligibility</label>
-            <input className={inputCls} value={form.eligibility} onChange={(e) => set("eligibility", e.target.value)} placeholder="Minimum 10th pass" />
+            <BilingualField
+              label="Eligibility"
+              value={form.eligibility}
+              valueMr={form.eligibilityMr}
+              onChange={(v) => set("eligibility", v)}
+              onChangeMr={(v) => set("eligibilityMr", v)}
+              placeholder="Minimum 10th pass"
+            />
           </div>
           <div>
-            <label className={labelCls}>Certified By</label>
-            <input className={inputCls} value={form.certBy} onChange={(e) => set("certBy", e.target.value)} placeholder="NSDC / PMKVY" />
+            <BilingualField
+              label="Certified By"
+              value={form.certBy}
+              valueMr={form.certByMr}
+              onChange={(v) => set("certBy", v)}
+              onChangeMr={(v) => set("certByMr", v)}
+              placeholder="NSDC / PMKVY"
+            />
           </div>
           <div className="col-span-3">
-            <label className={labelCls}>Assessment Scheme</label>
-            <input className={inputCls} value={form.assessmentScheme} onChange={(e) => set("assessmentScheme", e.target.value)} placeholder="Theory 30% + Practical 70%" />
+            <BilingualField
+              label="Assessment Scheme"
+              value={form.assessmentScheme}
+              valueMr={form.assessmentSchemeMr}
+              onChange={(v) => set("assessmentScheme", v)}
+              onChangeMr={(v) => set("assessmentSchemeMr", v)}
+              placeholder="Theory 30% + Practical 70%"
+            />
           </div>
           <div className="col-span-3">
-            <label className={labelCls}>Credit Equivalence</label>
-            <input className={inputCls} value={form.creditEquivalence} onChange={(e) => set("creditEquivalence", e.target.value)} placeholder="Not applicable" />
+            <BilingualField
+              label="Credit Equivalence"
+              value={form.creditEquivalence}
+              valueMr={form.creditEquivalenceMr}
+              onChange={(v) => set("creditEquivalence", v)}
+              onChangeMr={(v) => set("creditEquivalenceMr", v)}
+              placeholder="Not applicable"
+            />
           </div>
         </div>
       </div>
@@ -222,8 +284,11 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
         </div>
         <div className="space-y-3">
           {form.feeBreakdown.map((f, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <input className={`${inputCls} flex-1`} value={f.label} onChange={(e) => setFee(i, "label", e.target.value)} placeholder="Fee label" />
+            <div key={i} className="flex items-start gap-3">
+              <div className="flex-1 space-y-2">
+                <input className={inputCls} value={f.label} onChange={(e) => setFee(i, "label", e.target.value)} placeholder="Fee label" />
+                <input className={inputCls} value={f.labelMr ?? ""} onChange={(e) => setFee(i, "labelMr", e.target.value)} placeholder="Fee label (Marathi)" />
+              </div>
               <input type="number" min={0} className={`${inputCls} w-32`} value={f.amount} onChange={(e) => setFee(i, "amount", Number(e.target.value))} placeholder="Amount" />
               <button type="button" onClick={() => removeFee(i)} className="text-red-400 hover:text-red-600 transition-colors p-1.5">
                 <Trash2 size={14} />
@@ -244,16 +309,22 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
         <div className="space-y-4">
           {form.syllabus.map((s, si) => (
             <div key={si} className="border border-[#e6edf0] rounded-xl p-4 space-y-3">
-              <div className="flex items-center gap-3">
-                <input className={`${inputCls} flex-1`} value={s.unit} onChange={(e) => setSyllUnit(si, e.target.value)} placeholder="Unit name" />
+              <div className="flex items-start gap-3">
+                <div className="flex-1 space-y-2">
+                  <input className={inputCls} value={s.unit} onChange={(e) => setSyllUnit(si, e.target.value)} placeholder="Unit name" />
+                  <input className={inputCls} value={s.unitMr ?? ""} onChange={(e) => setSyllUnitMr(si, e.target.value)} placeholder="Unit name (Marathi)" />
+                </div>
                 <button type="button" onClick={() => removeSyllUnit(si)} className="text-red-400 hover:text-red-600 transition-colors p-1.5">
                   <Trash2 size={14} />
                 </button>
               </div>
               <div className="space-y-2 pl-3 border-l-2 border-[#e6edf0]">
                 {s.topics.map((t, ti) => (
-                  <div key={ti} className="flex items-center gap-2">
-                    <input className={`${inputCls} flex-1 text-xs`} value={t} onChange={(e) => setSyllTopic(si, ti, e.target.value)} placeholder="Topic" />
+                  <div key={ti} className="flex items-start gap-2">
+                    <div className="flex-1 space-y-1.5">
+                      <input className={`${inputCls} text-xs`} value={t} onChange={(e) => setSyllTopic(si, ti, e.target.value)} placeholder="Topic" />
+                      <input className={`${inputCls} text-xs`} value={(s.topicsMr ?? [])[ti] ?? ""} onChange={(e) => setSyllTopicMr(si, ti, e.target.value)} placeholder="Topic (Marathi)" />
+                    </div>
                     <button type="button" onClick={() => removeSyllTopic(si, ti)} className="text-red-400/60 hover:text-red-600 transition-colors p-1">
                       <Trash2 size={12} />
                     </button>
@@ -286,8 +357,11 @@ export default function CourseForm({ id, initial }: CourseFormProps) {
             </div>
             <div className="space-y-2">
               {(form[field] as string[]).map((v, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <input className={`${inputCls} flex-1 text-xs`} value={v} onChange={(e) => setArr(field, i, e.target.value)} placeholder={placeholder} />
+                <div key={i} className="flex items-start gap-2">
+                  <div className="flex-1 space-y-1.5">
+                    <input className={`${inputCls} text-xs`} value={v} onChange={(e) => setArr(field, i, e.target.value)} placeholder={placeholder} />
+                    <input className={`${inputCls} text-xs`} value={((form[arrMrField(field)] as string[] | undefined) ?? [])[i] ?? ""} onChange={(e) => setArrMr(field, i, e.target.value)} placeholder={`${placeholder} (Marathi)`} />
+                  </div>
                   <button type="button" onClick={() => removeArr(field, i)} className="text-red-400/60 hover:text-red-600 transition-colors p-1">
                     <Trash2 size={12} />
                   </button>

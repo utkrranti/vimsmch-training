@@ -1,0 +1,18 @@
+{
+  "submittedTitle": "Inquiry Submitted!",
+  "submittedText": "Our admissions counsellor will contact you within 1 working day regarding",
+  "fullNameLabel": "Full Name *",
+  "fullNamePlaceholder": "Your full name",
+  "phoneLabel": "Phone *",
+  "phonePlaceholder": "+91 XXXXX XXXXX",
+  "emailLabel": "Email Address",
+  "emailPlaceholder": "your@email.com",
+  "courseLabel": "Course",
+  "messageLabel": "Message / Questions",
+  "messagePlaceholder": "Any specific questions about this course...",
+  "submitting": "Submitting...",
+  "submit": "Submit Inquiry",
+  "privacyNote": "Your details are kept private and not shared with third parties.",
+  "genericError": "Something went wrong. Please try again.",
+  "submissionFailed": "Submission failed."
+}

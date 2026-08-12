@@ -3,7 +3,9 @@ import { prisma } from "@/lib/prisma";
 export type AnnouncementRow = {
   id: string;
   title: string;
+  titleMr?: string | null;
   body: string;
+  bodyMr?: string | null;
   attachmentUrl: string | null;
   isActive: boolean;
   createdAt: Date;

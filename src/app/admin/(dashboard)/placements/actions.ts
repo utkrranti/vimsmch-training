@@ -5,13 +5,14 @@ import { revalidatePath } from "next/cache";
 
 export async function savePlacement(
   id: string | null,
-  data: { studentName: string; employerName: string; courseId: string; quote: string; batchYear: string; sortOrder: number; isActive: boolean }
+  data: { studentName: string; employerName: string; courseId: string; quote: string; quoteMr: string; batchYear: string; sortOrder: number; isActive: boolean }
 ) {
   const payload = {
     studentName: data.studentName,
     employerName: data.employerName || null,
     courseId: data.courseId || null,
     quote: data.quote || null,
+    quoteMr: data.quoteMr || null,
     batchYear: data.batchYear || null,
     sortOrder: data.sortOrder,
     isActive: data.isActive,

@@ -6,6 +6,7 @@ export type PlacementRow = {
   employerName: string | null;
   courseId: string | null;
   quote: string | null;
+  quoteMr?: string | null;
   batchYear: string | null;
   sortOrder: number;
   isActive: boolean;

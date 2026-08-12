@@ -4,9 +4,10 @@ import { useState, useTransition } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Plus, Pencil, Trash2, X, Loader2, HelpCircle } from "lucide-react";
 import { saveFaqItem, deleteFaqItem, toggleFaqItemActive } from "./actions";
+import { BilingualField, BilingualTextarea } from "@/components/admin/bilingual/BilingualField";
 
-type FaqRow = { id: string; question: string; answer: string | null; sortOrder: number; isActive: boolean };
-const emptyForm = { question: "", answer: "", sortOrder: 0, isActive: true };
+type FaqRow = { id: string; question: string; questionMr: string | null; answer: string | null; answerMr: string | null; sortOrder: number; isActive: boolean };
+const emptyForm = { question: "", questionMr: "", answer: "", answerMr: "", sortOrder: 0, isActive: true };
 
 export default function FaqManager({ items }: { items: FaqRow[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -18,7 +19,7 @@ export default function FaqManager({ items }: { items: FaqRow[] }) {
   const openAdd = () => { setEditing(null); setForm(emptyForm); setError(""); setShowModal(true); };
   const openEdit = (f: FaqRow) => {
     setEditing(f);
-    setForm({ question: f.question, answer: f.answer ?? "", sortOrder: f.sortOrder, isActive: f.isActive });
+    setForm({ question: f.question, questionMr: f.questionMr ?? "", answer: f.answer ?? "", answerMr: f.answerMr ?? "", sortOrder: f.sortOrder, isActive: f.isActive });
     setError(""); setShowModal(true);
   };
 
@@ -123,14 +124,24 @@ export default function FaqManager({ items }: { items: FaqRow[] }) {
                 {error && <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-red-600 text-xs mb-4">{error}</div>}
 
                 <div className="space-y-4">
-                  <div>
-                    <label className={labelCls}>Question *</label>
-                    <input className={inputCls} value={form.question} onChange={(e) => setForm((f) => ({ ...f, question: e.target.value }))} placeholder="Is the course recognized for government jobs?" />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Answer</label>
-                    <textarea rows={3} className={`${inputCls} resize-y`} value={form.answer} onChange={(e) => setForm((f) => ({ ...f, answer: e.target.value }))} placeholder="Leave blank to show 'being finalised' until you have an answer." />
-                  </div>
+                  <BilingualField
+                    label="Question"
+                    required
+                    value={form.question}
+                    valueMr={form.questionMr}
+                    onChange={(v) => setForm((f) => ({ ...f, question: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, questionMr: v }))}
+                    placeholder="Is the course recognized for government jobs?"
+                  />
+                  <BilingualTextarea
+                    label="Answer"
+                    rows={3}
+                    value={form.answer}
+                    valueMr={form.answerMr}
+                    onChange={(v) => setForm((f) => ({ ...f, answer: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, answerMr: v }))}
+                    placeholder="Leave blank to show 'being finalised' until you have an answer."
+                  />
                   <div>
                     <label className={labelCls}>Sort Order</label>
                     <input type="number" min={0} className={inputCls} value={form.sortOrder} onChange={(e) => setForm((f) => ({ ...f, sortOrder: Number(e.target.value) }))} />

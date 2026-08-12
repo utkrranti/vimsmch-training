@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Send, CheckCircle } from "lucide-react";
 
-const courseOptions = [
-  "Operation Theatre Assistant",
-  "ECG Technology",
-  "Dialysis Technician",
-  "Medical Laboratory Technology",
-  "Radiology and Imaging Technology",
-  "Other / Not sure yet",
-];
-
 export default function QuickInquiry() {
+  const t = useTranslations("quickInquiry");
+  const courseOptions = [
+    "Operation Theatre Assistant",
+    "ECG Technology",
+    "Dialysis Technician",
+    "Medical Laboratory Technology",
+    "Radiology and Imaging Technology",
+  ];
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -34,11 +34,11 @@ export default function QuickInquiry() {
       });
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Submission failed.");
+        throw new Error(data.error || t("submissionFailed"));
       }
       setSubmitted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : t("genericError"));
     } finally {
       setLoading(false);
     }
@@ -53,22 +53,17 @@ export default function QuickInquiry() {
         {/* Left */}
         <div className="text-white">
           <span className="inline-block text-[#2086b8] text-xs font-semibold uppercase tracking-widest mb-4">
-            Get in Touch
+            {t("eyebrow")}
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Interested? Let&apos;s Talk.
+            {t("heading")}
           </h2>
           <div className="w-16 h-1 bg-[#2086b8] rounded mb-6" />
           <p className="text-white/80 text-base leading-relaxed mb-7">
-            Fill in your details and our admissions counsellor will call you within 1 working day.
-            No commitment — just honest information.
+            {t("description")}
           </p>
           <ul className="space-y-3 text-sm text-white/80">
-            {[
-              "Free counselling session",
-              "Full fee transparency — no hidden charges",
-              "Course duration & certificate details shared upfront",
-            ].map((item) => (
+            {[t("bullet1"), t("bullet2"), t("bullet3")].map((item) => (
               <li key={item} className="flex items-center gap-2">
                 <CheckCircle size={14} className="text-[#2086b8] shrink-0" />
                 {item}
@@ -82,21 +77,21 @@ export default function QuickInquiry() {
           {submitted ? (
             <div className="text-center py-8">
               <CheckCircle size={52} className="text-[#059652] mx-auto mb-4" />
-              <h3 className="text-[#011e2c] font-bold text-xl mb-2">Inquiry Submitted!</h3>
+              <h3 className="text-[#011e2c] font-bold text-xl mb-2">{t("submittedTitle")}</h3>
               <p className="text-[#010608]/60 text-sm">
-                Our counsellor will reach out to you within 1 working day.
+                {t("submittedText")}
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label className="block text-[#011e2c] text-xs font-semibold mb-1.5 uppercase tracking-wide">
-                  Full Name *
+                  {t("fullNameLabel")}
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="Your full name"
+                  placeholder={t("fullNamePlaceholder")}
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="w-full border border-[#cdd8de] text-[#010608] placeholder-[#010608]/30 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#04415f] focus:ring-2 focus:ring-[#04415f]/10 transition-colors bg-[#f1f5f7]"
@@ -104,12 +99,12 @@ export default function QuickInquiry() {
               </div>
               <div>
                 <label className="block text-[#011e2c] text-xs font-semibold mb-1.5 uppercase tracking-wide">
-                  Phone Number *
+                  {t("phoneLabel")}
                 </label>
                 <input
                   type="tel"
                   required
-                  placeholder="+91 XXXXX XXXXX"
+                  placeholder={t("phonePlaceholder")}
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   className="w-full border border-[#cdd8de] text-[#010608] placeholder-[#010608]/30 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#04415f] focus:ring-2 focus:ring-[#04415f]/10 transition-colors bg-[#f1f5f7]"
@@ -117,17 +112,18 @@ export default function QuickInquiry() {
               </div>
               <div>
                 <label className="block text-[#011e2c] text-xs font-semibold mb-1.5 uppercase tracking-wide">
-                  Course Interested In
+                  {t("courseLabel")}
                 </label>
                 <select
                   value={form.course}
                   onChange={(e) => setForm({ ...form, course: e.target.value })}
                   className="w-full border border-[#cdd8de] text-[#010608] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#04415f] focus:ring-2 focus:ring-[#04415f]/10 transition-colors bg-[#f1f5f7]"
                 >
-                  <option value="">Select a course</option>
+                  <option value="">{t("selectCourse")}</option>
                   {courseOptions.map((o) => (
                     <option key={o} value={o}>{o}</option>
                   ))}
+                  <option value="Other / Not sure yet">{t("courseOtherOption")}</option>
                 </select>
               </div>
               {error && (
@@ -138,10 +134,10 @@ export default function QuickInquiry() {
                 disabled={loading}
                 className="w-full bg-[#04415f] hover:bg-[#011e2c] disabled:opacity-60 text-white font-semibold py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
-                {loading ? "Submitting..." : <><Send size={15} /> Submit Inquiry</>}
+                {loading ? t("submitting") : <><Send size={15} /> {t("submit")}</>}
               </button>
               <p className="text-[#010608]/40 text-xs text-center">
-                Your information is kept private and not shared with third parties.
+                {t("privacyNote")}
               </p>
             </form>
           )}

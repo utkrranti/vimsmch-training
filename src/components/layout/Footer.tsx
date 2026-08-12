@@ -1,31 +1,28 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { Phone, Mail, MapPin, Globe, ArrowUpRight } from "lucide-react";
 
 const quickLinks = [
-  { href: "/", label: "Home" },
-  { href: "/courses", label: "All Courses" },
-  { href: "/admission", label: "Admission & How to Apply" },
-  { href: "/about", label: "About Us" },
-  { href: "/faculty", label: "Faculty" },
-  { href: "/facilities", label: "Facilities" },
-  { href: "/placements", label: "Placements & Outcomes" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/news", label: "News & Notices" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/contact", label: "Contact" },
-  { href: "/verify", label: "Verify Certificate" },
-];
+  { href: "/", key: "home" },
+  { href: "/courses", key: "allCourses" },
+  { href: "/admission", key: "admission" },
+  { href: "/about", key: "about" },
+  { href: "/faculty", key: "faculty" },
+  { href: "/facilities", key: "facilities" },
+  { href: "/placements", key: "placements" },
+  { href: "/gallery", key: "gallery" },
+  { href: "/news", key: "news" },
+  { href: "/faq", key: "faq" },
+  { href: "/contact", key: "contact" },
+  { href: "/verify", key: "verify" },
+] as const;
 
-const courses = [
-  "Operation Theatre Assistant",
-  "ECG Technology",
-  "Dialysis Technician",
-  "Medical Laboratory Technology",
-  "Radiology and Imaging Technology",
-];
+const courseKeys = ["otAssistant", "ecgTechnology", "dialysisTechnician", "medicalLabTechnology", "radiologyImaging"] as const;
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations("footer");
+
   return (
     <footer
       className="relative mt-auto text-white overflow-hidden"
@@ -46,14 +43,12 @@ export default function Footer() {
             <Image src="/images/paramedical-institute-logo.png" alt="Paramedical Institute" width={150} height={150} className="h-14 w-auto" />
           </div>
           <p className="text-white/85 text-sm font-medium leading-relaxed mb-6">
-            Paramedical Institute of Dr. Vithalrao Vikhe Patil Foundation&apos;s Medical
-            College &amp; Hospital — one-year certificate courses in paramedical skills with
-            hands-on hospital training.
+            {t("description")}
           </p>
           <ul className="space-y-3 text-sm font-medium text-white/85">
             <li className="flex items-start gap-3">
               <MapPin size={14} className="text-white/90 mt-0.5 shrink-0" />
-              <span>Opp. Govt. Milk Dairy, Post – M.I.D.C., Vadgaon Gupta, Ahilyanagar – 414 111</span>
+              <span>{t("address")}</span>
             </li>
             <li className="flex items-start gap-3">
               <Phone size={14} className="text-white/90 mt-0.5 shrink-0" />
@@ -80,12 +75,12 @@ export default function Footer() {
 
         {/* Col 2 — Quick Links */}
         <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-[0.16em] mb-5">Quick Links</h4>
+          <h4 className="text-white font-bold text-xs uppercase tracking-[0.16em] mb-5">{t("quickLinksHeading")}</h4>
           <ul className="space-y-2.5">
             {quickLinks.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="group inline-flex items-center gap-1.5 text-white/90 hover:text-white text-sm font-medium transition-colors hover:translate-x-0.5">
-                  {l.label}
+                  {t(`quickLinks.${l.key}`)}
                   <ArrowUpRight size={11} className="opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all" />
                 </Link>
               </li>
@@ -95,12 +90,12 @@ export default function Footer() {
 
         {/* Col 3 — Courses */}
         <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-[0.16em] mb-5">Our Courses</h4>
+          <h4 className="text-white font-bold text-xs uppercase tracking-[0.16em] mb-5">{t("coursesHeading")}</h4>
           <ul className="space-y-2.5">
-            {courses.map((c) => (
-              <li key={c}>
+            {courseKeys.map((key) => (
+              <li key={key}>
                 <Link href="/courses" className="group inline-flex items-center gap-1.5 text-white/90 hover:text-white text-sm font-medium transition-colors hover:translate-x-0.5">
-                  {c}
+                  {t(`courses.${key}`)}
                   <ArrowUpRight size={11} className="opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all" />
                 </Link>
               </li>
@@ -110,20 +105,20 @@ export default function Footer() {
 
         {/* Col 4 — Admissions */}
         <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-[0.16em] mb-5">Admissions</h4>
+          <h4 className="text-white font-bold text-xs uppercase tracking-[0.16em] mb-5">{t("admissionsHeading")}</h4>
           <ul className="space-y-4">
             <li>
-              <span className="block text-[11px] text-white/35 mb-1 uppercase tracking-wide">Eligibility</span>
-              <span className="text-sm text-white/80">10th Pass (SSC), no age limit</span>
+              <span className="block text-[11px] text-white/35 mb-1 uppercase tracking-wide">{t("eligibilityLabel")}</span>
+              <span className="text-sm text-white/80">{t("eligibilityValue")}</span>
             </li>
             <li>
-              <span className="block text-[11px] text-white/35 mb-1 uppercase tracking-wide">Fee</span>
-              <span className="text-sm text-white/80">₹30,000/year (provisional)</span>
+              <span className="block text-[11px] text-white/35 mb-1 uppercase tracking-wide">{t("feeLabel")}</span>
+              <span className="text-sm text-white/80">{t("feeValue")}</span>
             </li>
             <li className="pt-1">
               <a href="https://antiragging.in" target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-sm text-[#7dd3fc] hover:text-white transition-colors font-medium">
-                Anti-Ragging Portal <ArrowUpRight size={13} />
+                {t("antiRaggingPortal")} <ArrowUpRight size={13} />
               </a>
             </li>
           </ul>
@@ -133,9 +128,9 @@ export default function Footer() {
       {/* Anti-ragging bar */}
       <div className="relative border-t border-white/10 py-3 px-4 bg-black/15">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-xs text-center">
-          <span className="font-bold text-[#7dd3fc]">ANTI-RAGGING NOTICE:</span>
+          <span className="font-bold text-[#7dd3fc]">{t("antiRaggingNoticeLabel")}</span>
           <span className="text-white/60">
-            This institution is committed to being ragging-free. Report any incident to:
+            {t("antiRaggingNoticeText")}
           </span>
           <a href="tel:18001805522" className="font-bold text-white hover:text-[#7dd3fc] transition-colors">
             1800-180-5522
@@ -152,10 +147,10 @@ export default function Footer() {
       <div className="relative border-t border-white/10 py-5 px-4">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs text-white/40">
           <span>
-            © {new Date().getFullYear()} Dr. Vithalrao Vikhe Patil Foundation&apos;s. All Rights Reserved.
+            {t("copyright", { year: new Date().getFullYear() })}
           </span>
           <span>
-            Designed by{" "}
+            {t("designedBy")}{" "}
             <a href="https://utkrranti.com" target="_blank" rel="noopener noreferrer"
               className="font-semibold text-white/70 hover:text-white transition-colors">
               UT<span className="text-red-400">K</span>RRANTI

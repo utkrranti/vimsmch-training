@@ -5,11 +5,12 @@ import { revalidatePath } from "next/cache";
 
 export async function saveGalleryItem(
   id: string | null,
-  data: { imageUrl: string; caption: string; category: string; courseId: string; sortOrder: number; isActive: boolean }
+  data: { imageUrl: string; caption: string; captionMr: string; category: string; courseId: string; sortOrder: number; isActive: boolean }
 ) {
   const payload = {
     imageUrl: data.imageUrl,
     caption: data.caption || null,
+    captionMr: data.captionMr || null,
     category: data.category,
     courseId: data.courseId || null,
     sortOrder: data.sortOrder,

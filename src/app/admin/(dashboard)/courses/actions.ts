@@ -18,15 +18,15 @@ export async function deleteCourse(id: string) {
 export async function saveCourse(
   id: string | null,
   data: {
-    slug: string; title: string; shortDesc: string; fullDesc: string;
+    slug: string; title: string; titleMr: string; shortDesc: string; shortDescMr: string; fullDesc: string; fullDescMr: string;
     nsqf: number; durationMonths: number; durationHours: number;
-    fees: number; feeBreakdown: { label: string; amount: number }[];
-    seats: number; eligibility: string; ageLimit: string; certBy: string;
-    assessmentScheme: string; creditEquivalence: string;
-    objectives: string[]; highlights: string[];
-    syllabus: { unit: string; topics: string[] }[];
-    clinicalPostings: string[];
-    outcomes: string[]; tags: string[]; category: string;
+    fees: number; feeBreakdown: { label: string; labelMr?: string; amount: number }[];
+    seats: number; eligibility: string; eligibilityMr: string; ageLimit: string; ageLimitMr: string; certBy: string; certByMr: string;
+    assessmentScheme: string; assessmentSchemeMr: string; creditEquivalence: string; creditEquivalenceMr: string;
+    objectives: string[]; objectivesMr: string[]; highlights: string[]; highlightsMr: string[];
+    syllabus: { unit: string; unitMr?: string; topics: string[]; topicsMr?: string[] }[];
+    clinicalPostings: string[]; clinicalPostingsMr: string[];
+    outcomes: string[]; outcomesMr: string[]; tags: string[]; tagsMr: string[]; category: string;
     batchMonths: string[]; isActive: boolean; imageUrl: string;
   }
 ) {

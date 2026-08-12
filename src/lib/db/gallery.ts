@@ -4,6 +4,7 @@ export type GalleryRow = {
   id: string;
   imageUrl: string;
   caption: string | null;
+  captionMr?: string | null;
   category: string;
   courseId: string | null;
   sortOrder: number;

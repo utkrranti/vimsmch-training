@@ -11,25 +11,40 @@ model Course {
   id                String   @id @default(cuid()) @map("_id")
   slug              String   @unique
   title             String
+  titleMr           String?
   shortDesc         String
+  shortDescMr       String?
   fullDesc          String
+  fullDescMr        String?
   nsqf              Int
   durationMonths    Int
   durationHours     Int
   fees              Int
+  // Json shape: [{ label, labelMr?, amount }]
   feeBreakdown      Json
   seats             Int
   eligibility       String
+  eligibilityMr     String?
   ageLimit          String
+  ageLimitMr        String?
   certBy            String
+  certByMr          String?
   assessmentScheme  String
+  assessmentSchemeMr String?
   creditEquivalence String
+  creditEquivalenceMr String?
   objectives        Json?
+  objectivesMr      Json?
   highlights        Json?
+  highlightsMr      Json?
+  // Json shape: [{ unit, unitMr?, topics: string[], topicsMr?: string[] }]
   syllabus          Json
   clinicalPostings  Json?
+  clinicalPostingsMr Json?
   outcomes          Json
+  outcomesMr        Json?
   tags              Json
+  tagsMr            Json?
   category          String
   batchMonths       Json
   isActive          Boolean  @default(true)
@@ -85,6 +100,7 @@ model Batch {
   courseId  String
   course    Course   @relation(fields: [courseId], references: [id])
   label     String
+  labelMr   String?
   startDate DateTime
   endDate   DateTime
   seats     Int
@@ -235,6 +251,7 @@ model GalleryItem {
   id        String   @id @default(cuid()) @map("_id")
   imageUrl  String
   caption   String?
+  captionMr String?
   category  String   @default("campus") // campus | hospital | laboratories | clinical-training | events | convocation | guest-lectures | students
   courseId  String?
   course    Course?  @relation(fields: [courseId], references: [id])
@@ -248,7 +265,9 @@ model GalleryItem {
 model Announcement {
   id            String   @id @default(cuid()) @map("_id")
   title         String
+  titleMr       String?
   body          String
+  bodyMr        String?
   attachmentUrl String?
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
@@ -259,7 +278,9 @@ model Announcement {
 model FaqItem {
   id        String   @id @default(cuid()) @map("_id")
   question  String
+  questionMr String?
   answer    String?
+  answerMr  String?
   sortOrder Int      @default(0)
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -274,6 +295,7 @@ model Placement {
   courseId     String?
   course       Course?  @relation(fields: [courseId], references: [id])
   quote        String?
+  quoteMr      String?
   batchYear    String?
   sortOrder    Int      @default(0)
   isActive     Boolean  @default(true)
@@ -286,11 +308,17 @@ model Faculty {
   id             String   @id @default(cuid()) @map("_id")
   name           String
   designation    String
+  designationMr  String?
   qualification  String?
+  qualificationMr String?
   experience     String?
+  experienceMr   String?
   specialization String?
+  specializationMr String?
   department     String?
+  departmentMr   String?
   bio            String?
+  bioMr          String?
   photoUrl       String?
   isActive       Boolean  @default(true)
   sortOrder      Int      @default(0)

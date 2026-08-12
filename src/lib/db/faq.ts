@@ -3,7 +3,9 @@ import { prisma } from "@/lib/prisma";
 export type FaqRow = {
   id: string;
   question: string;
+  questionMr?: string | null;
   answer: string | null;
+  answerMr?: string | null;
   sortOrder: number;
   isActive: boolean;
 };

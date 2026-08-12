@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import { Plus, Pencil, Trash2, X, Loader2, ImageOff } from "lucide-react";
 import { saveGalleryItem, deleteGalleryItem, toggleGalleryItemActive } from "./actions";
+import { BilingualField } from "@/components/admin/bilingual/BilingualField";
 
 type GalleryRow = {
-  id: string; imageUrl: string; caption: string | null; category: string;
+  id: string; imageUrl: string; caption: string | null; captionMr: string | null; category: string;
   courseId: string | null; sortOrder: number; isActive: boolean;
 };
 type CourseOption = { id: string; title: string };
@@ -32,7 +33,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   "guest-lectures": "Guest Lectures",
   students: "Students",
 };
-const emptyForm = { imageUrl: "", caption: "", category: "campus", courseId: "", sortOrder: 0, isActive: true };
+const emptyForm = { imageUrl: "", caption: "", captionMr: "", category: "campus", courseId: "", sortOrder: 0, isActive: true };
 
 export default function GalleryManager({ items, courses }: { items: GalleryRow[]; courses: CourseOption[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -44,7 +45,7 @@ export default function GalleryManager({ items, courses }: { items: GalleryRow[]
   const openAdd = () => { setEditing(null); setForm(emptyForm); setError(""); setShowModal(true); };
   const openEdit = (g: GalleryRow) => {
     setEditing(g);
-    setForm({ imageUrl: g.imageUrl, caption: g.caption ?? "", category: g.category, courseId: g.courseId ?? "", sortOrder: g.sortOrder, isActive: g.isActive });
+    setForm({ imageUrl: g.imageUrl, caption: g.caption ?? "", captionMr: g.captionMr ?? "", category: g.category, courseId: g.courseId ?? "", sortOrder: g.sortOrder, isActive: g.isActive });
     setError(""); setShowModal(true);
   };
 
@@ -158,10 +159,14 @@ export default function GalleryManager({ items, courses }: { items: GalleryRow[]
                     <label className={labelCls}>Image URL *</label>
                     <input className={inputCls} value={form.imageUrl} onChange={(e) => setForm((f) => ({ ...f, imageUrl: e.target.value }))} placeholder="https://..." />
                   </div>
-                  <div>
-                    <label className={labelCls}>Caption</label>
-                    <input className={inputCls} value={form.caption} onChange={(e) => setForm((f) => ({ ...f, caption: e.target.value }))} placeholder="OT Techniques Lab — practical session" />
-                  </div>
+                  <BilingualField
+                    label="Caption"
+                    value={form.caption}
+                    valueMr={form.captionMr}
+                    onChange={(v) => setForm((f) => ({ ...f, caption: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, captionMr: v }))}
+                    placeholder="OT Techniques Lab — practical session"
+                  />
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className={labelCls}>Category</label>

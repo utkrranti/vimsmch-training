@@ -1,0 +1,19 @@
+{
+  "searchPlaceholder": "Search by name or skill...",
+  "filterAll": "All",
+  "filterShortTerm": "Short-term",
+  "filterLongTerm": "Long-term",
+  "showingCount": "Showing {shown} of {total} programmes",
+  "noCoursesFound": "No courses found",
+  "noCoursesHint": "Try a different search term or filter.",
+  "oneYearBadge": "1 Year",
+  "durationLabel": "Duration",
+  "seatsLabel": "Seats",
+  "months": "{count} Months",
+  "seatsPerBatch": "{count} per batch",
+  "eligibilityLabel": "Eligibility:",
+  "certByLabel": "Cert by:",
+  "perYear": "/year (provisional)",
+  "fullDetails": "Full Details",
+  "enquireNow": "Enquire Now"
+}

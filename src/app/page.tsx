@@ -15,11 +15,12 @@ import ContactDetails from "@/components/home/ContactDetails";
 import AnnouncementBanner from "@/components/home/AnnouncementBanner";
 import TopContactBar from "@/components/home/TopContactBar";
 import { getActiveAnnouncements } from "@/lib/db/announcements";
+import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const announcements = await getActiveAnnouncements();
+  const [announcements, t] = await Promise.all([getActiveAnnouncements(), getTranslations("logoBar")]);
 
   return (
     <>
@@ -39,7 +40,7 @@ export default async function HomePage() {
             />
             <div className="mx-auto text-center leading-tight text-[#04415f]">
               <p className="font-display text-base font-bold sm:text-2xl lg:whitespace-nowrap lg:text-4xl xl:text-5xl">
-                Dr. Vithalrao Vikhe Patil Foundation
+                {t("foundationName")}
               </p>
             </div>
             <Image

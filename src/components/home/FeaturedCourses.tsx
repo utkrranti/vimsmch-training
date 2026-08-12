@@ -1,12 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Clock, Users, IndianRupee, ArrowRight } from "lucide-react";
 import { getFeaturedCourses } from "@/lib/db/courses";
 import { getCourseImage } from "@/lib/course-images";
+import { pickLocale, pickLocaleArray, type AppLocale } from "@/lib/i18n/pickLocale";
 import Reveal from "@/components/ui/Reveal";
 
 export default async function FeaturedCourses() {
-  const courses = await getFeaturedCourses(3);
+  const [courses, locale, t] = await Promise.all([
+    getFeaturedCourses(3),
+    getLocale() as Promise<AppLocale>,
+    getTranslations("featuredCourses"),
+  ]);
 
   return (
     <section className="bg-[#f1f5f7] py-20 px-4 sm:px-6">
@@ -14,34 +20,39 @@ export default async function FeaturedCourses() {
         {/* Section heading */}
         <Reveal>
           <div className="text-center mb-14">
-            <span className="eyebrow mb-4">One-Year Certificate Courses</span>
-            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#011e2c] mb-3 tracking-tight">Featured Courses</h2>
+            <span className="eyebrow mb-4">{t("eyebrow")}</span>
+            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#011e2c] mb-3 tracking-tight">{t("heading")}</h2>
             <div className="w-16 h-1 bg-[#2086b8] mx-auto rounded" />
             <p className="text-[#010608]/60 mt-4 max-w-xl mx-auto text-sm">
-              Fees shown are provisional and subject to final approval — no hidden charges.
+              {t("feesNote")}
             </p>
           </div>
         </Reveal>
 
         {/* Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
-          {courses.map((c, i) => (
+          {courses.map((c, i) => {
+            const title = pickLocale(locale, c.title, c.titleMr);
+            const eligibility = pickLocale(locale, c.eligibility, c.eligibilityMr);
+            const certBy = pickLocale(locale, c.certBy, c.certByMr);
+            const tags = pickLocaleArray(locale, c.tags, c.tagsMr);
+            return (
             <Reveal key={c.slug} delay={i * 0.08} className="h-full">
             <div
               className="bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col h-full hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(0,0,0,0.1)] transition-all duration-300 group"
             >
               {/* Photo */}
               <div className="relative h-40 w-full">
-                <Image src={c.imageUrl || getCourseImage(c.slug)} alt={c.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" />
+                <Image src={c.imageUrl || getCourseImage(c.slug)} alt={title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" />
               </div>
 
               {/* Header */}
               <div className="px-6 py-5 border-b border-[#e6edf0] flex items-start justify-between gap-3">
                 <h3 className="text-[#011e2c] font-semibold text-base leading-snug group-hover:text-[#04415f] transition-colors">
-                  {c.title}
+                  {title}
                 </h3>
                 <span className="shrink-0 bg-[#04415f] text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
-                  1 Year
+                  {t("oneYearBadge")}
                 </span>
               </div>
 
@@ -50,35 +61,35 @@ export default async function FeaturedCourses() {
                 <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#010608]/60">
                   <span className="flex items-center gap-1.5">
                     <Clock size={13} className="text-[#04415f]" />
-                    {c.durationMonths} Months
+                    {t("months", { count: c.durationMonths })}
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Users size={13} className="text-[#04415f]" />
-                    {c.seats} seats
+                    {t("seats", { count: c.seats })}
                   </span>
                 </div>
 
                 <div className="text-sm">
-                  <span className="text-[#010608]/40 text-xs">Eligibility: </span>
-                  <span className="text-[#010608]/70">{c.eligibility}</span>
+                  <span className="text-[#010608]/40 text-xs">{t("eligibilityLabel")} </span>
+                  <span className="text-[#010608]/70">{eligibility}</span>
                 </div>
 
                 {/* Skill tags */}
                 <div className="flex flex-wrap gap-1.5">
-                  {c.tags.slice(0, 4).map((t) => (
+                  {tags.slice(0, 4).map((tag) => (
                     <span
-                      key={t}
+                      key={tag}
                       className="text-[10px] bg-[#04415f]/8 border border-[#04415f]/20 text-[#04415f] px-2.5 py-0.5 rounded-full font-medium"
                     >
-                      {t}
+                      {tag}
                     </span>
                   ))}
                 </div>
 
                 {/* Certificate authority */}
                 <div className="text-xs text-[#010608]/40 border-t border-[#e6edf0] pt-3">
-                  <span className="text-[#04415f] font-medium">Certificate by: </span>
-                  {c.certBy}
+                  <span className="text-[#04415f] font-medium">{t("certByLabel")} </span>
+                  {certBy}
                 </div>
               </div>
 
@@ -90,25 +101,26 @@ export default async function FeaturedCourses() {
                     <span className="text-2xl font-bold text-[#011e2c]">
                       {c.fees.toLocaleString("en-IN")}
                     </span>
-                    <span className="text-[#010608]/40 text-xs ml-1">/year (provisional)</span>
+                    <span className="text-[#010608]/40 text-xs ml-1">{t("perYear")}</span>
                   </div>
                   <Link
                     href={`/courses/${c.slug}`}
                     className="flex items-center gap-1.5 text-[#04415f] hover:text-[#011e2c] text-sm font-semibold transition-colors"
                   >
-                    Know More <ArrowRight size={13} />
+                    {t("knowMore")} <ArrowRight size={13} />
                   </Link>
                 </div>
                 <Link
                   href={`/enquire/${c.slug}`}
                   className="flex items-center justify-center gap-2 w-full bg-[#04415f] hover:bg-[#011e2c] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shadow-sm"
                 >
-                  Enquire Now
+                  {t("enquireNow")}
                 </Link>
               </div>
             </div>
             </Reveal>
-          ))}
+            );
+          })}
         </div>
 
         {/* View all */}
@@ -117,7 +129,7 @@ export default async function FeaturedCourses() {
             href="/courses"
             className="inline-flex items-center gap-2 border-2 border-[#04415f] text-[#04415f] font-semibold px-7 py-3 rounded-lg hover:bg-[#04415f] hover:text-white transition-colors"
           >
-            View All Courses <ArrowRight size={16} />
+            {t("viewAll")} <ArrowRight size={16} />
           </Link>
         </div>
       </div>

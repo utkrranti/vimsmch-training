@@ -1,0 +1,19 @@
+{
+  "searchPlaceholder": "नाव किंवा कौशल्यानुसार शोधा...",
+  "filterAll": "सर्व",
+  "filterShortTerm": "अल्पकालीन",
+  "filterLongTerm": "दीर्घकालीन",
+  "showingCount": "{total} पैकी {shown} अभ्यासक्रम दाखवत आहे",
+  "noCoursesFound": "कोणतेही अभ्यासक्रम आढळले नाहीत",
+  "noCoursesHint": "वेगळा शोध शब्द किंवा फिल्टर वापरून पहा.",
+  "oneYearBadge": "1 वर्ष",
+  "durationLabel": "कालावधी",
+  "seatsLabel": "जागा",
+  "months": "{count} महिने",
+  "seatsPerBatch": "{count} प्रति तुकडी",
+  "eligibilityLabel": "पात्रता:",
+  "certByLabel": "प्रमाणपत्र देणारी संस्था:",
+  "perYear": "/वर्ष (तात्पुरते)",
+  "fullDetails": "संपूर्ण तपशील",
+  "enquireNow": "चौकशी करा"
+}

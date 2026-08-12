@@ -5,11 +5,12 @@ import { revalidatePath } from "next/cache";
 
 export async function saveBatch(
   id: string | null,
-  data: { courseId: string; label: string; startDate: string; endDate: string; seats: number; isActive: boolean }
+  data: { courseId: string; label: string; labelMr: string; startDate: string; endDate: string; seats: number; isActive: boolean }
 ) {
   const payload = {
     courseId: data.courseId,
     label: data.label,
+    labelMr: data.labelMr || null,
     startDate: new Date(data.startDate),
     endDate: new Date(data.endDate),
     seats: data.seats,

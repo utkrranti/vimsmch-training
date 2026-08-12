@@ -5,11 +5,13 @@ import { revalidatePath } from "next/cache";
 
 export async function saveFaqItem(
   id: string | null,
-  data: { question: string; answer: string; sortOrder: number; isActive: boolean }
+  data: { question: string; questionMr: string; answer: string; answerMr: string; sortOrder: number; isActive: boolean }
 ) {
   const payload = {
     question: data.question,
+    questionMr: data.questionMr || null,
     answer: data.answer || null,
+    answerMr: data.answerMr || null,
     sortOrder: data.sortOrder,
     isActive: data.isActive,
   };

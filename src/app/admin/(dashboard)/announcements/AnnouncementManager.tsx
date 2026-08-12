@@ -5,10 +5,11 @@ import { motion, AnimatePresence } from "motion/react";
 import { Plus, Pencil, Trash2, X, Loader2, Megaphone, Paperclip } from "lucide-react";
 import { saveAnnouncement, deleteAnnouncement, toggleAnnouncementActive } from "./actions";
 import FileUploadField from "@/components/admin/FileUploadField";
+import { BilingualField, BilingualTextarea } from "@/components/admin/bilingual/BilingualField";
 
-type AnnouncementRow = { id: string; title: string; body: string; attachmentUrl: string | null; isActive: boolean; createdAt: string };
+type AnnouncementRow = { id: string; title: string; titleMr: string | null; body: string; bodyMr: string | null; attachmentUrl: string | null; isActive: boolean; createdAt: string };
 
-const emptyForm = { title: "", body: "", attachmentUrl: "", isActive: true };
+const emptyForm = { title: "", titleMr: "", body: "", bodyMr: "", attachmentUrl: "", isActive: true };
 
 export default function AnnouncementManager({ announcements }: { announcements: AnnouncementRow[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -18,7 +19,7 @@ export default function AnnouncementManager({ announcements }: { announcements: 
   const [error, setError] = useState("");
 
   const openAdd = () => { setEditing(null); setForm(emptyForm); setError(""); setShowModal(true); };
-  const openEdit = (a: AnnouncementRow) => { setEditing(a); setForm({ title: a.title, body: a.body, attachmentUrl: a.attachmentUrl ?? "", isActive: a.isActive }); setError(""); setShowModal(true); };
+  const openEdit = (a: AnnouncementRow) => { setEditing(a); setForm({ title: a.title, titleMr: a.titleMr ?? "", body: a.body, bodyMr: a.bodyMr ?? "", attachmentUrl: a.attachmentUrl ?? "", isActive: a.isActive }); setError(""); setShowModal(true); };
 
   const handleSave = () => {
     if (!form.title.trim() || !form.body.trim()) { setError("Title and message are required."); return; }
@@ -37,7 +38,6 @@ export default function AnnouncementManager({ announcements }: { announcements: 
     startTransition(async () => { await toggleAnnouncementActive(a.id, !a.isActive); });
   };
 
-  const inputCls = "w-full bg-[#f8fafb] border border-[#e2eaee] text-[#011e2c] placeholder-[#010608]/25 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#04415f] focus:bg-white focus:ring-2 focus:ring-[#04415f]/10 transition-all";
   const labelCls = "block text-xs font-semibold text-[#010608]/50 uppercase tracking-wide mb-1.5";
 
   return (
@@ -131,14 +131,25 @@ export default function AnnouncementManager({ announcements }: { announcements: 
                 {error && <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-red-600 text-xs mb-4">{error}</div>}
 
                 <div className="space-y-4">
-                  <div>
-                    <label className={labelCls}>Title *</label>
-                    <input className={inputCls} value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} placeholder="Admissions Open for 2026 Batch" />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Message *</label>
-                    <textarea rows={4} className={`${inputCls} resize-none`} value={form.body} onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))} placeholder="Short notice text shown on the home page..." />
-                  </div>
+                  <BilingualField
+                    label="Title"
+                    required
+                    value={form.title}
+                    valueMr={form.titleMr}
+                    onChange={(v) => setForm((f) => ({ ...f, title: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, titleMr: v }))}
+                    placeholder="Admissions Open for 2026 Batch"
+                  />
+                  <BilingualTextarea
+                    label="Message"
+                    required
+                    rows={4}
+                    value={form.body}
+                    valueMr={form.bodyMr}
+                    onChange={(v) => setForm((f) => ({ ...f, body: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, bodyMr: v }))}
+                    placeholder="Short notice text shown on the home page..."
+                  />
                   <div>
                     <label className={labelCls}>Attachment (optional)</label>
                     <FileUploadField

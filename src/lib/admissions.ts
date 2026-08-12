@@ -1,14 +1,16 @@
+// `labelKey` refers to a key in the admissionWizard message namespace — translate
+// with `t(definition.labelKey)` at render time rather than using a literal label here.
 export const admissionDocuments = [
-  { type: "SSC_MARKSHEET", label: "SSC (10th) Mark Sheet", required: true },
-  { type: "SSC_CERTIFICATE", label: "SSC (10th) Certificate", required: true },
-  { type: "LEAVING_CERTIFICATE", label: "School Leaving / Transfer Certificate", required: true },
-  { type: "AADHAAR", label: "Aadhaar Card", required: true },
-  { type: "PHOTO", label: "Recent Passport-Size Photograph", required: true },
-  { type: "MEDICAL_FITNESS", label: "Medical Fitness Certificate", required: true },
-  { type: "DOMICILE", label: "Domicile Certificate", required: false },
-  { type: "CASTE", label: "Caste Certificate", required: false },
-  { type: "NON_CREAMY_LAYER", label: "Non-Creamy Layer Certificate", required: false },
-  { type: "CHARACTER", label: "Character Certificate", required: false },
+  { type: "SSC_MARKSHEET", labelKey: "documentSscMarksheet", required: true },
+  { type: "SSC_CERTIFICATE", labelKey: "documentSscCertificate", required: true },
+  { type: "LEAVING_CERTIFICATE", labelKey: "documentLeavingCertificate", required: true },
+  { type: "AADHAAR", labelKey: "documentAadhaar", required: true },
+  { type: "PHOTO", labelKey: "documentPhoto", required: true },
+  { type: "MEDICAL_FITNESS", labelKey: "documentMedicalFitness", required: true },
+  { type: "DOMICILE", labelKey: "documentDomicile", required: false },
+  { type: "CASTE", labelKey: "documentCaste", required: false },
+  { type: "NON_CREAMY_LAYER", labelKey: "documentNonCreamyLayer", required: false },
+  { type: "CHARACTER", labelKey: "documentCharacter", required: false },
 ] as const;
 
 export const requiredAdmissionDocumentTypes = admissionDocuments

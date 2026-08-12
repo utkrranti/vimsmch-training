@@ -1,60 +1,28 @@
 import { Clock, Building2, GraduationCap, FlaskConical, IndianRupee, Users, Briefcase } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import Reveal from "@/components/ui/Reveal";
 
-const reasons = [
-  {
-    icon: Clock,
-    title: "One-Year Certificate Courses",
-    desc: "Job-oriented programmes designed to make you employment-ready in one year.",
-    color: "#04415f",
-  },
-  {
-    icon: Building2,
-    title: "Practical Training in an 800-Bedded Multi-Specialty Teaching Hospital",
-    desc: "Hands-on clinical exposure inside a real, functioning hospital — not just a classroom.",
-    color: "#059652",
-  },
-  {
-    icon: GraduationCap,
-    title: "Experienced Doctors as Faculty",
-    desc: "Taught by practising doctors and medical professionals from VIMSMCH's Medical College & Hospital.",
-    color: "#2086b8",
-  },
-  {
-    icon: FlaskConical,
-    title: "Modern Laboratories",
-    desc: "Access to well-equipped labs and hospital departments relevant to your certificate course.",
-    color: "#7c3aed",
-  },
-  {
-    icon: IndianRupee,
-    title: "Affordable Fees",
-    desc: "Quality paramedical education priced to be accessible, with no hidden charges.",
-    color: "#ff9800",
-  },
-  {
-    icon: Users,
-    title: "Placement Assistance",
-    desc: "Career counselling, personality development, and placement support to help you find work in healthcare.",
-    color: "#0d9488",
-  },
-  {
-    icon: Briefcase,
-    title: "Possible Opportunity for Employment in Foundation Hospital*",
-    desc: "*Subject to performance and vacancies.",
-    color: "#df1529",
-  },
-];
+export default async function WhyChooseUs() {
+  const t = await getTranslations("whyChooseUs");
 
-export default function WhyChooseUs() {
+  const reasons = [
+    { icon: Clock, title: t("reason1Title"), desc: t("reason1Desc"), color: "#04415f" },
+    { icon: Building2, title: t("reason2Title"), desc: t("reason2Desc"), color: "#059652" },
+    { icon: GraduationCap, title: t("reason3Title"), desc: t("reason3Desc"), color: "#2086b8" },
+    { icon: FlaskConical, title: t("reason4Title"), desc: t("reason4Desc"), color: "#7c3aed" },
+    { icon: IndianRupee, title: t("reason5Title"), desc: t("reason5Desc"), color: "#ff9800" },
+    { icon: Users, title: t("reason6Title"), desc: t("reason6Desc"), color: "#0d9488" },
+    { icon: Briefcase, title: t("reason7Title"), desc: t("reason7Desc"), color: "#df1529" },
+  ];
+
   return (
     <section className="bg-[#e6edf0] py-10 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <Reveal>
           <div className="text-center mb-6">
-            <span className="eyebrow mb-2">Why Choose Us</span>
+            <span className="eyebrow mb-2">{t("eyebrow")}</span>
             <h2 className="font-display text-2xl sm:text-3xl font-semibold text-[#011e2c] mt-1 tracking-tight">
-              Learning Beyond the Classroom
+              {t("heading")}
             </h2>
           </div>
         </Reveal>

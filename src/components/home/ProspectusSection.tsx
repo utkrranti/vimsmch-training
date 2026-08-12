@@ -1,8 +1,9 @@
 import { getSettings } from "@/lib/db/settings";
+import { getTranslations } from "next-intl/server";
 import { FileText, Download } from "lucide-react";
 
 export default async function ProspectusSection() {
-  const s = await getSettings(["prospectus.pdfUrl"]);
+  const [s, t] = await Promise.all([getSettings(["prospectus.pdfUrl"]), getTranslations("prospectusSection")]);
   const pdfUrl = s["prospectus.pdfUrl"];
 
   if (!pdfUrl) return null;
@@ -20,9 +21,9 @@ export default async function ProspectusSection() {
               <FileText size={22} className="text-[#04415f]" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-[#011e2c]">Institute Prospectus</h3>
+              <h3 className="text-lg font-bold text-[#011e2c]">{t("heading")}</h3>
               <p className="text-[#010608]/55 text-sm mt-0.5">
-                Courses, fees, and admission details in one document.
+                {t("description")}
               </p>
             </div>
           </div>
@@ -30,7 +31,7 @@ export default async function ProspectusSection() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={qrSrc}
-              alt="Scan to download the prospectus"
+              alt={t("qrAlt")}
               width={72}
               height={72}
               className="rounded-lg border border-[#e6edf0] bg-white p-1 hidden sm:block"
@@ -43,7 +44,7 @@ export default async function ProspectusSection() {
               className="inline-flex items-center gap-2 bg-[#04415f] hover:bg-[#011e2c] text-white font-semibold text-sm px-6 py-3 rounded-xl transition-colors shadow-sm shrink-0"
             >
               <Download size={16} />
-              Download Prospectus
+              {t("download")}
             </a>
           </div>
         </div>

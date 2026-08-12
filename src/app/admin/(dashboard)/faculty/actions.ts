@@ -8,11 +8,17 @@ export async function saveFaculty(
   data: {
     name: string;
     designation: string;
+    designationMr: string;
     qualification: string;
+    qualificationMr: string;
     experience: string;
+    experienceMr: string;
     specialization: string;
+    specializationMr: string;
     department: string;
+    departmentMr: string;
     bio: string;
+    bioMr: string;
     photoUrl: string;
     sortOrder: number;
     isActive: boolean;
@@ -21,11 +27,17 @@ export async function saveFaculty(
   const payload = {
     name: data.name,
     designation: data.designation,
+    designationMr: data.designationMr || null,
     qualification: data.qualification || null,
+    qualificationMr: data.qualificationMr || null,
     experience: data.experience || null,
+    experienceMr: data.experienceMr || null,
     specialization: data.specialization || null,
+    specializationMr: data.specializationMr || null,
     department: data.department || null,
+    departmentMr: data.departmentMr || null,
     bio: data.bio || null,
+    bioMr: data.bioMr || null,
     photoUrl: data.photoUrl || null,
     sortOrder: data.sortOrder,
     isActive: data.isActive,

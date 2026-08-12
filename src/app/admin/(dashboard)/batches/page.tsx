@@ -24,6 +24,7 @@ export default async function AdminBatchesPage() {
     courseId: b.courseId,
     courseTitle: b.course.title,
     label: b.label,
+    labelMr: b.labelMr,
     startDate: b.startDate.toISOString(),
     endDate: b.endDate.toISOString(),
     seats: b.seats,

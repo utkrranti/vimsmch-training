@@ -1,0 +1,37 @@
+{
+  "description": "Paramedical Institute of Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital — one-year certificate courses in paramedical skills with hands-on hospital training.",
+  "address": "Opp. Govt. Milk Dairy, Post – M.I.D.C., Vadgaon Gupta, Ahilyanagar – 414 111",
+  "quickLinksHeading": "Quick Links",
+  "quickLinks": {
+    "home": "Home",
+    "allCourses": "All Courses",
+    "admission": "Admission & How to Apply",
+    "about": "About Us",
+    "faculty": "Faculty",
+    "facilities": "Facilities",
+    "placements": "Placements & Outcomes",
+    "gallery": "Gallery",
+    "news": "News & Notices",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "verify": "Verify Certificate"
+  },
+  "coursesHeading": "Our Courses",
+  "courses": {
+    "otAssistant": "Operation Theatre Assistant",
+    "ecgTechnology": "ECG Technology",
+    "dialysisTechnician": "Dialysis Technician",
+    "medicalLabTechnology": "Medical Laboratory Technology",
+    "radiologyImaging": "Radiology and Imaging Technology"
+  },
+  "admissionsHeading": "Admissions",
+  "eligibilityLabel": "Eligibility",
+  "eligibilityValue": "10th Pass (SSC), no age limit",
+  "feeLabel": "Fee",
+  "feeValue": "₹30,000/year (provisional)",
+  "antiRaggingPortal": "Anti-Ragging Portal",
+  "antiRaggingNoticeLabel": "ANTI-RAGGING NOTICE:",
+  "antiRaggingNoticeText": "This institution is committed to being ragging-free. Report any incident to:",
+  "copyright": "© {year} Dr. Vithalrao Vikhe Patil Foundation's. All Rights Reserved.",
+  "designedBy": "Designed by"
+}

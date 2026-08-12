@@ -6,6 +6,8 @@ import Footer from "@/components/layout/Footer";
 import CourseInquiryForm from "@/components/courses/CourseInquiryForm";
 import { getCourseBySlug, getAllSlugs } from "@/lib/db/courses";
 import { getCourseImage } from "@/lib/course-images";
+import { getLocale, getTranslations } from "next-intl/server";
+import { pickLocale, pickLocaleArray, pickLocaleFeeBreakdown, pickLocaleSyllabus, type AppLocale } from "@/lib/i18n/pickLocale";
 import { Clock, Users, IndianRupee, CheckCircle, CalendarDays, Award, Target, Stethoscope, Briefcase } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -28,10 +30,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CourseDetailPage({ params }: Props) {
   const { slug } = await params;
-  const course = await getCourseBySlug(slug);
+  const [course, locale, t] = await Promise.all([
+    getCourseBySlug(slug),
+    getLocale() as Promise<AppLocale>,
+    getTranslations("courseDetailPage"),
+  ]);
   if (!course) notFound();
 
-  const feeTotal = course.feeBreakdown.reduce((s, f) => s + f.amount, 0);
+  const title = pickLocale(locale, course.title, course.titleMr);
+  const fullDesc = pickLocale(locale, course.fullDesc, course.fullDescMr);
+  const eligibility = pickLocale(locale, course.eligibility, course.eligibilityMr);
+  const ageLimit = pickLocale(locale, course.ageLimit, course.ageLimitMr);
+  const certBy = pickLocale(locale, course.certBy, course.certByMr);
+  const assessmentScheme = pickLocale(locale, course.assessmentScheme, course.assessmentSchemeMr);
+  const objectives = pickLocaleArray(locale, course.objectives, course.objectivesMr);
+  const highlights = pickLocaleArray(locale, course.highlights, course.highlightsMr);
+  const clinicalPostings = pickLocaleArray(locale, course.clinicalPostings, course.clinicalPostingsMr);
+  const outcomes = pickLocaleArray(locale, course.outcomes, course.outcomesMr);
+  const tags = pickLocaleArray(locale, course.tags, course.tagsMr);
+  const feeBreakdown = pickLocaleFeeBreakdown(locale, course.feeBreakdown);
+  const syllabus = pickLocaleSyllabus(locale, course.syllabus);
+  const feeTotal = feeBreakdown.reduce((s, f) => s + f.amount, 0);
 
   return (
     <>
@@ -45,21 +64,21 @@ export default async function CourseDetailPage({ params }: Props) {
           <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
           <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
           <div className="relative max-w-7xl mx-auto">
-            <p className="text-xs text-white/50 mb-3">Home / Courses / {course.title}</p>
+            <p className="text-xs text-white/50 mb-3">{t("breadcrumbPrefix")}{title}</p>
             <div className="flex flex-wrap items-center gap-2 mb-4">
               <span className="bg-[#7dd3fc] text-[#011e2c] text-xs font-bold px-3 py-1 rounded-full">
-                1 Year Certificate Course
+                {t("oneYearBadge")}
               </span>
               <span className="bg-white/10 border border-white/20 text-white text-xs px-3 py-1 rounded-full capitalize">
                 {course.category}
               </span>
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl font-semibold mb-6 tracking-tight text-white">{course.title}</h1>
+            <h1 className="font-display text-3xl sm:text-4xl font-semibold mb-6 tracking-tight text-white">{title}</h1>
             <div className="flex flex-wrap gap-6">
-              <QuickStat icon={Clock} label="Duration" value={`${course.durationMonths} Months`} light />
-              <QuickStat icon={Users} label="Seats" value={`${course.seats} per batch`} light />
-              <QuickStat icon={Award} label="Certificate by" value={course.certBy} light />
-              <QuickStat icon={CalendarDays} label="Batches" value={course.batchMonths.join(" · ")} light />
+              <QuickStat icon={Clock} label={t("durationLabel")} value={t("months", { count: course.durationMonths })} light />
+              <QuickStat icon={Users} label={t("seatsLabel")} value={t("seatsPerBatch", { count: course.seats })} light />
+              <QuickStat icon={Award} label={t("certifiedByLabel")} value={certBy} light />
+              <QuickStat icon={CalendarDays} label={t("batchesLabel")} value={course.batchMonths.join(" · ")} light />
             </div>
           </div>
         </div>
@@ -67,7 +86,7 @@ export default async function CourseDetailPage({ params }: Props) {
         {/* Photo */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-1">
           <div className="relative w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-sm mt-8">
-            <Image src={course.imageUrl || getCourseImage(course.slug)} alt={course.title} fill sizes="100vw" className="object-cover" priority />
+            <Image src={course.imageUrl || getCourseImage(course.slug)} alt={title} fill sizes="100vw" className="object-cover" priority />
           </div>
         </div>
 
@@ -76,14 +95,14 @@ export default async function CourseDetailPage({ params }: Props) {
           <div className="lg:col-span-2 space-y-10">
 
             {/* About */}
-            <Section title="Overview">
-              <p className="text-[#010608]/70 text-sm leading-relaxed">{course.fullDesc}</p>
+            <Section title={t("overviewTitle")}>
+              <p className="text-[#010608]/70 text-sm leading-relaxed">{fullDesc}</p>
             </Section>
 
             {/* Course Objectives */}
-            <Section title="Course Objectives">
+            <Section title={t("objectivesTitle")}>
               <div className="grid sm:grid-cols-2 gap-3">
-                {course.objectives.map((o) => (
+                {objectives.map((o) => (
                   <div key={o} className="flex items-start gap-2.5 bg-white border border-[#e6edf0] rounded-xl p-4 shadow-sm">
                     <Target size={15} className="text-[#04415f] mt-0.5 shrink-0" />
                     <p className="text-[#010608]/70 text-sm leading-snug">{o}</p>
@@ -93,25 +112,25 @@ export default async function CourseDetailPage({ params }: Props) {
             </Section>
 
             {/* Eligibility */}
-            <Section title="Admission Eligibility">
+            <Section title={t("eligibilityTitle")}>
               <div className="grid sm:grid-cols-3 gap-4">
-                <DetailBox label="Minimum Qualification" value={course.eligibility} />
-                <DetailBox label="Age Limit" value={course.ageLimit} />
-                <DetailBox label="Certified By" value={course.certBy} />
+                <DetailBox label={t("minQualificationLabel")} value={eligibility} />
+                <DetailBox label={t("ageLimitLabel")} value={ageLimit} />
+                <DetailBox label={t("certifiedByLabel2")} value={certBy} />
               </div>
             </Section>
 
             {/* Fee breakdown */}
-            <Section title="Fee Structure">
+            <Section title={t("feeStructureTitle")}>
               <div className="bg-white rounded-2xl border border-[#e6edf0] overflow-hidden shadow-sm">
                 <div className="px-5 py-3 bg-[#04415f]/5 border-b border-[#e6edf0]">
                   <p className="text-xs text-[#04415f] font-medium">
-                    Fees shown are provisional and subject to final approval. No hidden charges.
+                    {t("feeNote")}
                   </p>
                 </div>
                 <table className="w-full">
                   <tbody>
-                    {course.feeBreakdown.map((f, i) => (
+                    {feeBreakdown.map((f, i) => (
                       <tr key={f.label} className={`border-b border-[#e6edf0] ${i % 2 === 0 ? "bg-white" : "bg-[#f1f5f7]"}`}>
                         <td className="px-5 py-3.5 text-sm text-[#010608]/70">{f.label}</td>
                         <td className="px-5 py-3.5 text-sm text-[#011e2c] font-medium text-right">
@@ -123,7 +142,7 @@ export default async function CourseDetailPage({ params }: Props) {
                       </tr>
                     ))}
                     <tr className="bg-[#04415f] text-white">
-                      <td className="px-5 py-4 font-bold text-sm">Total Course Fee (Provisional)</td>
+                      <td className="px-5 py-4 font-bold text-sm">{t("totalCourseFee")}</td>
                       <td className="px-5 py-4 text-right">
                         <span className="flex items-center justify-end gap-0.5 font-bold text-lg">
                           <IndianRupee size={15} />
@@ -137,16 +156,16 @@ export default async function CourseDetailPage({ params }: Props) {
             </Section>
 
             {/* Assessment */}
-            <Section title="Assessment &amp; Examination Scheme">
+            <Section title={t("assessmentTitle")}>
               <div className="bg-white rounded-2xl border-l-4 border-[#04415f] p-6 shadow-sm">
-                <p className="text-[#010608]/70 text-sm leading-relaxed">{course.assessmentScheme}</p>
+                <p className="text-[#010608]/70 text-sm leading-relaxed">{assessmentScheme}</p>
               </div>
             </Section>
 
             {/* Course Highlights */}
-            <Section title="Course Highlights">
+            <Section title={t("highlightsTitle")}>
               <div className="grid sm:grid-cols-2 gap-3">
-                {course.highlights.map((h) => (
+                {highlights.map((h) => (
                   <div key={h} className="flex items-start gap-2.5 bg-white border border-[#e6edf0] rounded-xl p-4 shadow-sm">
                     <CheckCircle size={15} className="text-[#04415f] mt-0.5 shrink-0" />
                     <p className="text-[#010608]/70 text-sm leading-snug">{h}</p>
@@ -156,13 +175,13 @@ export default async function CourseDetailPage({ params }: Props) {
             </Section>
 
             {/* Skills You Will Learn */}
-            <Section title="Skills You Will Learn">
+            <Section title={t("skillsLearnTitle")}>
               <div className="space-y-3">
-                {course.syllabus.map((unit, i) => (
+                {syllabus.map((unit, i) => (
                   <details
                     key={unit.unit}
                     className="bg-white border border-[#e6edf0] rounded-xl overflow-hidden shadow-sm group"
-                    open={course.syllabus.length === 1}
+                    open={syllabus.length === 1}
                   >
                     <summary className="flex items-center justify-between px-5 py-4 cursor-pointer list-none hover:bg-[#f1f5f7] transition-colors">
                       <div className="flex items-center gap-3">
@@ -174,10 +193,10 @@ export default async function CourseDetailPage({ params }: Props) {
                     </summary>
                     <div className="px-5 pb-5 border-t border-[#e6edf0] pt-4 bg-[#f1f5f7]">
                       <ul className="grid sm:grid-cols-2 gap-2">
-                        {unit.topics.map((t) => (
-                          <li key={t} className="flex items-start gap-2 text-sm text-[#010608]/65">
+                        {unit.topics.map((topic) => (
+                          <li key={topic} className="flex items-start gap-2 text-sm text-[#010608]/65">
                             <CheckCircle size={13} className="text-[#04415f] mt-0.5 shrink-0" />
-                            {t}
+                            {topic}
                           </li>
                         ))}
                       </ul>
@@ -188,10 +207,10 @@ export default async function CourseDetailPage({ params }: Props) {
             </Section>
 
             {/* Clinical Training */}
-            <Section title="Clinical Training">
-              <p className="text-[#010608]/60 text-sm mb-4">Students undergo supervised clinical postings in:</p>
+            <Section title={t("clinicalTrainingTitle")}>
+              <p className="text-[#010608]/60 text-sm mb-4">{t("clinicalTrainingIntro")}</p>
               <div className="grid sm:grid-cols-2 gap-3">
-                {course.clinicalPostings.map((c) => (
+                {clinicalPostings.map((c) => (
                   <div key={c} className="flex items-start gap-2.5 bg-white border border-[#e6edf0] rounded-xl p-4 shadow-sm">
                     <Stethoscope size={15} className="text-[#04415f] mt-0.5 shrink-0" />
                     <p className="text-[#010608]/70 text-sm leading-snug">{c}</p>
@@ -201,9 +220,9 @@ export default async function CourseDetailPage({ params }: Props) {
             </Section>
 
             {/* Career Opportunities */}
-            <Section title="Career Opportunities">
+            <Section title={t("careerOpportunitiesTitle")}>
               <div className="grid sm:grid-cols-2 gap-4">
-                {course.outcomes.map((o) => (
+                {outcomes.map((o) => (
                   <div key={o} className="flex items-start gap-3 bg-white border border-[#e6edf0] rounded-xl p-4 shadow-sm">
                     <Briefcase size={15} className="text-[#04415f] mt-0.5 shrink-0" />
                     <p className="text-[#010608]/70 text-sm leading-snug">{o}</p>
@@ -223,28 +242,28 @@ export default async function CourseDetailPage({ params }: Props) {
                   {course.fees.toLocaleString("en-IN")}
                 </span>
               </div>
-              <p className="text-[#010608]/40 text-xs mb-5">per year · provisional, subject to approval</p>
+              <p className="text-[#010608]/40 text-xs mb-5">{t("perYearNote")}</p>
               <div className="space-y-2 text-xs text-[#010608]/60 mb-5 border-t border-[#e6edf0] pt-5">
-                <p><span className="text-[#010608]/40">Duration: </span>{course.durationMonths} Months</p>
-                <p><span className="text-[#010608]/40">Certified By: </span>{course.certBy}</p>
-                <p><span className="text-[#010608]/40">Seats: </span>{course.seats} per batch</p>
-                <p><span className="text-[#010608]/40">Eligibility: </span>{course.eligibility}</p>
+                <p><span className="text-[#010608]/40">{t("sidebarDurationLabel")} </span>{t("months", { count: course.durationMonths })}</p>
+                <p><span className="text-[#010608]/40">{t("sidebarCertifiedByLabel")} </span>{certBy}</p>
+                <p><span className="text-[#010608]/40">{t("sidebarSeatsLabel")} </span>{t("seatsPerBatch", { count: course.seats })}</p>
+                <p><span className="text-[#010608]/40">{t("sidebarEligibilityLabel")} </span>{eligibility}</p>
               </div>
               <Link
                 href={`/enquire/${course.slug}`}
                 className="block w-full bg-[#04415f] hover:bg-[#011e2c] text-white text-sm font-semibold py-3.5 rounded-lg text-center transition-colors shadow-md"
               >
-                Enquire Now
+                {t("enquireNow")}
               </Link>
             </div>
 
             {/* Skills */}
             <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-5">
-              <p className="text-[#010608]/40 text-xs font-semibold uppercase tracking-wide mb-3">Skills Covered</p>
+              <p className="text-[#010608]/40 text-xs font-semibold uppercase tracking-wide mb-3">{t("skillsCoveredLabel")}</p>
               <div className="flex flex-wrap gap-2">
-                {course.tags.map((t) => (
-                  <span key={t} className="text-xs bg-[#04415f]/8 border border-[#04415f]/20 text-[#04415f] px-2.5 py-1 rounded-full font-medium">
-                    {t}
+                {tags.map((tag) => (
+                  <span key={tag} className="text-xs bg-[#04415f]/8 border border-[#04415f]/20 text-[#04415f] px-2.5 py-1 rounded-full font-medium">
+                    {tag}
                   </span>
                 ))}
               </div>
@@ -252,7 +271,7 @@ export default async function CourseDetailPage({ params }: Props) {
 
             {/* Batch months */}
             <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-5">
-              <p className="text-[#010608]/40 text-xs font-semibold uppercase tracking-wide mb-3">Batch Start Months</p>
+              <p className="text-[#010608]/40 text-xs font-semibold uppercase tracking-wide mb-3">{t("batchStartMonthsLabel")}</p>
               <div className="flex flex-wrap gap-2">
                 {course.batchMonths.map((m) => (
                   <span key={m} className="text-xs bg-[#f1f5f7] border border-[#cdd8de] text-[#010608]/60 px-2.5 py-1 rounded-full">
@@ -267,12 +286,12 @@ export default async function CourseDetailPage({ params }: Props) {
         {/* Inquiry form */}
         <div id="inquiry" className="bg-[#e6edf0] border-t border-[#cdd8de] py-16 px-4 sm:px-6">
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold text-[#011e2c] mb-1">Inquire About This Course</h2>
+            <h2 className="text-2xl font-bold text-[#011e2c] mb-1">{t("inquiryHeading")}</h2>
             <div className="w-14 h-0.5 bg-[#2086b8] mb-6" />
             <p className="text-[#010608]/60 text-sm mb-8">
-              Fill in your details and our counsellor will reach out within 1 working day.
+              {t("inquirySub")}
             </p>
-            <CourseInquiryForm courseTitle={course.title} />
+            <CourseInquiryForm courseTitle={title} />
           </div>
         </div>
       </main>
@@ -284,7 +303,7 @@ export default async function CourseDetailPage({ params }: Props) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h2 className="text-xl font-bold text-[#011e2c] mb-1" dangerouslySetInnerHTML={{ __html: title }} />
+      <h2 className="text-xl font-bold text-[#011e2c] mb-1">{title}</h2>
       <div className="w-10 h-0.5 bg-[#2086b8] mb-5" />
       {children}
     </div>

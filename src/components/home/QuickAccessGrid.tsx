@@ -1,47 +1,26 @@
 import Link from "next/link";
 import { BookOpen, ClipboardList, Building2, Briefcase, ArrowRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import Reveal from "@/components/ui/Reveal";
 
-const cards = [
-  {
-    icon: BookOpen,
-    title: "Our Courses",
-    desc: "Five one-year certificate programmes in allied health sciences.",
-    href: "/courses",
-    color: "#04415f",
-  },
-  {
-    icon: ClipboardList,
-    title: "Admission",
-    desc: "Eligibility, documents required, fees, and how to apply.",
-    href: "/admission",
-    color: "#059652",
-  },
-  {
-    icon: Building2,
-    title: "Campus & Facilities",
-    desc: "800-bed teaching hospital, labs, and clinical training areas.",
-    href: "/facilities",
-    color: "#ff9800",
-  },
-  {
-    icon: Briefcase,
-    title: "Placements",
-    desc: "Career support, counselling, and employment assistance.",
-    href: "/placements",
-    color: "#7c3aed",
-  },
-] as const;
+export default async function QuickAccessGrid() {
+  const t = await getTranslations("quickAccessGrid");
 
-export default function QuickAccessGrid() {
+  const cards = [
+    { icon: BookOpen, title: t("coursesTitle"), desc: t("coursesDesc"), href: "/courses", color: "#04415f" },
+    { icon: ClipboardList, title: t("admissionTitle"), desc: t("admissionDesc"), href: "/admission", color: "#059652" },
+    { icon: Building2, title: t("facilitiesTitle"), desc: t("facilitiesDesc"), href: "/facilities", color: "#ff9800" },
+    { icon: Briefcase, title: t("placementsTitle"), desc: t("placementsDesc"), href: "/placements", color: "#7c3aed" },
+  ] as const;
+
   return (
     <section className="bg-white py-16 sm:py-20 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <Reveal>
           <div className="text-center mb-12">
-            <span className="eyebrow mb-4">Get Started</span>
+            <span className="eyebrow mb-4">{t("eyebrow")}</span>
             <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#011e2c] mb-3 tracking-tight">
-              Everything You Need, In One Place
+              {t("heading")}
             </h2>
             <div className="w-16 h-1 bg-[#2086b8] mx-auto rounded" />
           </div>
@@ -61,7 +40,7 @@ export default function QuickAccessGrid() {
                 <h3 className="text-white font-bold text-lg leading-snug mb-2">{title}</h3>
                 <p className="text-white/75 text-xs leading-relaxed mb-4">{desc}</p>
                 <span className="mt-auto inline-flex items-center gap-1.5 text-white text-xs font-semibold">
-                  Explore
+                  {t("explore")}
                   <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
                 </span>
               </Link>

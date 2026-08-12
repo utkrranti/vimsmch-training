@@ -1,35 +1,23 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import Reveal from "@/components/ui/Reveal";
 
-const steps = [
-  {
-    num: "01",
-    title: "Browse Courses",
-    desc: "Explore our one-year certificate programmes. Each listing shows duration, eligibility, provisional fee, and certificate authority.",
-    cta: { label: "View Courses", href: "/courses" },
-  },
-  {
-    num: "02",
-    title: "Submit Inquiry",
-    desc: "Fill in the inquiry form with your name, phone, and course of interest. Our counsellor will call you within 1 working day — no commitment required.",
-    cta: { label: "Inquire Now", href: "/contact#inquiry" },
-  },
-  {
-    num: "03",
-    title: "Confirm & Join",
-    desc: "Visit the admissions office, complete documentation, pay the applicable fee, and join the next available batch.",
-    cta: null,
-  },
-];
+export default async function HowToEnroll() {
+  const t = await getTranslations("howToEnroll");
 
-export default function HowToEnroll() {
+  const steps = [
+    { num: "01", title: t("step1Title"), desc: t("step1Desc"), cta: { label: t("step1Cta"), href: "/courses" } },
+    { num: "02", title: t("step2Title"), desc: t("step2Desc"), cta: { label: t("step2Cta"), href: "/contact#inquiry" } },
+    { num: "03", title: t("step3Title"), desc: t("step3Desc"), cta: null },
+  ];
+
   return (
     <section className="bg-[#f1f5f7] py-20 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <Reveal>
           <div className="text-center mb-14">
-            <span className="eyebrow mb-4">Simple Process</span>
-            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#011e2c] mb-3 tracking-tight">How to Enrol</h2>
+            <span className="eyebrow mb-4">{t("eyebrow")}</span>
+            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#011e2c] mb-3 tracking-tight">{t("heading")}</h2>
             <div className="w-16 h-1 bg-[#2086b8] mx-auto rounded" />
           </div>
         </Reveal>
@@ -45,10 +33,7 @@ export default function HowToEnroll() {
                   {s.num}
                 </div>
                 <h3 className="text-[#011e2c] font-bold text-lg mb-3">{s.title}</h3>
-                <p
-                  className="text-[#010608]/60 text-sm leading-relaxed mb-5"
-                  dangerouslySetInnerHTML={{ __html: s.desc }}
-                />
+                <p className="text-[#010608]/60 text-sm leading-relaxed mb-5">{s.desc}</p>
                 {s.cta && (
                   <Link
                     href={s.cta.href}

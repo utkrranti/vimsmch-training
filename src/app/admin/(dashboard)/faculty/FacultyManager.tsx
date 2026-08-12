@@ -4,24 +4,32 @@ import { useState, useTransition } from "react";
 import { Plus, Pencil, Trash2, X, Loader2, UserCircle2 } from "lucide-react";
 import Image from "next/image";
 import { saveFaculty, deleteFaculty, toggleFacultyActive } from "./actions";
+import { BilingualField, BilingualTextarea } from "@/components/admin/bilingual/BilingualField";
 
 type FacultyRow = {
   id: string;
   name: string;
   designation: string;
+  designationMr: string | null;
   qualification: string | null;
+  qualificationMr: string | null;
   experience: string | null;
+  experienceMr: string | null;
   specialization: string | null;
+  specializationMr: string | null;
   department: string | null;
+  departmentMr: string | null;
   bio: string | null;
+  bioMr: string | null;
   photoUrl: string | null;
   isActive: boolean;
   sortOrder: number;
 };
 
 const emptyForm = {
-  name: "", designation: "", qualification: "", experience: "", specialization: "", department: "",
-  bio: "", photoUrl: "", sortOrder: 0, isActive: true,
+  name: "", designation: "", designationMr: "", qualification: "", qualificationMr: "",
+  experience: "", experienceMr: "", specialization: "", specializationMr: "", department: "", departmentMr: "",
+  bio: "", bioMr: "", photoUrl: "", sortOrder: 0, isActive: true,
 };
 
 export default function FacultyManager({ faculty }: { faculty: FacultyRow[] }) {
@@ -41,10 +49,12 @@ export default function FacultyManager({ faculty }: { faculty: FacultyRow[] }) {
   const openEdit = (f: FacultyRow) => {
     setEditing(f);
     setForm({
-      name: f.name, designation: f.designation,
-      qualification: f.qualification ?? "", experience: f.experience ?? "",
-      specialization: f.specialization ?? "", department: f.department ?? "",
-      bio: f.bio ?? "", photoUrl: f.photoUrl ?? "", sortOrder: f.sortOrder, isActive: f.isActive,
+      name: f.name, designation: f.designation, designationMr: f.designationMr ?? "",
+      qualification: f.qualification ?? "", qualificationMr: f.qualificationMr ?? "",
+      experience: f.experience ?? "", experienceMr: f.experienceMr ?? "",
+      specialization: f.specialization ?? "", specializationMr: f.specializationMr ?? "",
+      department: f.department ?? "", departmentMr: f.departmentMr ?? "",
+      bio: f.bio ?? "", bioMr: f.bioMr ?? "", photoUrl: f.photoUrl ?? "", sortOrder: f.sortOrder, isActive: f.isActive,
     });
     setError("");
     setShowModal(true);
@@ -171,28 +181,49 @@ export default function FacultyManager({ faculty }: { faculty: FacultyRow[] }) {
                   </div>
                 </div>
 
-                <div>
-                  <label className={labelCls}>Designation *</label>
-                  <input className={inputCls} value={form.designation} onChange={(e) => setForm((f) => ({ ...f, designation: e.target.value }))} placeholder="Programme Coordinator, OT Techniques" />
-                </div>
+                <BilingualField
+                  label="Designation"
+                  required
+                  value={form.designation}
+                  valueMr={form.designationMr}
+                  onChange={(v) => setForm((f) => ({ ...f, designation: v }))}
+                  onChangeMr={(v) => setForm((f) => ({ ...f, designationMr: v }))}
+                  placeholder="Programme Coordinator, OT Techniques"
+                />
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className={labelCls}>Qualification</label>
-                    <input className={inputCls} value={form.qualification} onChange={(e) => setForm((f) => ({ ...f, qualification: e.target.value }))} placeholder="MBBS, MS" />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Experience</label>
-                    <input className={inputCls} value={form.experience} onChange={(e) => setForm((f) => ({ ...f, experience: e.target.value }))} placeholder="10+ years" />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Specialization</label>
-                    <input className={inputCls} value={form.specialization} onChange={(e) => setForm((f) => ({ ...f, specialization: e.target.value }))} placeholder="General Surgery" />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Department</label>
-                    <input className={inputCls} value={form.department} onChange={(e) => setForm((f) => ({ ...f, department: e.target.value }))} placeholder="Operation Theatre Assistant" />
-                  </div>
+                  <BilingualField
+                    label="Qualification"
+                    value={form.qualification}
+                    valueMr={form.qualificationMr}
+                    onChange={(v) => setForm((f) => ({ ...f, qualification: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, qualificationMr: v }))}
+                    placeholder="MBBS, MS"
+                  />
+                  <BilingualField
+                    label="Experience"
+                    value={form.experience}
+                    valueMr={form.experienceMr}
+                    onChange={(v) => setForm((f) => ({ ...f, experience: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, experienceMr: v }))}
+                    placeholder="10+ years"
+                  />
+                  <BilingualField
+                    label="Specialization"
+                    value={form.specialization}
+                    valueMr={form.specializationMr}
+                    onChange={(v) => setForm((f) => ({ ...f, specialization: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, specializationMr: v }))}
+                    placeholder="General Surgery"
+                  />
+                  <BilingualField
+                    label="Department"
+                    value={form.department}
+                    valueMr={form.departmentMr}
+                    onChange={(v) => setForm((f) => ({ ...f, department: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, departmentMr: v }))}
+                    placeholder="Operation Theatre Assistant"
+                  />
                 </div>
 
                 <div>
@@ -200,10 +231,15 @@ export default function FacultyManager({ faculty }: { faculty: FacultyRow[] }) {
                   <input className={inputCls} value={form.photoUrl} onChange={(e) => setForm((f) => ({ ...f, photoUrl: e.target.value }))} placeholder="https://... (optional)" />
                 </div>
 
-                <div>
-                  <label className={labelCls}>Bio</label>
-                  <textarea rows={3} className={`${inputCls} resize-none`} value={form.bio} onChange={(e) => setForm((f) => ({ ...f, bio: e.target.value }))} placeholder="Short professional biography..." />
-                </div>
+                <BilingualTextarea
+                  label="Bio"
+                  rows={3}
+                  value={form.bio}
+                  valueMr={form.bioMr}
+                  onChange={(v) => setForm((f) => ({ ...f, bio: v }))}
+                  onChangeMr={(v) => setForm((f) => ({ ...f, bioMr: v }))}
+                  placeholder="Short professional biography..."
+                />
 
                 <label className="flex items-center gap-3 cursor-pointer">
                   <button

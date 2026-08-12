@@ -1,10 +1,16 @@
 import Image from "next/image";
 import { Quote } from "lucide-react";
-import { getSettings } from "@/lib/db/settings";
+import { getSettingsLocalized } from "@/lib/db/settings";
+import { getLocale, getTranslations } from "next-intl/server";
+import type { AppLocale } from "@/lib/i18n/pickLocale";
 import Reveal from "@/components/ui/Reveal";
 
 export default async function DirectorMessage() {
-  const s = await getSettings(["leadership.director.name", "leadership.director.message"]);
+  const locale = (await getLocale()) as AppLocale;
+  const [s, t] = await Promise.all([
+    getSettingsLocalized(["leadership.director.name", "leadership.director.message"], locale),
+    getTranslations("directorMessage"),
+  ]);
   const name = s["leadership.director.name"];
   const message = s["leadership.director.message"];
 
@@ -19,7 +25,7 @@ export default async function DirectorMessage() {
               <Image src="/images/principal.webp" alt={name || "Principal"} fill sizes="280px" className="object-cover" />
             </div>
             <div className="p-8 sm:p-10 flex flex-col justify-center">
-              <span className="eyebrow mb-4 self-start">A Message From The Director</span>
+              <span className="eyebrow mb-4 self-start">{t("eyebrow")}</span>
               <Quote size={32} className="text-[#2086b8]/30 mb-4" />
               {message && (
                 <p className="text-[#010608]/70 text-base leading-relaxed mb-6 whitespace-pre-line">{message}</p>

@@ -1,6 +1,8 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getActiveFaqItems } from "@/lib/db/faq";
+import { getLocale, getTranslations } from "next-intl/server";
+import { pickLocale, type AppLocale } from "@/lib/i18n/pickLocale";
 import { HelpCircle } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -12,7 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default async function FaqPage() {
-  const faqs = await getActiveFaqItems();
+  const [faqs, locale, t] = await Promise.all([
+    getActiveFaqItems(),
+    getLocale() as Promise<AppLocale>,
+    getTranslations("faqPage"),
+  ]);
 
   return (
     <>
@@ -27,9 +33,9 @@ export default async function FaqPage() {
           <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
           <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
           <div className="relative max-w-7xl mx-auto">
-            <p className="text-xs text-white/50 mb-3">Home / FAQ</p>
-            <span className="eyebrow eyebrow-light mb-4">Got Questions?</span>
-            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">Frequently Asked Questions</h1>
+            <p className="text-xs text-white/50 mb-3">{t("breadcrumb")}</p>
+            <span className="eyebrow eyebrow-light mb-4">{t("eyebrow")}</span>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">{t("heading")}</h1>
           </div>
         </div>
 
@@ -38,17 +44,17 @@ export default async function FaqPage() {
             {faqs.length === 0 ? (
               <div className="text-center py-16 bg-[#f1f5f7] rounded-2xl border border-[#e6edf0]">
                 <HelpCircle size={32} className="text-[#010608]/20 mx-auto mb-3" />
-                <p className="text-[#010608]/40 font-medium text-sm">Questions will be published shortly.</p>
+                <p className="text-[#010608]/40 font-medium text-sm">{t("empty")}</p>
               </div>
             ) : (
               faqs.map((f) => (
                 <div key={f.id} className="bg-[#f1f5f7] border border-[#e6edf0] rounded-2xl p-6">
                   <div className="flex items-start gap-3 mb-2">
                     <HelpCircle size={18} className="text-[#04415f] mt-0.5 shrink-0" />
-                    <h3 className="text-[#011e2c] font-bold text-base leading-snug">{f.question}</h3>
+                    <h3 className="text-[#011e2c] font-bold text-base leading-snug">{pickLocale(locale, f.question, f.questionMr)}</h3>
                   </div>
                   <p className="text-[#010608]/65 text-sm leading-relaxed pl-[30px]">
-                    {f.answer || "This is being finalised — please contact the admissions office for the latest update."}
+                    {f.answer ? pickLocale(locale, f.answer, f.answerMr) : t("answerFallback")}
                   </p>
                 </div>
               ))

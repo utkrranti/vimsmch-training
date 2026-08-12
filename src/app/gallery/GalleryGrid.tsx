@@ -4,15 +4,31 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { ImageOff, X } from "lucide-react";
+import { pickLocale, type AppLocale } from "@/lib/i18n/pickLocale";
 
-type GalleryRow = { id: string; imageUrl: string; caption: string | null; category: string };
+type GalleryRow = { id: string; imageUrl: string; caption: string | null; captionMr?: string | null; category: string };
 type CategoryOption = { value: string; label: string };
 
-export default function GalleryGrid({ items, categories }: { items: GalleryRow[]; categories: CategoryOption[] }) {
+export default function GalleryGrid({
+  items,
+  categories,
+  locale,
+  emptyText,
+  photoAlt,
+  closeLabel,
+}: {
+  items: GalleryRow[];
+  categories: CategoryOption[];
+  locale: AppLocale;
+  emptyText: string;
+  photoAlt: string;
+  closeLabel: string;
+}) {
   const [filter, setFilter] = useState("");
   const [lightbox, setLightbox] = useState<GalleryRow | null>(null);
 
   const filtered = filter ? items.filter((i) => i.category === filter) : items;
+  const captionOf = (item: GalleryRow) => (item.caption ? pickLocale(locale, item.caption, item.captionMr) : null);
 
   return (
     <>
@@ -36,12 +52,14 @@ export default function GalleryGrid({ items, categories }: { items: GalleryRow[]
       {filtered.length === 0 ? (
         <div className="text-center py-16 bg-[#f1f5f7] rounded-2xl border border-[#e6edf0]">
           <ImageOff size={32} className="text-[#010608]/20 mx-auto mb-3" />
-          <p className="text-[#010608]/40 font-medium text-sm">No photos in this category yet.</p>
+          <p className="text-[#010608]/40 font-medium text-sm">{emptyText}</p>
         </div>
       ) : (
         <motion.div layout className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
           <AnimatePresence>
-            {filtered.map((item) => (
+            {filtered.map((item) => {
+              const caption = captionOf(item);
+              return (
               <motion.button
                 key={item.id}
                 layout
@@ -54,18 +72,19 @@ export default function GalleryGrid({ items, categories }: { items: GalleryRow[]
               >
                 <Image
                   src={item.imageUrl}
-                  alt={item.caption ?? "VIMSMCH gallery photo"}
+                  alt={caption ?? photoAlt}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                {item.caption && (
+                {caption && (
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#011e2c]/85 to-transparent px-3 py-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <p className="text-white text-[11px] font-medium leading-snug line-clamp-2">{item.caption}</p>
+                    <p className="text-white text-[11px] font-medium leading-snug line-clamp-2">{caption}</p>
                   </div>
                 )}
               </motion.button>
-            ))}
+              );
+            })}
           </AnimatePresence>
         </motion.div>
       )}
@@ -88,15 +107,15 @@ export default function GalleryGrid({ items, categories }: { items: GalleryRow[]
               <button
                 onClick={() => setLightbox(null)}
                 className="absolute -top-10 right-0 sm:top-2 sm:-right-10 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
-                aria-label="Close"
+                aria-label={closeLabel}
               >
                 <X size={22} />
               </button>
               <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-black">
-                <Image src={lightbox.imageUrl} alt={lightbox.caption ?? "VIMSMCH gallery photo"} fill sizes="90vw" className="object-contain" />
+                <Image src={lightbox.imageUrl} alt={captionOf(lightbox) ?? photoAlt} fill sizes="90vw" className="object-contain" />
               </div>
-              {lightbox.caption && (
-                <p className="text-white/85 text-sm text-center mt-4">{lightbox.caption}</p>
+              {captionOf(lightbox) && (
+                <p className="text-white/85 text-sm text-center mt-4">{captionOf(lightbox)}</p>
               )}
             </motion.div>
           </motion.div>

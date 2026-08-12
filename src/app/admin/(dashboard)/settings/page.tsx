@@ -7,14 +7,17 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Settings | Admin" };
 
 const ALL_KEYS = [
-  "about.mission", "about.established",
-  "leadership.chairman.name", "leadership.chairman.message",
-  "leadership.secretaryGeneral.name", "leadership.secretaryGeneral.message",
-  "leadership.director.name", "leadership.director.message",
+  "about.mission", "about.mission_mr", "about.established",
+  "leadership.chairman.name", "leadership.chairman.message", "leadership.chairman.message_mr",
+  "leadership.secretaryGeneral.name", "leadership.secretaryGeneral.message", "leadership.secretaryGeneral.message_mr",
+  "leadership.director.name", "leadership.director.message", "leadership.director.message_mr",
   "contact.whatsapp", "contact.admissionHelpline",
   "prospectus.pdfUrl",
   "admission.formUrl", "admission.feeQrUrl", "admission.lastDate",
-  "placements.about", "placements.philosophy", "placements.assistance", "placements.careerSupport",
+  "placements.about", "placements.about_mr",
+  "placements.philosophy", "placements.philosophy_mr",
+  "placements.assistance", "placements.assistance_mr",
+  "placements.careerSupport", "placements.careerSupport_mr",
   "antiragging.helpline", "antiragging.email", "antiragging.portalUrl",
 ];
 

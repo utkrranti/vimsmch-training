@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { getSettings } from "@/lib/db/settings";
+import { getSettingsLocalized } from "@/lib/db/settings";
+import { getLocale, getTranslations } from "next-intl/server";
+import type { AppLocale } from "@/lib/i18n/pickLocale";
 import { Target, Compass, GraduationCap, Users, Phone, Mail, AlertTriangle, CheckCircle2, Quote, UserCircle2 } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -13,47 +15,37 @@ export const metadata: Metadata = {
     "Learn about Dr. Vithalrao Vikhe Patil Foundation's Paramedical Institute — affordable, employment-oriented paramedical certificate courses with hands-on hospital training.",
 };
 
-const objectives = [
-  "Providing affordable healthcare education",
-  "Creating employment opportunities for rural youth",
-  "Developing job-ready healthcare professionals",
-  "Supporting hospitals with skilled manpower",
-  "Enhancing employability through practical training",
-  "Promoting self-reliance through skill development",
-];
-
-const ourObjectives = [
-  "Affordable education",
-  "Quality practical training",
-  "Skill-based learning",
-  "Industry-oriented curriculum",
-  "Hospital exposure",
-  "Personality development",
-  "Career guidance",
-  "Placement assistance",
-];
-
-const quickFacts = [
-  { icon: GraduationCap, label: "Certificate Courses", value: "5", sub: "One-year paramedical programmes" },
-  { icon: Target, label: "Course Duration", value: "1 Year", sub: "Theory, practical & clinical training" },
-  { icon: Users, label: "Training Location", value: "On Campus", sub: "Inside VIMSMCH's teaching hospital" },
-  { icon: Compass, label: "Focus", value: "Rural Ahilyanagar", sub: "Students from the district & surrounding regions" },
-];
-
-const leaders = [
-  { key: "chairman", title: "Chairman" },
-  { key: "secretaryGeneral", title: "Secretary General" },
-  { key: "director", title: "Director" },
-] as const;
-
 export default async function AboutPage() {
-  const s = await getSettings([
-    "about.mission", "about.established",
-    "leadership.chairman.name", "leadership.chairman.message",
-    "leadership.secretaryGeneral.name", "leadership.secretaryGeneral.message",
-    "leadership.director.name", "leadership.director.message",
-    "antiragging.helpline", "antiragging.email", "antiragging.portalUrl",
+  const locale = (await getLocale()) as AppLocale;
+  const [s, t] = await Promise.all([
+    getSettingsLocalized(
+      [
+        "about.mission", "about.established",
+        "leadership.chairman.name", "leadership.chairman.message",
+        "leadership.secretaryGeneral.name", "leadership.secretaryGeneral.message",
+        "leadership.director.name", "leadership.director.message",
+        "antiragging.helpline", "antiragging.email", "antiragging.portalUrl",
+      ],
+      locale
+    ),
+    getTranslations("aboutPage"),
   ]);
+
+  const objectives = t.raw("objectives") as string[];
+  const ourObjectives = t.raw("ourObjectives") as string[];
+
+  const quickFacts = [
+    { icon: GraduationCap, label: t("quickFact1Label"), value: t("quickFact1Value"), sub: t("quickFact1Sub") },
+    { icon: Target, label: t("quickFact2Label"), value: t("quickFact2Value"), sub: t("quickFact2Sub") },
+    { icon: Users, label: t("quickFact3Label"), value: t("quickFact3Value"), sub: t("quickFact3Sub") },
+    { icon: Compass, label: t("quickFact4Label"), value: t("quickFact4Value"), sub: t("quickFact4Sub") },
+  ];
+
+  const leaders = [
+    { key: "chairman", title: t("leaderChairman") },
+    { key: "secretaryGeneral", title: t("leaderSecretaryGeneral") },
+    { key: "director", title: t("leaderDirector") },
+  ] as const;
 
   return (
     <>
@@ -68,9 +60,9 @@ export default async function AboutPage() {
           <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
           <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
           <div className="relative max-w-7xl mx-auto">
-            <p className="text-xs text-white/50 mb-3">Home / About Us</p>
-            <span className="eyebrow eyebrow-light mb-4">Who We Are</span>
-            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">About Us</h1>
+            <p className="text-xs text-white/50 mb-3">{t("breadcrumb")}</p>
+            <span className="eyebrow eyebrow-light mb-4">{t("eyebrow")}</span>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">{t("heading")}</h1>
           </div>
         </div>
 
@@ -79,11 +71,11 @@ export default async function AboutPage() {
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
-                Paramedical Institute
+                {t("missionEyebrow")}
               </span>
               <h2 className="text-3xl font-bold text-[#011e2c] mb-4 leading-snug">
-                Dr. Vithalrao Vikhe Patil Foundation&apos;s<br />
-                Paramedical Institute
+                {t("missionHeadingLine1")}<br />
+                {t("missionHeadingLine2")}
               </h2>
               <div className="w-14 h-0.5 bg-[#2086b8] mb-6" />
               <p className="text-[#010608]/65 text-sm leading-relaxed mb-6">
@@ -117,36 +109,36 @@ export default async function AboutPage() {
                 />
               </div>
               <p className="text-[#010608]/45 text-xs text-center mt-2">
-                Late Padmabhushan Dr. Balasaheb Vikhe Patil
+                {t("legacyImageCaption")}
               </p>
             </div>
             <div>
               <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-                About Us
+                {t("legacyEyebrow")}
               </span>
-              <h2 className="text-2xl font-bold text-[#011e2c] mb-4">Our Legacy</h2>
+              <h2 className="text-2xl font-bold text-[#011e2c] mb-4">{t("legacyHeading")}</h2>
               <div className="w-14 h-0.5 bg-[#2086b8] mb-6" />
               <p className="text-[#010608]/65 text-sm leading-relaxed mb-4">
-                Inspired by the visionary leadership of Late Padmabhushan Dr. Balasaheb Vikhe Patil, Dr. Vithalrao Vikhe Patil Foundation has consistently worked towards providing quality education and healthcare services to society.
+                {t("legacyPara1")}
               </p>
               <p className="text-[#010608]/65 text-sm leading-relaxed mb-7">
-                The Foundation has established numerous institutions in engineering, pharmacy, nursing, physiotherapy, agriculture, management, medical education and healthcare, contributing significantly to the educational development of Maharashtra. The Paramedical Institute is another milestone in this continuing journey of nation building through skill development.
+                {t("legacyPara2")}
               </p>
               <div className="grid grid-cols-1 gap-5">
                 <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-6">
                   <div className="w-11 h-11 bg-[#04415f] rounded-xl flex items-center justify-center mb-4">
                     <Compass size={19} className="text-white" />
                   </div>
-                  <h3 className="text-[#011e2c] font-bold text-lg mb-2">Vision</h3>
+                  <h3 className="text-[#011e2c] font-bold text-lg mb-2">{t("visionTitle")}</h3>
                   <p className="text-[#010608]/65 text-sm leading-relaxed">
-                    To become a premier vocational training institution in allied health sciences by producing competent, ethical and skilled paramedical professionals capable of serving society with excellence and compassion.
+                    {t("visionText")}
                   </p>
                 </div>
                 <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-6">
                   <div className="w-11 h-11 bg-[#04415f] rounded-xl flex items-center justify-center mb-4">
                     <Target size={19} className="text-white" />
                   </div>
-                  <h3 className="text-[#011e2c] font-bold text-lg mb-2">Mission</h3>
+                  <h3 className="text-[#011e2c] font-bold text-lg mb-2">{t("missionTitle")}</h3>
                   <p className="text-[#010608]/65 text-sm leading-relaxed">
                     {s["about.mission"]}
                   </p>
@@ -161,15 +153,15 @@ export default async function AboutPage() {
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-                Why Vocational Training?
+                {t("whyEyebrow")}
               </span>
-              <h2 className="text-2xl font-bold text-[#011e2c] mb-4">Bridging the Skills Gap</h2>
+              <h2 className="text-2xl font-bold text-[#011e2c] mb-4">{t("whyHeading")}</h2>
               <div className="w-14 h-0.5 bg-[#2086b8] mb-6" />
               <p className="text-[#010608]/65 text-sm leading-relaxed mb-4">
-                India is witnessing a growing demand for trained paramedical professionals due to rapid expansion of healthcare infrastructure. The Paramedical Institute has therefore been established with clear, focused objectives.
+                {t("whyPara1")}
               </p>
               <p className="text-[#010608]/65 text-sm leading-relaxed">
-                Special emphasis is laid on students from Ahilyanagar District and surrounding rural regions who aspire to build successful careers in healthcare.
+                {t("whyPara2")}
               </p>
             </div>
             <div className="grid sm:grid-cols-2 gap-3">
@@ -188,9 +180,9 @@ export default async function AboutPage() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-10">
               <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-                Our Objectives
+                {t("ourObjectivesEyebrow")}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#011e2c] mb-1">What We Set Out to Achieve</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#011e2c] mb-1">{t("ourObjectivesHeading")}</h2>
               <div className="w-14 h-0.5 bg-[#2086b8] mx-auto mt-3" />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -209,9 +201,9 @@ export default async function AboutPage() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-10">
               <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-                Leadership
+                {t("leadershipEyebrow")}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#011e2c] mb-1">Messages from Leadership</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#011e2c] mb-1">{t("leadershipHeading")}</h2>
               <div className="w-14 h-0.5 bg-[#2086b8] mx-auto mt-3" />
             </div>
             <div className="grid md:grid-cols-3 gap-6">
@@ -224,14 +216,14 @@ export default async function AboutPage() {
                     {message ? (
                       <p className="text-[#010608]/70 text-sm leading-relaxed flex-1 mb-4">{message}</p>
                     ) : (
-                      <p className="text-[#010608]/40 text-sm italic flex-1 mb-4">Message coming soon.</p>
+                      <p className="text-[#010608]/40 text-sm italic flex-1 mb-4">{t("messageComingSoon")}</p>
                     )}
                     <div className="flex items-center gap-3 border-t border-[#e6edf0] pt-4">
                       <div className="w-10 h-10 rounded-full bg-[#04415f]/8 flex items-center justify-center shrink-0">
                         <UserCircle2 size={20} className="text-[#04415f]/40" />
                       </div>
                       <div>
-                        <p className="text-[#011e2c] font-bold text-sm">{name || "To be announced"}</p>
+                        <p className="text-[#011e2c] font-bold text-sm">{name || t("toBeAnnounced")}</p>
                         <p className="text-[#010608]/50 text-xs">{l.title}</p>
                       </div>
                     </div>
@@ -251,12 +243,12 @@ export default async function AboutPage() {
                   <AlertTriangle size={26} className="text-white" />
                 </div>
                 <div>
-                  <p className="text-white/60 text-xs uppercase tracking-widest">Zero Tolerance</p>
-                  <h2 className="text-white font-bold text-xl">Anti-Ragging Policy</h2>
+                  <p className="text-white/60 text-xs uppercase tracking-widest">{t("antiRaggingZeroTolerance")}</p>
+                  <h2 className="text-white font-bold text-xl">{t("antiRaggingTitle")}</h2>
                 </div>
               </div>
               <p className="text-white/70 text-sm leading-relaxed flex-1">
-                This institution is committed to providing a ragging-free environment. Ragging is a criminal offence under Indian law. Students, parents, and staff are urged to report immediately.
+                {t("antiRaggingText")}
               </p>
               <div className="flex flex-col sm:flex-row gap-3 shrink-0">
                 <a
@@ -264,7 +256,7 @@ export default async function AboutPage() {
                   className="flex items-center gap-2 bg-white text-[#04415f] font-bold text-sm px-5 py-3 rounded-lg hover:bg-[#e6edf0] transition-colors"
                 >
                   <Phone size={14} />
-                  {s["antiragging.helpline"] || "1800-180-5522"}
+                  {s["antiragging.helpline"] || t("defaultHelpline")}
                 </a>
                 <a
                   href={s["antiragging.portalUrl"] || "https://antiragging.in"}
@@ -272,7 +264,7 @@ export default async function AboutPage() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 border border-white/40 text-white text-sm font-semibold px-5 py-3 rounded-lg hover:bg-white/10 transition-colors"
                 >
-                  Anti-Ragging Portal →
+                  {t("antiRaggingPortal")}
                 </a>
               </div>
             </div>
@@ -280,17 +272,17 @@ export default async function AboutPage() {
               <div className="bg-white/8 rounded-xl p-4 flex items-center gap-3">
                 <Mail size={16} className="text-white/60 shrink-0" />
                 <div>
-                  <p className="text-white/50 text-xs">Helpline Email</p>
+                  <p className="text-white/50 text-xs">{t("helplineEmailLabel")}</p>
                   <a href={`mailto:${s["antiragging.email"]}`} className="text-white text-sm font-medium hover:text-white/80 transition-colors">
-                    {s["antiragging.email"] || "helpline@antiragging.in"}
+                    {s["antiragging.email"] || t("defaultEmail")}
                   </a>
                 </div>
               </div>
               <div className="bg-white/8 rounded-xl p-4 flex items-center gap-3">
                 <Users size={16} className="text-white/60 shrink-0" />
                 <div>
-                  <p className="text-white/50 text-xs">Reach Out</p>
-                  <p className="text-white text-sm font-medium">Contact the admissions office directly</p>
+                  <p className="text-white/50 text-xs">{t("reachOutLabel")}</p>
+                  <p className="text-white text-sm font-medium">{t("reachOutText")}</p>
                 </div>
               </div>
             </div>

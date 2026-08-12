@@ -1,0 +1,24 @@
+{
+  "menu": "मेनू",
+  "close": "मेनू बंद करा",
+  "backToHome": "मुख्यपृष्ठ",
+  "importantLinks": "महत्त्वाचे दुवे",
+  "links": {
+    "home": "मुख्यपृष्ठ",
+    "about": "आमच्याबद्दल",
+    "courses": "अभ्यासक्रम",
+    "admission": "प्रवेश",
+    "faculty": "प्राध्यापक",
+    "news": "बातम्या आणि सूचना",
+    "placement": "प्लेसमेंट",
+    "facilities": "सुविधा",
+    "gallery": "गॅलरी",
+    "faq": "प्रश्नोत्तरे"
+  },
+  "importantLinksList": {
+    "foundation": "डॉ. विठ्ठलराव विखे पाटील फाउंडेशन",
+    "medicalCollege": "मेडिकल कॉलेज आणि हॉस्पिटल",
+    "msbsvet": "MSBSVET",
+    "ncvrt": "NCVRT"
+  }
+}

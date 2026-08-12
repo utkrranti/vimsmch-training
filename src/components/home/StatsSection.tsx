@@ -1,25 +1,27 @@
 import { GraduationCap, Clock3, BedDouble, CalendarCheck } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
-const stats = [
-  { icon: GraduationCap, value: "5", label: "Certificate Courses", sub: "One-Year Programmes" },
-  { icon: Clock3, value: "1 Year", label: "Course Duration", sub: "Theory + Practical + Clinical" },
-  { icon: BedDouble, value: "800+", label: "Bed Teaching Hospital", sub: "Hands-On Clinical Training" },
-  { icon: CalendarCheck, value: "2026", label: "First Batch", sub: "Admissions Open Now" },
-];
-
-function StatItem({ s }: { s: (typeof stats)[number] }) {
+function StatItem({ icon: Icon, value, label, sub }: { icon: React.ElementType; value: string; label: string; sub: string }) {
   return (
     <div className="flex items-center gap-2.5 shrink-0 px-8">
-      <s.icon size={16} className="text-white/85 shrink-0" />
-      <span className="font-display text-lg font-semibold text-white">{s.value}</span>
-      <span className="text-white/95 font-medium text-sm whitespace-nowrap">{s.label}</span>
-      <span className="text-white/60 text-xs whitespace-nowrap">— {s.sub}</span>
+      <Icon size={16} className="text-white/85 shrink-0" />
+      <span className="font-display text-lg font-semibold text-white">{value}</span>
+      <span className="text-white/95 font-medium text-sm whitespace-nowrap">{label}</span>
+      <span className="text-white/60 text-xs whitespace-nowrap">— {sub}</span>
       <span className="w-1 h-1 rounded-full bg-white/30 ml-6" />
     </div>
   );
 }
 
-export default function StatsSection() {
+export default async function StatsSection() {
+  const t = await getTranslations("statsSection");
+  const stats = [
+    { icon: GraduationCap, value: t("coursesValue"), label: t("coursesLabel"), sub: t("coursesSub") },
+    { icon: Clock3, value: t("durationValue"), label: t("durationLabel"), sub: t("durationSub") },
+    { icon: BedDouble, value: t("bedsValue"), label: t("bedsLabel"), sub: t("bedsSub") },
+    { icon: CalendarCheck, value: t("batchValue"), label: t("batchLabel"), sub: t("batchSub") },
+  ];
+
   return (
     <section
       className="relative py-5 overflow-hidden"
@@ -28,12 +30,12 @@ export default function StatsSection() {
       <div className="flex w-max animate-marquee">
         <div className="flex items-center">
           {stats.map((s) => (
-            <StatItem key={`a-${s.label}`} s={s} />
+            <StatItem key={`a-${s.label}`} {...s} />
           ))}
         </div>
         <div className="flex items-center" aria-hidden="true">
           {stats.map((s) => (
-            <StatItem key={`b-${s.label}`} s={s} />
+            <StatItem key={`b-${s.label}`} {...s} />
           ))}
         </div>
       </div>

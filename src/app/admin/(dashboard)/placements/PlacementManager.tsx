@@ -4,14 +4,15 @@ import { useState, useTransition } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Plus, Pencil, Trash2, X, Loader2, Briefcase, Quote } from "lucide-react";
 import { savePlacement, deletePlacement, togglePlacementActive } from "./actions";
+import { BilingualTextarea } from "@/components/admin/bilingual/BilingualField";
 
 type PlacementRow = {
   id: string; studentName: string; employerName: string | null; courseId: string | null;
-  quote: string | null; batchYear: string | null; sortOrder: number; isActive: boolean;
+  quote: string | null; quoteMr: string | null; batchYear: string | null; sortOrder: number; isActive: boolean;
 };
 type CourseOption = { id: string; title: string };
 
-const emptyForm = { studentName: "", employerName: "", courseId: "", quote: "", batchYear: "", sortOrder: 0, isActive: true };
+const emptyForm = { studentName: "", employerName: "", courseId: "", quote: "", quoteMr: "", batchYear: "", sortOrder: 0, isActive: true };
 
 export default function PlacementManager({ placements, courses }: { placements: PlacementRow[]; courses: CourseOption[] }) {
   const [showModal, setShowModal] = useState(false);
@@ -27,7 +28,7 @@ export default function PlacementManager({ placements, courses }: { placements: 
     setEditing(p);
     setForm({
       studentName: p.studentName, employerName: p.employerName ?? "", courseId: p.courseId ?? "",
-      quote: p.quote ?? "", batchYear: p.batchYear ?? "", sortOrder: p.sortOrder, isActive: p.isActive,
+      quote: p.quote ?? "", quoteMr: p.quoteMr ?? "", batchYear: p.batchYear ?? "", sortOrder: p.sortOrder, isActive: p.isActive,
     });
     setError(""); setShowModal(true);
   };
@@ -167,10 +168,15 @@ export default function PlacementManager({ placements, courses }: { placements: 
                       <input className={inputCls} value={form.batchYear} onChange={(e) => setForm((f) => ({ ...f, batchYear: e.target.value }))} placeholder="2026" />
                     </div>
                   </div>
-                  <div>
-                    <label className={labelCls}>Testimonial Quote</label>
-                    <textarea rows={3} className={`${inputCls} resize-none`} value={form.quote} onChange={(e) => setForm((f) => ({ ...f, quote: e.target.value }))} placeholder="This course gave me hands-on skills that landed me a job within a month..." />
-                  </div>
+                  <BilingualTextarea
+                    label="Testimonial Quote"
+                    rows={3}
+                    value={form.quote}
+                    valueMr={form.quoteMr}
+                    onChange={(v) => setForm((f) => ({ ...f, quote: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, quoteMr: v }))}
+                    placeholder="This course gave me hands-on skills that landed me a job within a month..."
+                  />
                   <div>
                     <label className={labelCls}>Sort Order</label>
                     <input type="number" min={0} className={inputCls} value={form.sortOrder} onChange={(e) => setForm((f) => ({ ...f, sortOrder: Number(e.target.value) }))} />

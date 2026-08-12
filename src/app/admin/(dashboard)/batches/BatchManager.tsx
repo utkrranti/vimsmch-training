@@ -4,16 +4,17 @@ import { useState, useTransition } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Plus, Pencil, Trash2, X, Loader2, CalendarRange, ChevronDown, Users } from "lucide-react";
 import { saveBatch, deleteBatch, toggleBatchActive, assignEnrollmentBatch } from "./actions";
+import { BilingualField } from "@/components/admin/bilingual/BilingualField";
 
 type BatchRow = {
-  id: string; courseId: string; courseTitle: string; label: string;
+  id: string; courseId: string; courseTitle: string; label: string; labelMr?: string | null;
   startDate: string; endDate: string; seats: number; isActive: boolean;
   enrolledCount: number; enrolledNames: string[];
 };
 type CourseOption = { id: string; title: string };
 type EnrollmentRow = { id: string; name: string; courseId: string; batchId: string | null; course: { title: string } };
 
-const emptyForm = { courseId: "", label: "", startDate: "", endDate: "", seats: 20, isActive: true };
+const emptyForm = { courseId: "", label: "", labelMr: "", startDate: "", endDate: "", seats: 20, isActive: true };
 const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 
 export default function BatchManager({ batches, courses, enrollments }: { batches: BatchRow[]; courses: CourseOption[]; enrollments: EnrollmentRow[] }) {
@@ -27,7 +28,7 @@ export default function BatchManager({ batches, courses, enrollments }: { batche
   const openAdd = () => { setEditing(null); setForm(emptyForm); setError(""); setShowModal(true); };
   const openEdit = (b: BatchRow) => {
     setEditing(b);
-    setForm({ courseId: b.courseId, label: b.label, startDate: b.startDate.slice(0, 10), endDate: b.endDate.slice(0, 10), seats: b.seats, isActive: b.isActive });
+    setForm({ courseId: b.courseId, label: b.label, labelMr: b.labelMr ?? "", startDate: b.startDate.slice(0, 10), endDate: b.endDate.slice(0, 10), seats: b.seats, isActive: b.isActive });
     setError(""); setShowModal(true);
   };
 
@@ -196,10 +197,15 @@ export default function BatchManager({ batches, courses, enrollments }: { batche
                       {courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
                     </select>
                   </div>
-                  <div>
-                    <label className={labelCls}>Batch Label *</label>
-                    <input className={inputCls} value={form.label} onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))} placeholder="Batch 2 · Jan–Mar 2026" />
-                  </div>
+                  <BilingualField
+                    label="Batch Label"
+                    required
+                    value={form.label}
+                    valueMr={form.labelMr}
+                    onChange={(v) => setForm((f) => ({ ...f, label: v }))}
+                    onChangeMr={(v) => setForm((f) => ({ ...f, labelMr: v }))}
+                    placeholder="Batch 2 · Jan–Mar 2026"
+                  />
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className={labelCls}>Start Date *</label>

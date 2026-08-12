@@ -1,0 +1,20 @@
+{
+  "breadcrumb": "Home / Verify Certificate",
+  "eyebrow": "Authenticity Check",
+  "heading": "Verify Certificate",
+  "formHeading": "Certificate Verification",
+  "formIntro": "Enter the certificate number printed on your VIMSMCH Paramedical Institute certificate to verify its authenticity.",
+  "issuesContact": "For issues with verification, contact",
+  "placeholder": "e.g. VIMSMCH/2025/OTT/001",
+  "checking": "Checking...",
+  "verify": "Verify",
+  "certVerifiedTitle": "Certificate Verified",
+  "certVerifiedText": "This is a genuine VIMSMCH Paramedical Institute certificate.",
+  "certificateNumberLabel": "Certificate Number",
+  "studentNameLabel": "Student Name",
+  "courseLabel": "Course",
+  "issuedOnLabel": "Issued On",
+  "emptyValue": "—",
+  "notFoundTitle": "Certificate Not Found",
+  "notFoundText": "No certificate matching \"{certNo}\" was found in our records. Please check the number and try again. If you believe this is an error, contact"
+}

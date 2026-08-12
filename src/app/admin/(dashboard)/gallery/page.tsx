@@ -7,10 +7,12 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Gallery | Admin" };
 
 export default async function AdminGalleryPage() {
-  const [items, courses] = await Promise.all([
+  const [rawItems, courses] = await Promise.all([
     prisma.galleryItem.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }] }),
     prisma.course.findMany({ where: { isActive: true }, select: { id: true, title: true }, orderBy: { title: "asc" } }),
   ]);
+
+  const items = rawItems.map((g) => ({ ...g, captionMr: g.captionMr ?? null }));
 
   return (
     <div className="space-y-6">

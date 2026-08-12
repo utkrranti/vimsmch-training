@@ -1,12 +1,15 @@
+import { getTranslations } from "next-intl/server";
 import { MapPin, Phone, Mail, Globe } from "lucide-react";
 
-export default function TopContactBar() {
+export default async function TopContactBar() {
+  const t = await getTranslations("footer");
+
   return (
     <div className="bg-[#011e2c]">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-4 py-3 text-xs text-white/90 sm:flex-row sm:flex-wrap sm:justify-between sm:gap-6 sm:text-sm">
         <div className="flex items-center gap-2.5">
           <MapPin size={15} className="shrink-0 text-white/70" />
-          <span>Opp. Govt. Milk Dairy, Post – M.I.D.C., Vadgaon Gupta, Ahilyanagar – 414 111</span>
+          <span>{t("address")}</span>
         </div>
         <div className="flex items-center gap-2.5">
           <Phone size={15} className="shrink-0 text-white/70" />

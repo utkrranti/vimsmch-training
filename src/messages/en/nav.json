@@ -1,0 +1,24 @@
+{
+  "menu": "MENU",
+  "close": "Close menu",
+  "backToHome": "Home",
+  "importantLinks": "Important Links",
+  "links": {
+    "home": "Home",
+    "about": "About Us",
+    "courses": "Courses",
+    "admission": "Admission",
+    "faculty": "Faculties",
+    "news": "News & Notices",
+    "placement": "Placement",
+    "facilities": "Facilities",
+    "gallery": "Gallery",
+    "faq": "FAQ"
+  },
+  "importantLinksList": {
+    "foundation": "Dr. Vithalrao Vikhe Patil Foundation",
+    "medicalCollege": "Medical College & Hospital",
+    "msbsvet": "MSBSVET",
+    "ncvrt": "NCVRT"
+  }
+}

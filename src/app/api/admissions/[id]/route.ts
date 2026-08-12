@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cleanText, getRequiredAdmissionDocumentTypes } from "@/lib/admissions";
 import { validateAdmissionStep } from "@/lib/admission-validation";
+import { getTranslations } from "next-intl/server";
 
 const numberOrNull = (value: unknown) => value !== "" && Number.isFinite(Number(value)) ? Number(value) : null;
 const dateOrNull = (value: unknown) => { const text = cleanText(value, 10); return text ? new Date(`${text}T00:00:00.000Z`) : null; };
@@ -94,7 +95,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       return NextResponse.json({ success: true, savedAt: new Date().toISOString() });
     }
 
-    const fieldError = [1, 2, 3, 4, 6].includes(step) ? validateAdmissionStep(data, step) : "";
+    const t = await getTranslations("admissionWizard");
+    const fieldError = [1, 2, 3, 4, 6].includes(step) ? validateAdmissionStep(data, step, t) : "";
     if (fieldError) return NextResponse.json({ error: fieldError }, { status: 400 });
 
     if (step === 1) {

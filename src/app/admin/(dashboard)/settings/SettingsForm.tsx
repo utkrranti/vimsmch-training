@@ -4,15 +4,16 @@ import { useState, useTransition } from "react";
 import { Save, Loader2, CheckCircle } from "lucide-react";
 import { saveSettings } from "./actions";
 import FileUploadField from "@/components/admin/FileUploadField";
+import { BilingualField, BilingualTextarea } from "@/components/admin/bilingual/BilingualField";
 
-type Field = { key: string; label: string; placeholder?: string; multiline?: boolean; file?: boolean; accept?: string; type?: string };
+type Field = { key: string; label: string; placeholder?: string; multiline?: boolean; file?: boolean; accept?: string; type?: string; translatable?: boolean };
 type Group = { title: string; description?: string; fields: Field[] };
 
 const GROUPS: Group[] = [
   {
     title: "About the Institution",
     fields: [
-      { key: "about.mission", label: "Mission Statement", placeholder: "Our mission is to...", multiline: true },
+      { key: "about.mission", label: "Mission Statement", placeholder: "Our mission is to...", multiline: true, translatable: true },
       { key: "about.established", label: "Year Established", placeholder: "2026" },
     ],
   },
@@ -21,11 +22,11 @@ const GROUPS: Group[] = [
     description: "Shown on the About page as 'Messages from Leadership'. Leave blank to hide a card until the message is ready.",
     fields: [
       { key: "leadership.chairman.name", label: "Chairman — Name", placeholder: "Full name" },
-      { key: "leadership.chairman.message", label: "Chairman — Message", placeholder: "Message text...", multiline: true },
+      { key: "leadership.chairman.message", label: "Chairman — Message", placeholder: "Message text...", multiline: true, translatable: true },
       { key: "leadership.secretaryGeneral.name", label: "Secretary General — Name", placeholder: "Full name" },
-      { key: "leadership.secretaryGeneral.message", label: "Secretary General — Message", placeholder: "Message text...", multiline: true },
+      { key: "leadership.secretaryGeneral.message", label: "Secretary General — Message", placeholder: "Message text...", multiline: true, translatable: true },
       { key: "leadership.director.name", label: "Director — Name", placeholder: "Full name" },
-      { key: "leadership.director.message", label: "Director — Message", placeholder: "Message text...", multiline: true },
+      { key: "leadership.director.message", label: "Director — Message", placeholder: "Message text...", multiline: true, translatable: true },
     ],
   },
   {
@@ -56,10 +57,10 @@ const GROUPS: Group[] = [
     title: "Placements Page",
     description: "Shown on the Placements & Outcomes page, above the testimonials. Leave blank to use the default copy.",
     fields: [
-      { key: "placements.about", label: "About Section", placeholder: "Intro paragraphs...", multiline: true },
-      { key: "placements.philosophy", label: "Our Placement Philosophy", placeholder: "Philosophy paragraph...", multiline: true },
-      { key: "placements.assistance", label: "Placement Assistance & Career Opportunities", placeholder: "Assistance paragraph...", multiline: true },
-      { key: "placements.careerSupport", label: "Career Support Services (one per line)", placeholder: "Career counselling and guidance\nPersonality development programmes...", multiline: true },
+      { key: "placements.about", label: "About Section", placeholder: "Intro paragraphs...", multiline: true, translatable: true },
+      { key: "placements.philosophy", label: "Our Placement Philosophy", placeholder: "Philosophy paragraph...", multiline: true, translatable: true },
+      { key: "placements.assistance", label: "Placement Assistance & Career Opportunities", placeholder: "Assistance paragraph...", multiline: true, translatable: true },
+      { key: "placements.careerSupport", label: "Career Support Services (one per line)", placeholder: "Career counselling and guidance\nPersonality development programmes...", multiline: true, translatable: true },
     ],
   },
   {
@@ -104,30 +105,55 @@ export default function SettingsForm({ initial }: { initial: Record<string, stri
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {group.fields.map((f) => (
-              <div key={f.key} className={f.multiline ? "sm:col-span-2" : ""}>
-                <label className={labelCls}>{f.label}</label>
-                {f.file ? (
-                  <FileUploadField
-                    value={values[f.key] ?? ""}
-                    onChange={(url) => set(f.key, url)}
-                    accept={f.accept}
-                  />
-                ) : f.multiline ? (
-                  <textarea
-                    rows={3}
-                    className={`${inputCls} resize-y`}
-                    value={values[f.key] ?? ""}
-                    onChange={(e) => set(f.key, e.target.value)}
-                    placeholder={f.placeholder}
-                  />
+              <div key={f.key} className={f.multiline || f.translatable ? "sm:col-span-2" : ""}>
+                {f.translatable ? (
+                  f.multiline ? (
+                    <BilingualTextarea
+                      label={f.label}
+                      rows={3}
+                      value={values[f.key] ?? ""}
+                      valueMr={values[`${f.key}_mr`] ?? ""}
+                      onChange={(v) => set(f.key, v)}
+                      onChangeMr={(v) => set(`${f.key}_mr`, v)}
+                      placeholder={f.placeholder}
+                    />
+                  ) : (
+                    <BilingualField
+                      label={f.label}
+                      value={values[f.key] ?? ""}
+                      valueMr={values[`${f.key}_mr`] ?? ""}
+                      onChange={(v) => set(f.key, v)}
+                      onChangeMr={(v) => set(`${f.key}_mr`, v)}
+                      placeholder={f.placeholder}
+                    />
+                  )
                 ) : (
-                  <input
-                    type={f.type ?? "text"}
-                    className={inputCls}
-                    value={values[f.key] ?? ""}
-                    onChange={(e) => set(f.key, e.target.value)}
-                    placeholder={f.placeholder}
-                  />
+                  <>
+                    <label className={labelCls}>{f.label}</label>
+                    {f.file ? (
+                      <FileUploadField
+                        value={values[f.key] ?? ""}
+                        onChange={(url) => set(f.key, url)}
+                        accept={f.accept}
+                      />
+                    ) : f.multiline ? (
+                      <textarea
+                        rows={3}
+                        className={`${inputCls} resize-y`}
+                        value={values[f.key] ?? ""}
+                        onChange={(e) => set(f.key, e.target.value)}
+                        placeholder={f.placeholder}
+                      />
+                    ) : (
+                      <input
+                        type={f.type ?? "text"}
+                        className={inputCls}
+                        value={values[f.key] ?? ""}
+                        onChange={(e) => set(f.key, e.target.value)}
+                        placeholder={f.placeholder}
+                      />
+                    )}
+                  </>
                 )}
               </div>
             ))}

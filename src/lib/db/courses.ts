@@ -4,25 +4,38 @@ export type CourseRow = {
   id: string;
   slug: string;
   title: string;
+  titleMr: string | null;
   shortDesc: string;
+  shortDescMr: string | null;
   fullDesc: string;
+  fullDescMr: string | null;
   nsqf: number;
   durationMonths: number;
   durationHours: number;
   fees: number;
-  feeBreakdown: Array<{ label: string; amount: number }>;
+  feeBreakdown: Array<{ label: string; labelMr?: string; amount: number }>;
   seats: number;
   eligibility: string;
+  eligibilityMr: string | null;
   ageLimit: string;
+  ageLimitMr: string | null;
   certBy: string;
+  certByMr: string | null;
   assessmentScheme: string;
+  assessmentSchemeMr: string | null;
   creditEquivalence: string;
+  creditEquivalenceMr: string | null;
   objectives: string[];
+  objectivesMr: string[];
   highlights: string[];
-  syllabus: Array<{ unit: string; topics: string[] }>;
+  highlightsMr: string[];
+  syllabus: Array<{ unit: string; unitMr?: string; topics: string[]; topicsMr?: string[] }>;
   clinicalPostings: string[];
+  clinicalPostingsMr: string[];
   outcomes: string[];
+  outcomesMr: string[];
   tags: string[];
+  tagsMr: string[];
   category: string;
   batchMonths: string[];
   isActive: boolean;
@@ -33,13 +46,26 @@ export type CourseRow = {
 function castCourse(row: any): CourseRow {
   return {
     ...row,
-    feeBreakdown: row.feeBreakdown as Array<{ label: string; amount: number }>,
+    titleMr: row.titleMr ?? null,
+    shortDescMr: row.shortDescMr ?? null,
+    fullDescMr: row.fullDescMr ?? null,
+    eligibilityMr: row.eligibilityMr ?? null,
+    ageLimitMr: row.ageLimitMr ?? null,
+    certByMr: row.certByMr ?? null,
+    assessmentSchemeMr: row.assessmentSchemeMr ?? null,
+    creditEquivalenceMr: row.creditEquivalenceMr ?? null,
+    feeBreakdown: row.feeBreakdown as Array<{ label: string; labelMr?: string; amount: number }>,
     objectives: (row.objectives as string[] | null) ?? [],
+    objectivesMr: (row.objectivesMr as string[] | null) ?? [],
     highlights: (row.highlights as string[] | null) ?? [],
-    syllabus: row.syllabus as Array<{ unit: string; topics: string[] }>,
+    highlightsMr: (row.highlightsMr as string[] | null) ?? [],
+    syllabus: row.syllabus as Array<{ unit: string; unitMr?: string; topics: string[]; topicsMr?: string[] }>,
     clinicalPostings: (row.clinicalPostings as string[] | null) ?? [],
+    clinicalPostingsMr: (row.clinicalPostingsMr as string[] | null) ?? [],
     outcomes: row.outcomes as string[],
+    outcomesMr: (row.outcomesMr as string[] | null) ?? [],
     tags: row.tags as string[],
+    tagsMr: (row.tagsMr as string[] | null) ?? [],
     batchMonths: row.batchMonths as string[],
   };
 }

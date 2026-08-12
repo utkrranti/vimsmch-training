@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Menu,
   X,
@@ -19,29 +20,65 @@ import {
   HelpCircle,
   Link2,
 } from "lucide-react";
+import { setLocale } from "@/app/actions/locale";
+import type { Locale } from "@/i18n/request";
 
 const navLinks = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/about", label: "About Us", icon: Users },
-  { href: "/courses", label: "Courses", icon: GraduationCap },
-  { href: "/admission", label: "Admission", icon: ClipboardList },
-  { href: "/faculty", label: "Faculties", icon: Users },
-  { href: "/news", label: "News & Notices", icon: Megaphone },
-  { href: "/placements", label: "Placement", icon: Briefcase },
-  { href: "/facilities", label: "Facilities", icon: Landmark },
-  { href: "/gallery", label: "Gallery", icon: ImageIcon },
-  { href: "/faq", label: "FAQ", icon: HelpCircle },
-];
+  { href: "/", key: "home", icon: Home },
+  { href: "/about", key: "about", icon: Users },
+  { href: "/courses", key: "courses", icon: GraduationCap },
+  { href: "/admission", key: "admission", icon: ClipboardList },
+  { href: "/faculty", key: "faculty", icon: Users },
+  { href: "/news", key: "news", icon: Megaphone },
+  { href: "/placements", key: "placement", icon: Briefcase },
+  { href: "/facilities", key: "facilities", icon: Landmark },
+  { href: "/gallery", key: "gallery", icon: ImageIcon },
+  { href: "/faq", key: "faq", icon: HelpCircle },
+] as const;
 
 const importantLinks = [
-  { href: "https://drvpf.org", label: "Dr. Vithalrao Vikhe Patil Foundation" },
-  { href: "https://www.vimsmch.edu.in/", label: "Medical College & Hospital" },
-  { href: "https://msbsvet.edu.in/", label: "MSBSVET" },
-  { href: "https://www.ncvrtindia.org/", label: "NCVRT" },
-];
+  { href: "https://drvpf.org", key: "foundation" },
+  { href: "https://www.vimsmch.edu.in/", key: "medicalCollege" },
+  { href: "https://msbsvet.edu.in/", key: "msbsvet" },
+  { href: "https://www.ncvrtindia.org/", key: "ncvrt" },
+] as const;
+
+function LanguageSwitcher({ className }: { className?: string }) {
+  const locale = useLocale();
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+
+  function switchTo(next: Locale) {
+    if (next === locale || pending) return;
+    startTransition(async () => {
+      await setLocale(next);
+      router.refresh();
+    });
+  }
+
+  return (
+    <div className={`flex items-center rounded-md border border-white/25 text-xs font-bold ${className ?? ""}`}>
+      <button
+        onClick={() => switchTo("en")}
+        disabled={pending}
+        className={`px-2 py-1 rounded-l-[5px] transition-colors ${locale === "en" ? "bg-white text-[#04415f]" : "text-white/80 hover:text-white"}`}
+      >
+        EN
+      </button>
+      <button
+        onClick={() => switchTo("mr")}
+        disabled={pending}
+        className={`px-2 py-1 rounded-r-[5px] transition-colors ${locale === "mr" ? "bg-white text-[#04415f]" : "text-white/80 hover:text-white"}`}
+      >
+        MR
+      </button>
+    </div>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
+  const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const [linksOpen, setLinksOpen] = useState(false);
   const linksRef = useRef<HTMLDivElement>(null);
@@ -66,7 +103,7 @@ export default function Navbar() {
             aria-expanded={open}
           >
             {open ? <X size={20} /> : <Menu size={20} />}
-            MENU
+            {t("menu")}
           </button>
 
           {/* Desktop: link strip spans the full header width */}
@@ -84,7 +121,7 @@ export default function Navbar() {
                   }`}
                 >
                   <l.icon size={15} className="shrink-0" />
-                  {l.label}
+                  {t(`links.${l.key}`)}
                 </Link>
               );
             })}
@@ -100,7 +137,7 @@ export default function Navbar() {
                 aria-expanded={linksOpen}
               >
                 <Link2 size={15} className="shrink-0" />
-                Important Links
+                {t("importantLinks")}
                 <ChevronDown size={14} className={`transition-transform ${linksOpen ? "rotate-180" : ""}`} />
               </button>
               <AnimatePresence>
@@ -121,7 +158,7 @@ export default function Navbar() {
                         onClick={() => setLinksOpen(false)}
                         className="block px-3 py-2.5 rounded-lg text-sm font-medium text-[#04415f] hover:bg-[#04415f]/8 transition-colors"
                       >
-                        {l.label}
+                        {t(`importantLinksList.${l.key}`)}
                       </a>
                     ))}
                   </motion.div>
@@ -130,6 +167,10 @@ export default function Navbar() {
             </div>
           </nav>
 
+          <div className="hidden md:flex items-center shrink-0">
+            <LanguageSwitcher />
+          </div>
+
           {!isHome && (
             <Link
               href="/"
@@ -137,7 +178,7 @@ export default function Navbar() {
               aria-label="Back to Home"
             >
               <Home size={16} />
-              <span className="hidden sm:inline">Home</span>
+              <span className="hidden sm:inline">{t("backToHome")}</span>
             </Link>
           )}
         </div>
@@ -164,7 +205,7 @@ export default function Navbar() {
               style={{ background: "linear-gradient(180deg, #04415f 0%, #011e2c 100%)" }}
             >
               <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">
-                <span className="text-white font-bold text-sm tracking-wide">MENU</span>
+                <span className="text-white font-bold text-sm tracking-wide">{t("menu")}</span>
                 <button
                   onClick={() => setOpen(false)}
                   className="text-white/70 hover:text-white p-1.5"
@@ -172,6 +213,9 @@ export default function Navbar() {
                 >
                   <X size={22} />
                 </button>
+              </div>
+              <div className="px-5 pt-4">
+                <LanguageSwitcher />
               </div>
               <div className="px-4 py-4 space-y-1">
                 {navLinks.map((l) => (
@@ -186,10 +230,10 @@ export default function Navbar() {
                     }`}
                   >
                     <l.icon size={16} className="shrink-0" />
-                    {l.label}
+                    {t(`links.${l.key}`)}
                   </Link>
                 ))}
-                <p className="px-4 pt-4 pb-1 text-xs font-bold uppercase tracking-wide text-white/40">Important Links</p>
+                <p className="px-4 pt-4 pb-1 text-xs font-bold uppercase tracking-wide text-white/40">{t("importantLinks")}</p>
                 {importantLinks.map((l) => (
                   <a
                     key={l.href}
@@ -199,7 +243,7 @@ export default function Navbar() {
                     onClick={() => setOpen(false)}
                     className="block px-4 py-3 text-sm rounded-lg font-medium text-white/75 hover:text-white hover:bg-white/8 transition-colors"
                   >
-                    {l.label}
+                    {t(`importantLinksList.${l.key}`)}
                   </a>
                 ))}
               </div>

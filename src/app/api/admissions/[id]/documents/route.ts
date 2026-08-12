@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { admissionDocuments, cleanText } from "@/lib/admissions";
 import { prisma } from "@/lib/prisma";
 import { validateAdmissionDocument } from "@/lib/document-ai";
+import enAdmissionWizard from "@/messages/en/admissionWizard.json";
+
+// The AdmissionDocument.label field is only ever shown in the (English-only) admin
+// panel, so it's always stored in English regardless of the applicant's locale.
+function englishDocumentLabel(labelKey: string): string {
+  return (enAdmissionWizard as Record<string, string>)[labelKey] ?? labelKey;
+}
 
 function withTimeout<T>(promise: Promise<T>, milliseconds: number) {
   return Promise.race<T>([
@@ -31,15 +38,16 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       return NextResponse.json({ error: "Document does not belong to this application." }, { status: 400 });
     }
 
+    const label = englishDocumentLabel(definition.labelKey);
     const document = await prisma.admissionDocument.upsert({
       where: { applicationId_type: { applicationId: id, type: definition.type } },
-      update: { fileUrl, fileName, label: definition.label, status: "PENDING", adminRemark: null, aiStatus: "CHECKING", aiScore: null, aiVisibilityScore: null, aiAuthenticity: null, aiSummary: null, aiIssues: [], aiCheckedAt: null },
-      create: { applicationId: id, type: definition.type, label: definition.label, fileUrl, fileName, aiStatus: "CHECKING", aiIssues: [] },
+      update: { fileUrl, fileName, label, status: "PENDING", adminRemark: null, aiStatus: "CHECKING", aiScore: null, aiVisibilityScore: null, aiAuthenticity: null, aiSummary: null, aiIssues: [], aiCheckedAt: null },
+      create: { applicationId: id, type: definition.type, label, fileUrl, fileName, aiStatus: "CHECKING", aiIssues: [] },
     });
     await prisma.admissionApplication.update({ where: { id }, data: { lastActivityAt: new Date() } });
 
     try {
-      const ai = await withTimeout(validateAdmissionDocument(fileUrl, fileName, definition.label), 30_000);
+      const ai = await withTimeout(validateAdmissionDocument(fileUrl, fileName, label), 30_000);
       const reviewed = await prisma.admissionDocument.update({
         where: { id: document.id },
         data: { aiStatus: ai.status, aiScore: ai.score, aiVisibilityScore: ai.visibilityScore, aiAuthenticity: ai.authenticity, aiSummary: ai.summary, aiIssues: ai.issues, aiCheckedAt: new Date() },

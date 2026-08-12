@@ -2,6 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ContactForm from "@/components/contact/ContactForm";
 import { getSettings } from "@/lib/db/settings";
+import { getTranslations } from "next-intl/server";
 import { MapPin, Phone, Mail, Globe, Clock, MessageCircle, PhoneCall, FileText } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -14,7 +15,12 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const s = await getSettings(["contact.whatsapp", "contact.admissionHelpline", "prospectus.pdfUrl"]);
+  const [s, t, tc, tf] = await Promise.all([
+    getSettings(["contact.whatsapp", "contact.admissionHelpline", "prospectus.pdfUrl"]),
+    getTranslations("contactPage"),
+    getTranslations("contactDetails"),
+    getTranslations("footer"),
+  ]);
   const whatsapp = s["contact.whatsapp"];
   const admissionHelpline = s["contact.admissionHelpline"];
   const prospectusUrl = s["prospectus.pdfUrl"];
@@ -25,12 +31,12 @@ export default async function ContactPage() {
   const contactDetails = [
     {
       icon: MapPin,
-      label: "Address",
-      value: "Opp. Govt. Milk Dairy, Post – M.I.D.C., Vadgaon Gupta, Ahilyanagar – 414 111",
+      label: tc("addressLabel"),
+      value: tf("address"),
     },
     {
       icon: Phone,
-      label: "Phone",
+      label: tc("phoneLabel"),
       value: "1800 123 4858 | +91 8956263701",
       href: "tel:+918956263701",
     },
@@ -38,7 +44,7 @@ export default async function ContactPage() {
       ? [
           {
             icon: PhoneCall,
-            label: "Admission Helpline",
+            label: tc("admissionHelplineLabel"),
             value: admissionHelpline,
             href: `tel:${admissionHelpline.replace(/[^+\d]/g, "")}`,
           },
@@ -48,7 +54,7 @@ export default async function ContactPage() {
       ? [
           {
             icon: MessageCircle,
-            label: "WhatsApp",
+            label: tc("whatsappLabel"),
             value: whatsapp,
             href: `https://wa.me/${whatsapp.replace(/[^\d]/g, "")}`,
           },
@@ -56,20 +62,20 @@ export default async function ContactPage() {
       : []),
     {
       icon: Mail,
-      label: "Email",
+      label: tc("emailLabel"),
       value: "dean@vimsmch.edu.in",
       href: "mailto:dean@vimsmch.edu.in",
     },
     {
       icon: Globe,
-      label: "Website",
+      label: tc("websiteLabel"),
       value: "vimsmch.edu.in",
       href: "https://vimsmch.edu.in",
     },
     {
       icon: Clock,
-      label: "Office Hours",
-      value: "Monday – Saturday: 9:00 AM – 5:00 PM",
+      label: tc("officeHoursLabel"),
+      value: tc("officeHoursValue"),
     },
   ];
 
@@ -86,9 +92,9 @@ export default async function ContactPage() {
           <div className="pointer-events-none absolute -top-20 -right-16 w-80 h-80 rounded-full bg-[#2086b8]/20 blur-[90px]" />
           <div className="absolute inset-0 bg-dot-grid opacity-[0.05] text-white" />
           <div className="relative max-w-7xl mx-auto">
-            <p className="text-xs text-white/50 mb-3">Home / Contact</p>
-            <span className="eyebrow eyebrow-light mb-4">Get In Touch</span>
-            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">Contact Us</h1>
+            <p className="text-xs text-white/50 mb-3">{t("breadcrumb")}</p>
+            <span className="eyebrow eyebrow-light mb-4">{t("eyebrow")}</span>
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-gradient-brand">{t("heading")}</h1>
           </div>
         </div>
 
@@ -98,14 +104,14 @@ export default async function ContactPage() {
             {/* Left — contact info */}
             <div>
               <span className="inline-block bg-[#04415f]/10 text-[#04415f] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
-                Get In Touch
+                {t("sideEyebrow")}
               </span>
               <h2 className="text-2xl font-bold text-[#011e2c] mb-2">
-                Admissions &amp; Enquiries
+                {t("sideHeading")}
               </h2>
               <div className="w-14 h-0.5 bg-[#2086b8] mb-6" />
               <p className="text-[#010608]/60 text-sm leading-relaxed mb-8">
-                Have a question about a course, admission process, or fee structure? Our counselling team is available Monday to Saturday. Fill in the form and we will reach out within 1 working day.
+                {t("intro")}
               </p>
 
               <div className="space-y-4">
@@ -143,7 +149,7 @@ export default async function ContactPage() {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="VIMSMCH Location"
+                  title={t("mapTitle")}
                 />
               </div>
 
@@ -153,16 +159,16 @@ export default async function ContactPage() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={prospectusQrSrc}
-                    alt="Scan to download the prospectus"
+                    alt={t("prospectusQrAlt")}
                     width={64}
                     height={64}
                     className="rounded-lg border border-[#e6edf0] p-1 shrink-0"
                   />
                   <div>
                     <p className="text-[#010608]/40 text-xs mb-0.5 flex items-center gap-1.5">
-                      <FileText size={13} /> Prospectus
+                      <FileText size={13} /> {t("prospectusLabel")}
                     </p>
-                    <p className="text-[#011e2c] text-sm font-medium">Scan the QR code or</p>
+                    <p className="text-[#011e2c] text-sm font-medium">{t("prospectusScan")}</p>
                     <a
                       href={prospectusUrl}
                       target="_blank"
@@ -170,7 +176,7 @@ export default async function ContactPage() {
                       download
                       className="text-[#04415f] text-sm font-semibold hover:text-[#2086b8] transition-colors"
                     >
-                      download it directly →
+                      {t("prospectusDownload")}
                     </a>
                   </div>
                 </div>
@@ -180,7 +186,7 @@ export default async function ContactPage() {
             {/* Right — form */}
             <div>
               <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-8">
-                <h2 className="text-xl font-bold text-[#011e2c] mb-1">Send an Enquiry</h2>
+                <h2 className="text-xl font-bold text-[#011e2c] mb-1">{t("formHeading")}</h2>
                 <div className="w-10 h-0.5 bg-[#2086b8] mb-6" />
                 <ContactForm />
               </div>

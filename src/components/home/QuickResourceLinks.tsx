@@ -1,18 +1,22 @@
 import Link from "next/link";
 import { FileText, QrCode, HelpCircle, Image as ImageIcon, Newspaper, PhoneCall } from "lucide-react";
 import { getSettings } from "@/lib/db/settings";
+import { getTranslations } from "next-intl/server";
 import Reveal from "@/components/ui/Reveal";
 
 export default async function QuickResourceLinks() {
-  const s = await getSettings(["admission.formUrl", "admission.feeQrUrl"]);
+  const [s, t] = await Promise.all([
+    getSettings(["admission.formUrl", "admission.feeQrUrl"]),
+    getTranslations("quickResourceLinks"),
+  ]);
 
   const resources = [
-    { icon: FileText, label: "Admission Form", href: s["admission.formUrl"], external: true, color: "#04415f" },
-    { icon: QrCode, label: "Fee Payment QR", href: s["admission.feeQrUrl"], external: true, color: "#2086b8" },
-    { icon: Newspaper, label: "News & Notices", href: "/news", color: "#059652" },
-    { icon: ImageIcon, label: "Gallery", href: "/gallery", color: "#ff9800" },
-    { icon: HelpCircle, label: "FAQ", href: "/faq", color: "#7c3aed" },
-    { icon: PhoneCall, label: "Contact Us", href: "/contact", color: "#0d9488" },
+    { icon: FileText, label: t("admissionForm"), href: s["admission.formUrl"], external: true, color: "#04415f" },
+    { icon: QrCode, label: t("feePaymentQr"), href: s["admission.feeQrUrl"], external: true, color: "#2086b8" },
+    { icon: Newspaper, label: t("newsNotices"), href: "/news", color: "#059652" },
+    { icon: ImageIcon, label: t("gallery"), href: "/gallery", color: "#ff9800" },
+    { icon: HelpCircle, label: t("faq"), href: "/faq", color: "#7c3aed" },
+    { icon: PhoneCall, label: t("contactUs"), href: "/contact", color: "#0d9488" },
   ].filter((r) => r.href);
 
   if (resources.length === 0) return null;
@@ -22,9 +26,9 @@ export default async function QuickResourceLinks() {
       <div className="max-w-7xl mx-auto">
         <Reveal>
           <div className="text-center mb-10">
-            <span className="eyebrow mb-4">Quick Access</span>
+            <span className="eyebrow mb-4">{t("eyebrow")}</span>
             <h2 className="font-display text-3xl sm:text-4xl font-semibold text-[#011e2c] mb-3 tracking-tight">
-              Student Resources
+              {t("heading")}
             </h2>
             <div className="w-16 h-1 bg-[#2086b8] mx-auto rounded" />
           </div>
