@@ -1,3 +1,6 @@
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { UserCog, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
@@ -6,6 +9,10 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Admin Users | Admin" };
 
 export default async function AdminUsersPage() {
+  const session = await getServerSession(authOptions);
+  const role = (session?.user as { role?: string } | undefined)?.role;
+  if (role !== "SUPER_ADMIN") redirect("/admin");
+
   const users = await prisma.adminUser.findMany({ orderBy: { createdAt: "asc" } });
 
   return (

@@ -8,7 +8,7 @@ import { Menu, X } from "lucide-react";
 import AdminLogoutButton from "@/components/admin/AdminLogoutButton";
 import AdminSidebarNav from "@/components/admin/AdminSidebarNav";
 
-export default function AdminShell({ children }: { children: React.ReactNode }) {
+export default function AdminShell({ children, role }: { children: React.ReactNode; role?: string }) {
   const [open, setOpen] = useState(false);
 
   const sidebarInner = (
@@ -43,7 +43,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
       {/* Nav */}
       <div className="relative flex-1 overflow-y-auto py-4 px-3" onClick={() => setOpen(false)}>
-        <AdminSidebarNav />
+        <AdminSidebarNav role={role} />
       </div>
 
       {/* Footer */}

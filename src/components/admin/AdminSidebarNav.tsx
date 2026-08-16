@@ -25,13 +25,14 @@ const navItems = [
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
-export default function AdminSidebarNav() {
+export default function AdminSidebarNav({ role }: { role?: string }) {
   const pathname = usePathname();
+  const visibleItems = navItems.filter((item) => item.href !== "/admin/users" || role === "SUPER_ADMIN");
 
   return (
     <nav className="space-y-0.5">
       <p className="text-white/25 text-[9px] uppercase tracking-[0.18em] font-semibold px-3 mb-3">Navigation</p>
-      {navItems.map((item, i) => {
+      {visibleItems.map((item, i) => {
         const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
         return (
           <motion.div
