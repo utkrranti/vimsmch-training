@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Plus, Pencil, Trash2, X, Loader2, CalendarRange, ChevronDown, Users } from "lucide-react";
 import { saveBatch, deleteBatch, toggleBatchActive, assignEnrollmentBatch } from "./actions";
 import { BilingualField } from "@/components/admin/bilingual/BilingualField";
+import { formatDateIST } from "@/lib/date";
 
 type BatchRow = {
   id: string; courseId: string; courseTitle: string; label: string; labelMr?: string | null;
@@ -15,7 +16,7 @@ type CourseOption = { id: string; title: string };
 type EnrollmentRow = { id: string; name: string; courseId: string; batchId: string | null; course: { title: string } };
 
 const emptyForm = { courseId: "", label: "", labelMr: "", startDate: "", endDate: "", seats: 20, isActive: true };
-const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+const fmt = (iso: string) => formatDateIST(iso, { day: "numeric", month: "short", year: "numeric" });
 
 export default function BatchManager({ batches, courses, enrollments }: { batches: BatchRow[]; courses: CourseOption[]; enrollments: EnrollmentRow[] }) {
   const [showModal, setShowModal] = useState(false);

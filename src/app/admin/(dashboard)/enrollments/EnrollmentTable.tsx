@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Trash2, ChevronDown } from "lucide-react";
 import { updateEnrollmentStatus, deleteEnrollment } from "./actions";
+import { formatDateIST } from "@/lib/date";
 
 type Enrollment = {
   id: string;
@@ -80,7 +81,7 @@ export default function EnrollmentTable({ enrollments }: { enrollments: Enrollme
                 <span className="text-xs bg-[#e6edf0] text-[#04415f] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap">{e.course.title}</span>
               </td>
               <td className="px-5 py-3.5 text-[#010608]/50 text-xs whitespace-nowrap">
-                {e.createdAt.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                {formatDateIST(e.createdAt, { day: "numeric", month: "short", year: "numeric" })}
               </td>
               <td className="px-5 py-3.5">
                 {e.certificate ? (

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { BookOpen, MessageSquare, ClipboardList, Award } from "lucide-react";
+import { formatDateIST } from "@/lib/date";
 
 export const dynamic = "force-dynamic";
 
@@ -72,7 +73,7 @@ export default async function AdminDashboard() {
                     <td className="px-5 py-3 text-[#010608]/60">{inq.phone}</td>
                     <td className="px-5 py-3 text-[#010608]/60">{inq.email || "—"}</td>
                     <td className="px-5 py-3 text-[#010608]/50 text-xs">
-                      {inq.createdAt.toLocaleDateString("en-IN")}
+                      {formatDateIST(inq.createdAt)}
                     </td>
                     <td className="px-5 py-3">
                       <StatusBadge status={inq.status} />

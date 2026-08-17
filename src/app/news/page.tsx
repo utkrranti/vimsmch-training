@@ -4,6 +4,7 @@ import { getActiveAnnouncements } from "@/lib/db/announcements";
 import { getLocale, getTranslations } from "next-intl/server";
 import { pickLocale, type AppLocale } from "@/lib/i18n/pickLocale";
 import { Megaphone, Paperclip } from "lucide-react";
+import { formatDateIST } from "@/lib/date";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -55,7 +56,7 @@ export default async function NewsPage() {
                       <div>
                         <h3 className="text-[#011e2c] font-bold text-base leading-snug">{pickLocale(locale, a.title, a.titleMr)}</h3>
                         <p className="text-[#010608]/40 text-xs mt-0.5">
-                          {new Date(a.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
+                          {formatDateIST(a.createdAt, { day: "numeric", month: "long", year: "numeric" })}
                         </p>
                       </div>
                     </div>

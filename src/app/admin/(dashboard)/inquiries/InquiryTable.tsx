@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Trash2, ChevronDown, Mail, X, Loader2, Send, CheckCircle } from "lucide-react";
 import { updateInquiryStatus, deleteInquiry, sendInquiryReply } from "./actions";
+import { formatDateIST } from "@/lib/date";
 
 type Inquiry = {
   id: string;
@@ -167,7 +168,7 @@ export default function InquiryTable({ inquiries }: { inquiries: Inquiry[] }) {
                   <span className="line-clamp-2">{inq.message || "—"}</span>
                 </td>
                 <td className="px-5 py-3.5 text-[#010608]/50 text-xs whitespace-nowrap">
-                  {inq.createdAt.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                  {formatDateIST(inq.createdAt, { day: "numeric", month: "short", year: "numeric" })}
                 </td>
                 <td className="px-5 py-3.5"><StatusSelect id={inq.id} initial={inq.status} /></td>
                 <td className="px-5 py-3.5">

@@ -6,6 +6,7 @@ import { Plus, Pencil, Trash2, X, Loader2, Megaphone, Paperclip } from "lucide-r
 import { saveAnnouncement, deleteAnnouncement, toggleAnnouncementActive } from "./actions";
 import FileUploadField from "@/components/admin/FileUploadField";
 import { BilingualField, BilingualTextarea } from "@/components/admin/bilingual/BilingualField";
+import { formatDateIST } from "@/lib/date";
 
 type AnnouncementRow = { id: string; title: string; titleMr: string | null; body: string; bodyMr: string | null; attachmentUrl: string | null; isActive: boolean; createdAt: string };
 
@@ -82,7 +83,7 @@ export default function AnnouncementManager({ announcements }: { announcements: 
                     </div>
                     <p className="text-[#010608]/55 text-xs mt-1.5 leading-relaxed break-words">{a.body}</p>
                     <div className="flex items-center gap-3 mt-2">
-                      <p className="text-[#010608]/30 text-[11px]">{new Date(a.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</p>
+                      <p className="text-[#010608]/30 text-[11px]">{formatDateIST(a.createdAt, { day: "numeric", month: "short", year: "numeric" })}</p>
                       {a.attachmentUrl && (
                         <a href={a.attachmentUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[#04415f] text-[11px] font-medium hover:underline">
                           <Paperclip size={11} /> Attachment

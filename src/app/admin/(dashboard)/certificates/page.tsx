@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Award, Search } from "lucide-react";
 import IssueCertForm from "./IssueCertForm";
 import RevokeCertButton from "./RevokeCertButton";
+import { formatDateIST } from "@/lib/date";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -66,7 +67,7 @@ export default async function AdminCertificatesPage() {
                         <td className="px-5 py-3.5 font-medium text-[#011e2c] whitespace-nowrap">{c.studentName}</td>
                         <td className="px-5 py-3.5 text-xs text-[#010608]/60">{c.courseName}</td>
                         <td className="px-5 py-3.5 text-xs text-[#010608]/50 whitespace-nowrap">
-                          {c.issuedAt.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                          {formatDateIST(c.issuedAt, { day: "numeric", month: "short", year: "numeric" })}
                         </td>
                         <td className="px-5 py-3.5">
                           <RevokeCertButton id={c.id} certNo={c.certificateNo} />

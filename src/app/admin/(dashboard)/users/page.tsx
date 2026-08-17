@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { UserCog, ShieldCheck } from "lucide-react";
+import { formatDateIST } from "@/lib/date";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -55,7 +56,7 @@ export default async function AdminUsersPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-[#010608]/50 text-xs">
-                    {u.createdAt.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                    {formatDateIST(u.createdAt, { day: "numeric", month: "short", year: "numeric" })}
                   </td>
                 </tr>
               ))}

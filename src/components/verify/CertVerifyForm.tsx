@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Search, CheckCircle, XCircle, Award, Calendar, User } from "lucide-react";
+import { formatDateIST } from "@/lib/date";
 
 type Result = {
   valid: boolean;
@@ -93,7 +94,7 @@ export default function CertVerifyForm() {
                     <p className="text-[#010608]/40 text-xs mb-0.5">{t("issuedOnLabel")}</p>
                     <p className="text-[#011e2c] font-semibold text-sm">
                       {result.issuedAt
-                        ? new Date(result.issuedAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })
+                        ? formatDateIST(result.issuedAt, { day: "numeric", month: "long", year: "numeric" })
                         : t("emptyValue")}
                     </p>
                   </div>

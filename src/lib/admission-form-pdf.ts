@@ -1,6 +1,7 @@
 import PDFDocument from "pdfkit";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { formatDateIST, formatDateTimeIST } from "@/lib/date";
 
 let foundationLogo: Buffer | null = null;
 let instituteLogo: Buffer | null = null;
@@ -32,7 +33,7 @@ const CELL_BORDER = "#E3EAEE";
 const HEADER_FILL = "#DFF2F8";
 
 const val = (v: unknown) => (v === null || v === undefined || v === "" ? "—" : String(v));
-const fmtDate = (v: unknown) => (v instanceof Date ? v.toLocaleDateString("en-IN") : val(v));
+const fmtDate = (v: unknown) => (v instanceof Date ? formatDateIST(v) : val(v));
 const yesNo = (v: unknown) => (v === true ? "Yes" : v === false ? "No" : "—");
 const address = (...parts: unknown[]) => parts.filter(Boolean).join(", ") || "—";
 const subjectRows = (v: unknown): Subject[] => (Array.isArray(v) ? (v as Subject[]) : []);
@@ -183,7 +184,7 @@ export function createAdmissionFormPdf(a: Admission): Promise<Buffer> {
       ["Course applied for", a.course.title],
       ["Batch", a.batch?.label],
       ["Submitted on", fmtDate(a.submittedAt)],
-      ["Generated on", new Date().toLocaleString("en-IN")],
+      ["Generated on", formatDateTimeIST(new Date())],
     ]);
 
     heading("1. Applicant & Identity Details");

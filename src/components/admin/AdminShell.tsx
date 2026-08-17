@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 import AdminLogoutButton from "@/components/admin/AdminLogoutButton";
 import AdminSidebarNav from "@/components/admin/AdminSidebarNav";
+import { formatDateIST } from "@/lib/date";
 
 export default function AdminShell({ children, role }: { children: React.ReactNode; role?: string }) {
   const [open, setOpen] = useState(false);
@@ -108,7 +109,7 @@ export default function AdminShell({ children, role }: { children: React.ReactNo
             <p className="text-[#010608]/50 text-xs font-medium truncate">VIMSMCH Paramedical Institute</p>
           </div>
           <p className="text-[#010608]/35 text-xs hidden sm:block shrink-0">
-            {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+            {formatDateIST(new Date(), { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
           </p>
         </header>
 
