@@ -8,6 +8,7 @@ import enAnnouncementBanner from "../messages/en/announcementBanner.json";
 import enContactDetails from "../messages/en/contactDetails.json";
 import enContactForm from "../messages/en/contactForm.json";
 import enContactPage from "../messages/en/contactPage.json";
+import enDownloadsPage from "../messages/en/downloadsPage.json";
 import enFacilitiesPage from "../messages/en/facilitiesPage.json";
 import enFaqPage from "../messages/en/faqPage.json";
 import enFacultyPage from "../messages/en/facultyPage.json";
@@ -41,6 +42,7 @@ import mrAnnouncementBanner from "../messages/mr/announcementBanner.json";
 import mrContactDetails from "../messages/mr/contactDetails.json";
 import mrContactForm from "../messages/mr/contactForm.json";
 import mrContactPage from "../messages/mr/contactPage.json";
+import mrDownloadsPage from "../messages/mr/downloadsPage.json";
 import mrFacilitiesPage from "../messages/mr/facilitiesPage.json";
 import mrFaqPage from "../messages/mr/faqPage.json";
 import mrFacultyPage from "../messages/mr/facultyPage.json";
@@ -82,6 +84,7 @@ const en = {
   contactDetails: enContactDetails,
   contactForm: enContactForm,
   contactPage: enContactPage,
+  downloadsPage: enDownloadsPage,
   facilitiesPage: enFacilitiesPage,
   faqPage: enFaqPage,
   facultyPage: enFacultyPage,
@@ -117,6 +120,7 @@ const mr = {
   contactDetails: mrContactDetails,
   contactForm: mrContactForm,
   contactPage: mrContactPage,
+  downloadsPage: mrDownloadsPage,
   facilitiesPage: mrFacilitiesPage,
   faqPage: mrFaqPage,
   facultyPage: mrFacultyPage,

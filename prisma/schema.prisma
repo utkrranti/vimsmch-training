@@ -262,6 +262,20 @@ model GalleryItem {
   @@map("gallery_items")
 }
 
+model DownloadItem {
+  id              String   @id @default(cuid()) @map("_id")
+  title           String
+  titleMr         String?
+  description     String?
+  descriptionMr   String?
+  fileUrl         String
+  sortOrder       Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+
+  @@map("download_items")
+}
+
 model Announcement {
   id            String   @id @default(cuid()) @map("_id")
   title         String

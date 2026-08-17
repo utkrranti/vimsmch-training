@@ -19,6 +19,7 @@ import {
   Image as ImageIcon,
   HelpCircle,
   Link2,
+  Download,
 } from "lucide-react";
 import { setLocale } from "@/app/actions/locale";
 import type { Locale } from "@/i18n/request";
@@ -34,6 +35,7 @@ const navLinks = [
   { href: "/facilities", key: "facilities", icon: Landmark },
   { href: "/gallery", key: "gallery", icon: ImageIcon },
   { href: "/faq", key: "faq", icon: HelpCircle },
+  { href: "/downloads", key: "downloads", icon: Download },
 ] as const;
 
 const importantLinks = [
