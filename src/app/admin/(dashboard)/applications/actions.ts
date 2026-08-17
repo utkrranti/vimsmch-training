@@ -67,6 +67,12 @@ export async function reviewDocument(applicationId: string, documentId: string, 
   revalidatePath(`/admin/applications/${applicationId}`);
 }
 
+export async function deleteApplication(id: string) {
+  await requireAdmin();
+  await prisma.admissionApplication.delete({ where: { id } });
+  revalidatePath("/admin/applications");
+}
+
 export async function convertToEnrollment(id: string) {
   await requireAdmin();
   const application = await prisma.admissionApplication.findUnique({ where: { id } });

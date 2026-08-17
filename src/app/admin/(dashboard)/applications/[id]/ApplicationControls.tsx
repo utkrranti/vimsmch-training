@@ -4,9 +4,10 @@ import { useState, useTransition } from "react";
 import { Download, FileArchive, Loader2, PhoneCall, Save, UserPlus } from "lucide-react";
 import { addFollowUp, convertToEnrollment, updateApplication } from "../actions";
 import { applicationStatuses, callbackStatuses, paymentStatuses } from "@/lib/admissions";
+import DeleteApplicationButton from "../DeleteApplicationButton";
 
 const field = "w-full rounded-xl border border-[#dce6eb] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#2086b8]";
-type Application = { id: string; status: string; callbackStatus: string; paymentStatus: string; assignedTo: string | null; nextCallbackAt: Date | null; enrollmentId: string | null };
+type Application = { id: string; name: string; status: string; callbackStatus: string; paymentStatus: string; assignedTo: string | null; nextCallbackAt: Date | null; enrollmentId: string | null };
 
 export default function ApplicationControls({ application }: { application: Application }) {
   const [status, setStatus] = useState(application.status), [callbackStatus, setCallbackStatus] = useState(application.callbackStatus), [paymentStatus, setPaymentStatus] = useState(application.paymentStatus);
@@ -25,6 +26,13 @@ export default function ApplicationControls({ application }: { application: Appl
     <div className="rounded-2xl border border-[#e2eaee] bg-white p-5 shadow-sm"><h2 className="flex items-center gap-2 font-bold text-[#011e2c]"><PhoneCall size={17}/>Log callback</h2><div className="mt-4 space-y-3"><Select label="Outcome" value={outcome} options={[...callbackStatuses]} onChange={setOutcome}/><label><span className="mb-1 block text-xs font-semibold text-[#010608]/50">Call note</span><textarea className={`${field} min-h-24`} value={note} onChange={(event) => setNote(event.target.value)} placeholder="What was discussed?"/></label><button disabled={pending} onClick={() => run(async () => { await addFollowUp(application.id, { outcome, note, nextCallbackAt }); setNote(""); }, "Callback saved.")} className="inline-flex items-center gap-2 rounded-xl border border-[#04415f] px-4 py-2.5 text-sm font-bold text-[#04415f] disabled:opacity-60"><PhoneCall size={15}/>Save callback</button></div></div>
     {!application.enrollmentId && <button disabled={pending || paymentStatus !== "VERIFIED"} onClick={() => run(() => convertToEnrollment(application.id), "Student enrolled successfully.")} className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3.5 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-40"><UserPlus size={17}/>Convert to Enrollment</button>}
     {message && <p className="rounded-xl bg-[#edf8fc] p-3 text-sm font-medium text-[#04415f]">{message}</p>}
+    <div className="rounded-2xl border border-red-200 bg-white p-5 shadow-sm">
+      <h2 className="font-bold text-red-600">Danger zone</h2>
+      <p className="mt-1 text-xs leading-relaxed text-[#010608]/50">Permanently deletes this application, its documents, and callback history. This cannot be undone.</p>
+      <div className="mt-4">
+        <DeleteApplicationButton id={application.id} name={application.name} redirectAfter="/admin/applications" />
+      </div>
+    </div>
   </div>;
 }
 
