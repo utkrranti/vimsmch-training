@@ -5,12 +5,13 @@ import Reveal from "@/components/ui/Reveal";
 
 export default async function ContactDetails() {
   const [s, t, tFooter] = await Promise.all([
-    getSettings(["contact.whatsapp", "contact.admissionHelpline"]),
+    getSettings(["contact.whatsapp", "contact.admissionHelpline", "contact.footerEmail"]),
     getTranslations("contactDetails"),
     getTranslations("footer"),
   ]);
   const whatsapp = s["contact.whatsapp"];
   const admissionHelpline = s["contact.admissionHelpline"];
+  const footerEmail = s["contact.footerEmail"] || "paramedical.vimsmch@gmail.com";
 
   const contactDetails = [
     {
@@ -47,8 +48,8 @@ export default async function ContactDetails() {
     {
       icon: Mail,
       label: t("emailLabel"),
-      value: "dean@vimsmch.edu.in",
-      href: "mailto:dean@vimsmch.edu.in",
+      value: footerEmail,
+      href: `mailto:${footerEmail}`,
     },
     {
       icon: Globe,

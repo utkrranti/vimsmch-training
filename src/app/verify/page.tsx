@@ -2,6 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CertVerifyForm from "@/components/verify/CertVerifyForm";
 import { getTranslations } from "next-intl/server";
+import { getSettings } from "@/lib/db/settings";
 import { ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -14,7 +15,11 @@ export const metadata: Metadata = {
 };
 
 export default async function VerifyPage() {
-  const t = await getTranslations("verifyPage");
+  const [t, s] = await Promise.all([
+    getTranslations("verifyPage"),
+    getSettings(["contact.footerEmail"]),
+  ]);
+  const footerEmail = s["contact.footerEmail"] || "paramedical.vimsmch@gmail.com";
   return (
     <>
       <Navbar />
@@ -50,13 +55,13 @@ export default async function VerifyPage() {
             </div>
 
             <div className="bg-white rounded-2xl border border-[#e6edf0] shadow-sm p-8">
-              <CertVerifyForm />
+              <CertVerifyForm footerEmail={footerEmail} />
             </div>
 
             <p className="text-center text-xs text-[#010608]/40 mt-6">
               {t("issuesContact")}{" "}
-              <a href="mailto:dean@vimsmch.edu.in" className="text-[#04415f] hover:text-[#2086b8] transition-colors">
-                dean@vimsmch.edu.in
+              <a href={`mailto:${footerEmail}`} className="text-[#04415f] hover:text-[#2086b8] transition-colors">
+                {footerEmail}
               </a>
             </p>
           </div>

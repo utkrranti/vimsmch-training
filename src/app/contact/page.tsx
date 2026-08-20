@@ -16,13 +16,14 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const [s, t, tc, tf] = await Promise.all([
-    getSettings(["contact.whatsapp", "contact.admissionHelpline", "prospectus.pdfUrl"]),
+    getSettings(["contact.whatsapp", "contact.admissionHelpline", "contact.footerEmail", "prospectus.pdfUrl"]),
     getTranslations("contactPage"),
     getTranslations("contactDetails"),
     getTranslations("footer"),
   ]);
   const whatsapp = s["contact.whatsapp"];
   const admissionHelpline = s["contact.admissionHelpline"];
+  const footerEmail = s["contact.footerEmail"] || "paramedical.vimsmch@gmail.com";
   const prospectusUrl = s["prospectus.pdfUrl"];
   const prospectusQrSrc = prospectusUrl
     ? `https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=0&data=${encodeURIComponent(prospectusUrl)}`
@@ -63,8 +64,8 @@ export default async function ContactPage() {
     {
       icon: Mail,
       label: tc("emailLabel"),
-      value: "dean@vimsmch.edu.in",
-      href: "mailto:dean@vimsmch.edu.in",
+      value: footerEmail,
+      href: `mailto:${footerEmail}`,
     },
     {
       icon: Globe,

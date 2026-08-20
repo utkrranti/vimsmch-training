@@ -13,7 +13,7 @@ type Result = {
   issuedAt?: string;
 };
 
-export default function CertVerifyForm() {
+export default function CertVerifyForm({ footerEmail = "paramedical.vimsmch@gmail.com" }: { footerEmail?: string }) {
   const t = useTranslations("verifyPage");
   const [certNo, setCertNo] = useState("");
   const [result, setResult] = useState<Result | null>(null);
@@ -107,7 +107,7 @@ export default function CertVerifyForm() {
               <div>
                 <p className="text-red-700 font-bold text-sm mb-1">{t("notFoundTitle")}</p>
                 <p className="text-red-600 text-xs">
-                  {t("notFoundText", { certNo })} <a href="mailto:dean@vimsmch.edu.in" className="underline">dean@vimsmch.edu.in</a>.
+                  {t("notFoundText", { certNo })} <a href={`mailto:${footerEmail}`} className="underline">{footerEmail}</a>.
                 </p>
               </div>
             </div>

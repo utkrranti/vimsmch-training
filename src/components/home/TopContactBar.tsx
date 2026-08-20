@@ -1,8 +1,13 @@
 import { getTranslations } from "next-intl/server";
 import { MapPin, Phone, Mail, Globe } from "lucide-react";
+import { getSettings } from "@/lib/db/settings";
 
 export default async function TopContactBar() {
-  const t = await getTranslations("footer");
+  const [t, settings] = await Promise.all([
+    getTranslations("footer"),
+    getSettings(["contact.footerEmail"]),
+  ]);
+  const footerEmail = settings["contact.footerEmail"] || "paramedical.vimsmch@gmail.com";
 
   return (
     <div className="bg-[#011e2c]">
@@ -19,7 +24,7 @@ export default async function TopContactBar() {
         </div>
         <div className="flex items-center gap-2.5">
           <Mail size={15} className="shrink-0 text-white/70" />
-          <a href="mailto:dean@vimsmch.edu.in" className="text-white/90 hover:text-white transition-colors">dean@vimsmch.edu.in</a>
+          <a href={`mailto:${footerEmail}`} className="text-white/90 hover:text-white transition-colors">{footerEmail}</a>
         </div>
         <div className="flex items-center gap-2.5">
           <Globe size={15} className="shrink-0 text-white/70" />

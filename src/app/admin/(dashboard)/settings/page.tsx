@@ -11,7 +11,7 @@ const ALL_KEYS = [
   "leadership.chairman.name", "leadership.chairman.message", "leadership.chairman.message_mr",
   "leadership.secretaryGeneral.name", "leadership.secretaryGeneral.message", "leadership.secretaryGeneral.message_mr",
   "leadership.director.name", "leadership.director.message", "leadership.director.message_mr",
-  "contact.whatsapp", "contact.admissionHelpline",
+  "contact.whatsapp", "contact.admissionHelpline", "contact.footerEmail",
   "prospectus.pdfUrl",
   "admission.formUrl", "admission.feeQrUrl", "admission.lastDate",
   "placements.about", "placements.about_mr",

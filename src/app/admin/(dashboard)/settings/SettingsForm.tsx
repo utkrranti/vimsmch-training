@@ -35,6 +35,7 @@ const GROUPS: Group[] = [
     fields: [
       { key: "contact.whatsapp", label: "WhatsApp Number", placeholder: "+91 XXXXX XXXXX" },
       { key: "contact.admissionHelpline", label: "Admission Helpline Number", placeholder: "+91 XXXXX XXXXX" },
+      { key: "contact.footerEmail", label: "Footer Contact Email", placeholder: "dean.vimsmch@gmail.com" },
     ],
   },
   {

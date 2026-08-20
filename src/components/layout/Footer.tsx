@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Phone, Mail, MapPin, Globe, ArrowUpRight } from "lucide-react";
+import { getSettings } from "@/lib/db/settings";
 
 const quickLinks = [
   { href: "/", key: "home" },
@@ -21,7 +22,11 @@ const quickLinks = [
 const courseKeys = ["otAssistant", "ecgTechnology", "dialysisTechnician", "medicalLabTechnology", "radiologyImaging"] as const;
 
 export default async function Footer() {
-  const t = await getTranslations("footer");
+  const [t, settings] = await Promise.all([
+    getTranslations("footer"),
+    getSettings(["contact.footerEmail"]),
+  ]);
+  const footerEmail = settings["contact.footerEmail"] || "paramedical.vimsmch@gmail.com";
 
   return (
     <footer
@@ -60,8 +65,8 @@ export default async function Footer() {
             </li>
             <li className="flex items-center gap-3">
               <Mail size={14} className="text-white/90 shrink-0" />
-              <a href="mailto:dean@vimsmch.edu.in" className="text-white/90 hover:text-white transition-colors">
-                dean@vimsmch.edu.in
+              <a href={`mailto:${footerEmail}`} className="text-white/90 hover:text-white transition-colors">
+                {footerEmail}
               </a>
             </li>
             <li className="flex items-center gap-3">
