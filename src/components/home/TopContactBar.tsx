@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { MapPin, Phone, Mail, Globe } from "lucide-react";
+import { MapPin, Mail, Globe } from "lucide-react";
 import { getSettings } from "@/lib/db/settings";
 
 export default async function TopContactBar() {
@@ -15,12 +15,6 @@ export default async function TopContactBar() {
         <div className="flex items-center gap-2.5">
           <MapPin size={15} className="shrink-0 text-white/70" />
           <span>{t("address")}</span>
-        </div>
-        <div className="flex items-center gap-2.5">
-          <Phone size={15} className="shrink-0 text-white/70" />
-          <a href="tel:18001234858" className="text-white/90 hover:text-white transition-colors">1800 123 4858</a>
-          <span className="text-white/40">/</span>
-          <a href="tel:+918956263701" className="text-white/90 hover:text-white transition-colors">+91 8956263701</a>
         </div>
         <div className="flex items-center gap-2.5">
           <Mail size={15} className="shrink-0 text-white/70" />
