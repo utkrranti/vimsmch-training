@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Mail, MapPin, Globe, ArrowUpRight } from "lucide-react";
+import { Mail, MapPin, Globe, ArrowUpRight, Phone } from "lucide-react";
 import { getSettings } from "@/lib/db/settings";
 
 const quickLinks = [
@@ -54,6 +54,10 @@ export default async function Footer() {
             <li className="flex items-start gap-3">
               <MapPin size={14} className="text-white/90 mt-0.5 shrink-0" />
               <span>{t("address")}</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <Phone size={14} className="text-white/90 shrink-0" />
+              <a href="tel:+918956263701" className="text-white/90 hover:text-white transition-colors">+91 8956263701</a>
             </li>
             <li className="flex items-center gap-3">
               <Mail size={14} className="text-white/90 shrink-0" />

@@ -1,6 +1,6 @@
 import { getSettings } from "@/lib/db/settings";
 import { getTranslations } from "next-intl/server";
-import { MapPin, Mail, Globe, Clock, MessageCircle, PhoneCall } from "lucide-react";
+import { MapPin, Mail, Globe, Clock, MessageCircle, PhoneCall, Phone } from "lucide-react";
 import Reveal from "@/components/ui/Reveal";
 
 export default async function ContactDetails() {
@@ -18,6 +18,12 @@ export default async function ContactDetails() {
       icon: MapPin,
       label: t("addressLabel"),
       value: tFooter("address"),
+    },
+    {
+      icon: Phone,
+      label: t("phoneLabel"),
+      value: "+91 8956263701",
+      href: "tel:+918956263701",
     },
     ...(admissionHelpline
       ? [

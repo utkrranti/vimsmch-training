@@ -3,7 +3,7 @@ import Footer from "@/components/layout/Footer";
 import ContactForm from "@/components/contact/ContactForm";
 import { getSettings } from "@/lib/db/settings";
 import { getTranslations } from "next-intl/server";
-import { MapPin, Mail, Globe, Clock, MessageCircle, PhoneCall, FileText } from "lucide-react";
+import { MapPin, Mail, Globe, Clock, MessageCircle, PhoneCall, FileText, Phone } from "lucide-react";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -34,6 +34,12 @@ export default async function ContactPage() {
       icon: MapPin,
       label: tc("addressLabel"),
       value: tf("address"),
+    },
+    {
+      icon: Phone,
+      label: tc("phoneLabel"),
+      value: "+91 8956263701",
+      href: "tel:+918956263701",
     },
     ...(admissionHelpline
       ? [
