@@ -25,6 +25,7 @@ export async function GET() {
     "Email": a.email ?? "",
     "Course": a.course.title,
     "Batch": a.batch?.label ?? "",
+    "Filled By": a.filledByAdminName || "Self (online)",
     "Status": a.status,
     "Callback Status": a.callbackStatus,
     "Payment Status": a.paymentStatus,

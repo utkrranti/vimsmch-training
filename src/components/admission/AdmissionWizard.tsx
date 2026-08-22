@@ -47,7 +47,8 @@ const calculatedPercentage = (obtained: string, maximum: string) => {
   return Number(((obtainedNumber / maximumNumber) * 100).toFixed(2)).toString();
 };
 
-export default function AdmissionWizard({ courses, initialCourseId, feeQrUrl }: { courses: CourseOption[]; initialCourseId?: string; feeQrUrl?: string }) {
+export default function AdmissionWizard({ courses, initialCourseId, feeQrUrl, adminMode = false }: { courses: CourseOption[]; initialCourseId?: string; feeQrUrl?: string; adminMode?: boolean }) {
+  const draftStorageKey = adminMode ? "vimsmch-admission-draft-admin" : "vimsmch-admission-draft";
   const t = useTranslations("admissionWizard");
   const steps = [t("step1"), t("step2"), t("step3"), t("step4"), t("step5"), t("step6")];
   const [step, setStep] = useState(1);
@@ -70,16 +71,16 @@ export default function AdmissionWizard({ courses, initialCourseId, feeQrUrl }: 
 
   /* Restoring one persisted draft requires hydrating its related state values together. */
   /* eslint-disable react-hooks/set-state-in-effect */
-  useEffect(() => { const saved = localStorage.getItem("vimsmch-admission-draft"); if (saved) { try { const draft = JSON.parse(saved); setStep(draft.step); setData({ ...initialData, ...draft.data, sscSubjects: draft.data.sscSubjects ?? blankSubjects(), hscSubjects: draft.data.hscSubjects ?? blankSubjects() }); setApplicationId(draft.applicationId); setApplicationNo(draft.applicationNo); setAccessToken(draft.accessToken); setDocuments(draft.documents ?? []); } catch { localStorage.removeItem("vimsmch-admission-draft"); } } setHydrated(true); }, []);
+  useEffect(() => { const saved = localStorage.getItem(draftStorageKey); if (saved) { try { const draft = JSON.parse(saved); setStep(draft.step); setData({ ...initialData, ...draft.data, sscSubjects: draft.data.sscSubjects ?? blankSubjects(), hscSubjects: draft.data.hscSubjects ?? blankSubjects() }); setApplicationId(draft.applicationId); setApplicationNo(draft.applicationNo); setAccessToken(draft.accessToken); setDocuments(draft.documents ?? []); } catch { localStorage.removeItem(draftStorageKey); } } setHydrated(true); }, [draftStorageKey]);
   /* eslint-enable react-hooks/set-state-in-effect */
-  useEffect(() => { if (!hydrated) return; if (step === 7) localStorage.removeItem("vimsmch-admission-draft"); else localStorage.setItem("vimsmch-admission-draft", JSON.stringify({ step, data, applicationId, applicationNo, accessToken, documents })); }, [hydrated, step, data, applicationId, applicationNo, accessToken, documents]);
+  useEffect(() => { if (!hydrated) return; if (step === 7) localStorage.removeItem(draftStorageKey); else localStorage.setItem(draftStorageKey, JSON.stringify({ step, data, applicationId, applicationNo, accessToken, documents })); }, [hydrated, step, data, applicationId, applicationNo, accessToken, documents, draftStorageKey]);
 
   const createDraft = useCallback(async () => {
     if (applicationId) return { id: applicationId, accessToken, applicationNo }; if (creatingDraft.current) return null;
     creatingDraft.current = true; setSaveStatus("Saving…");
-    try { const response = await fetch("/api/admissions", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }); const result = await response.json(); if (!response.ok) throw new Error(result.error); setApplicationId(result.application.id); setApplicationNo(result.application.applicationNo); setAccessToken(result.application.accessToken); setSaveStatus("Saved"); return result.application; }
+    try { const response = await fetch("/api/admissions", { method: "POST", headers: { "Content-Type": "application/json", ...(adminMode && { "x-admin-fill": "1" }) }, body: JSON.stringify(data) }); const result = await response.json(); if (!response.ok) throw new Error(result.error); setApplicationId(result.application.id); setApplicationNo(result.application.applicationNo); setAccessToken(result.application.accessToken); setSaveStatus("Saved"); return result.application; }
     catch (caught) { setSaveStatus("Offline"); setError(caught instanceof Error ? caught.message : t("errUnableToCreateDraft")); return null; } finally { creatingDraft.current = false; }
-  }, [applicationId, applicationNo, accessToken, data, t]);
+  }, [applicationId, applicationNo, accessToken, data, t, adminMode]);
   useEffect(() => { if (applicationId || !data.courseId || !data.name.trim() || !/^\d{10}$/.test(data.phone.trim())) return; const timer = setTimeout(() => void createDraft(), 900); return () => clearTimeout(timer); }, [applicationId, createDraft, data.courseId, data.name, data.phone]);
   useEffect(() => { if (!applicationId || !accessToken || step > 6) return; const timer = setTimeout(async () => { setSaveStatus("Saving…"); try { const response = await fetch(`/api/admissions/${applicationId}`, { method: "PATCH", headers: { "Content-Type": "application/json", "x-application-token": accessToken }, body: JSON.stringify({ autosave: true, step, data }) }); if (!response.ok) throw new Error(); setSaveStatus("Saved"); } catch { setSaveStatus("Offline"); } }, 700); return () => clearTimeout(timer); }, [applicationId, accessToken, data, step]);
 

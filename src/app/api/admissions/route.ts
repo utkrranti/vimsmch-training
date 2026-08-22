@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { cleanText, makeApplicationNumber } from "@/lib/admissions";
 import { getClientIp } from "@/lib/ratelimit";
@@ -41,7 +43,22 @@ export async function POST(request: NextRequest) {
     }
 
     const ipAddress = getClientIp(request);
-    if (ipAddress) {
+
+    // Only the admin panel's embedded wizard sends this header — the server still
+    // independently verifies the session before trusting it, so a public visitor
+    // can never fake admin attribution just by sending the header themselves.
+    let filledByAdminId: string | undefined;
+    let filledByAdminName: string | undefined;
+    if (request.headers.get("x-admin-fill") === "1") {
+      const session = await getServerSession(authOptions);
+      const adminUser = session?.user as { id?: string; name?: string | null; email?: string | null } | undefined;
+      if (adminUser?.id) {
+        filledByAdminId = adminUser.id;
+        filledByAdminName = adminUser.name || adminUser.email || "Admin";
+      }
+    }
+
+    if (!filledByAdminId && ipAddress) {
       const recent = await prisma.admissionApplication.count({
         where: { ipAddress, createdAt: { gte: new Date(Date.now() - 60 * 60 * 1000) } },
       });
@@ -67,6 +84,8 @@ export async function POST(request: NextRequest) {
         callbackStatus: "NEW_LEAD",
         paymentAmount: 100,
         ipAddress,
+        filledByAdminId,
+        filledByAdminName,
       },
       select: { id: true, applicationNo: true, accessToken: true },
     });

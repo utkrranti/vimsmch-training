@@ -197,6 +197,10 @@ model AdmissionApplication {
   ipAddress         String?
   submittedAt       DateTime?
   enrollmentId      String?
+  // Set only when an admin/editor fills this application on the applicant's behalf
+  // from the admin panel. Null means the applicant filled it themselves publicly.
+  filledByAdminId   String?
+  filledByAdminName String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
