@@ -112,6 +112,7 @@ export function adminNewInquiryHtml(data: {
     <div class="info-row"><span class="key">Course</span><span class="val">${data.courseName || "General"}</span></div>
     ${data.message ? `<div class="divider"></div><p style="font-size:12px;color:#010608;opacity:0.5;margin-bottom:4px;">Message</p><div class="reply-box"><p>${data.message}</p></div>` : ""}
     <div class="divider"></div>
+    <p style="font-size:12px;opacity:0.45;">This enquiry was submitted through the enquiry form on the VIMSMCH Paramedical Institute website (paramedical.vimsmch.edu.in).</p>
     <a href="${process.env.NEXTAUTH_URL ?? "http://localhost:3000"}/admin/inquiries" class="btn">View in Admin Panel →</a>
   `, `New enquiry from ${data.name}`);
 }
