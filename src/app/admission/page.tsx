@@ -2,6 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
+import AdmissionEnquiryModal from "@/components/admission/AdmissionEnquiryModal";
 import { getSettings } from "@/lib/db/settings";
 import { getTranslations } from "next-intl/server";
 import {
@@ -85,6 +86,11 @@ export default async function AdmissionPage() {
             </Link>
           </div>
         </div>
+
+        {/* Admission Enquiry CTA */}
+        <section className="bg-white py-8 px-4 sm:px-6 border-b border-[#e6edf0]">
+          <AdmissionEnquiryModal />
+        </section>
 
         {/* Intro */}
         <section className="bg-white py-10 sm:py-12 px-4 sm:px-6 border-b border-[#e6edf0]">
