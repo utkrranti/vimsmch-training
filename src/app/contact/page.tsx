@@ -68,6 +68,12 @@ export default async function ContactPage() {
       href: `mailto:${footerEmail}`,
     },
     {
+      icon: Mail,
+      label: "Admissions Email",
+      value: "admissions@dbvpu.com",
+      href: "mailto:admissions@dbvpu.com",
+    },
+    {
       icon: Globe,
       label: tc("websiteLabel"),
       value: "vimsmch.edu.in",
