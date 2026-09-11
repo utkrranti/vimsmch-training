@@ -144,10 +144,12 @@ export function adminOtpHtml(name: string, code: string) {
 // ─── Send helper ──────────────────────────────────────────────────────────────
 export async function sendEmail({
   to,
+  cc,
   subject,
   html,
 }: {
   to: string;
+  cc?: string;
   subject: string;
   html: string;
 }) {
@@ -155,6 +157,7 @@ export async function sendEmail({
   await transporter.sendMail({
     from: process.env.SMTP_FROM ?? process.env.SMTP_USER,
     to,
+    ...(cc ? { cc } : {}),
     subject,
     html,
   });

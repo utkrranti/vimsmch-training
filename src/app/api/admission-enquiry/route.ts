@@ -4,7 +4,8 @@ import { sendEmail, inquiryConfirmationHtml, adminNewInquiryHtml } from "@/lib/e
 import { getClientIp, isRateLimited } from "@/lib/ratelimit";
 
 // Dedicated recipient for this form — intentionally independent of
-// ADMIN_NOTIFY_EMAIL so it keeps going to the Dean regardless of that setting.
+// ADMIN_NOTIFY_EMAIL so it keeps going here regardless of that setting.
+const ADMISSIONS_EMAIL = "admissions@dbvpu.com";
 const DEAN_EMAIL = "dean.vimsmch@gmail.com";
 
 export async function POST(req: NextRequest) {
@@ -68,7 +69,8 @@ export async function POST(req: NextRequest) {
 
     emailJobs.push(
       sendEmail({
-        to: DEAN_EMAIL,
+        to: ADMISSIONS_EMAIL,
+        cc: DEAN_EMAIL,
         subject: `New Admission Enquiry from ${name.trim()}`,
         html: adminNewInquiryHtml({
           name: name.trim(),
