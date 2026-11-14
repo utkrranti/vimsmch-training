@@ -75,7 +75,8 @@ export function validateAdmissionStep(data: Data, step: number, t: Translate): s
     }
   } else if (step === 6) {
     if (data.declarationAccepted !== true) return t("validDeclarationRequired");
-    if (!present(data.paymentProofUrl)) return t("validPaymentProofRequired");
+    // `paidOnline` is only a client-side hint; the API confirms the gateway payment from the database.
+    if (!present(data.paymentProofUrl) && data.paidOnline !== true) return t("validPaymentProofRequired");
   }
   return "";
 }

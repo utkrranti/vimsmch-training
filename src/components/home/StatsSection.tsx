@@ -1,5 +1,7 @@
 import { GraduationCap, Clock3, BedDouble, CalendarCheck } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { getSettingsLocalized } from "@/lib/db/settings";
+import type { AppLocale } from "@/lib/i18n/pickLocale";
 
 function StatItem({ icon: Icon, value, label, sub }: { icon: React.ElementType; value: string; label: string; sub: string }) {
   return (
@@ -14,12 +16,21 @@ function StatItem({ icon: Icon, value, label, sub }: { icon: React.ElementType; 
 }
 
 export default async function StatsSection() {
-  const t = await getTranslations("statsSection");
+  const locale = (await getLocale()) as AppLocale;
+  const [t, settings] = await Promise.all([
+    getTranslations("statsSection"),
+    getSettingsLocalized(["marquee.batch.value", "marquee.batch.label", "marquee.batch.sub"], locale),
+  ]);
   const stats = [
     { icon: GraduationCap, value: t("coursesValue"), label: t("coursesLabel"), sub: t("coursesSub") },
     { icon: Clock3, value: t("durationValue"), label: t("durationLabel"), sub: t("durationSub") },
     { icon: BedDouble, value: t("bedsValue"), label: t("bedsLabel"), sub: t("bedsSub") },
-    { icon: CalendarCheck, value: t("batchValue"), label: t("batchLabel"), sub: t("batchSub") },
+    {
+      icon: CalendarCheck,
+      value: settings["marquee.batch.value"] || t("batchValue"),
+      label: settings["marquee.batch.label"] || t("batchLabel"),
+      sub: settings["marquee.batch.sub"] || t("batchSub"),
+    },
   ];
 
   return (

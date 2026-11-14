@@ -11,6 +11,16 @@ type Group = { title: string; description?: string; fields: Field[] };
 
 const GROUPS: Group[] = [
   {
+    title: "Homepage Announcements",
+    description: "The blinking admission message in the homepage hero, and the batch item in the green scrolling strip below it. Leave blank to use the built-in default text.",
+    fields: [
+      { key: "hero.notice.admission", label: "Blinking Admission Message", placeholder: "Admissions are open for the new batches commencing on 1st January 2027", translatable: true },
+      { key: "marquee.batch.value", label: "Scrolling Strip — Batch (highlight)", placeholder: "Jan 2027", translatable: true },
+      { key: "marquee.batch.label", label: "Scrolling Strip — Batch Label", placeholder: "New Batch", translatable: true },
+      { key: "marquee.batch.sub", label: "Scrolling Strip — Batch Note", placeholder: "Admissions Open — Commencing 1st January 2027", translatable: true },
+    ],
+  },
+  {
     title: "About the Institution",
     fields: [
       { key: "about.mission", label: "Mission Statement", placeholder: "Our mission is to...", multiline: true, translatable: true },

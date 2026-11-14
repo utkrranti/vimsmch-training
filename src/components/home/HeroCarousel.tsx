@@ -21,7 +21,7 @@ const defaultNotice: InstituteNotice = {
   unit2Title: "Vocational Training Centre",
   unit2Text: "Accredited by National Council of Vocational and Research Training, New Delhi",
   unit2Extra: "(Accreditation No - NCVRT/MH/35074/VTC)",
-  admissionLine: "Admission is open for Vocational Training Centre for the Academic Year 2026-27",
+  admissionLine: "Admissions are open for the new batches commencing on 1st January 2027",
 };
 
 export default async function HeroCarousel({ instituteNotice }: HeroCarouselProps) {

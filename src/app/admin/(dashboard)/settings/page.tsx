@@ -7,6 +7,8 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Settings | Admin" };
 
 const ALL_KEYS = [
+  "hero.notice.admission", "hero.notice.admission_mr",
+  "marquee.batch.value", "marquee.batch.value_mr", "marquee.batch.label", "marquee.batch.label_mr", "marquee.batch.sub", "marquee.batch.sub_mr",
   "about.mission", "about.mission_mr", "about.established",
   "leadership.chairman.name", "leadership.chairman.message", "leadership.chairman.message_mr",
   "leadership.secretaryGeneral.name", "leadership.secretaryGeneral.message", "leadership.secretaryGeneral.message_mr",
@@ -32,8 +34,8 @@ export default async function AdminSettingsPage() {
           <Settings size={22} className="text-[#04415f]" /> Site Settings
         </h1>
         <p className="text-[#010608]/45 text-sm mt-1">
-          These values populate the public <strong>/about</strong>, <strong>/contact</strong>, and homepage — mission
-          statement, leadership messages, contact channels, prospectus, and anti-ragging helpline.
+          These values populate the public <strong>/about</strong>, <strong>/contact</strong>, and homepage — homepage
+          announcements, mission statement, leadership messages, contact channels, prospectus, and anti-ragging helpline.
         </p>
       </div>
       <SettingsForm initial={initial} />

@@ -126,6 +126,12 @@
   "feeQrAlt": "QR code for ₹100 application fee",
   "feeQrMissing": "Payment QR is not configured. Contact admissions.",
   "paymentScreenshotLabel": "Application-fee payment screenshot",
+  "payOnlineButton": "Pay ₹100 online",
+  "payOnlineHint": "UPI, debit/credit card or net banking — secured by Razorpay. Your payment is confirmed instantly; no screenshot needed.",
+  "orUploadScreenshot": "— or scan the QR and upload the screenshot —",
+  "paidOnlineTitle": "Application fee paid online",
+  "paidOnlineRef": "Payment reference: {ref}",
+  "errPaymentFailed": "The payment did not go through. Please try again, or scan the QR and upload the screenshot.",
 
   "documentSscMarksheet": "SSC (10th) Mark Sheet",
   "documentSscCertificate": "SSC (10th) Certificate",
@@ -140,7 +146,7 @@
 
   "errUnableToCreateDraft": "Unable to create your draft.",
   "errUploadEveryDocument": "Upload every required document before continuing.",
-  "errAcceptDeclarationAndFee": "Accept the declaration and upload the ₹100 application-fee payment screenshot.",
+  "errAcceptDeclarationAndFee": "Accept the declaration and pay the ₹100 application fee (online, or upload the QR payment screenshot).",
   "errPleaseWaitDraft": "Please wait while your draft is saved.",
   "errUnableToSave": "Unable to save.",
   "errSaveContactFirst": "Save your contact details before uploading files.",

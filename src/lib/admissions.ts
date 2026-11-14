@@ -51,6 +51,7 @@ export const callbackStatuses = [
 ] as const;
 
 export const paymentStatuses = ["NOT_STARTED", "UNDER_REVIEW", "VERIFIED", "REJECTED"] as const;
+export const APPLICATION_FEE_RUPEES = 100;
 
 export function makeApplicationNumber() {
   return `VTC-${new Date().getFullYear()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;

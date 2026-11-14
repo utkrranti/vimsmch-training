@@ -130,11 +130,12 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       Object.assign(update, { currentStep: 6, completionPercent: 85 });
     } else if (step === 6) {
       if (data.declarationAccepted !== true) return NextResponse.json({ error: "The declaration must be accepted." }, { status: 400 });
+      const paidOnline = application.paymentStatus === "VERIFIED" && Boolean(application.paymentTxnRef?.startsWith("pay_"));
       const paymentProofUrl = cleanText(data.paymentProofUrl, 500);
-      if (!paymentProofUrl) {
+      if (!paymentProofUrl && !paidOnline) {
         return NextResponse.json({ error: "Payment screenshot is required." }, { status: 400 });
       }
-      if (!paymentProofUrl.includes(`/admissions/${id}/payment_proof-`)) {
+      if (paymentProofUrl && !paymentProofUrl.includes(`/admissions/${id}/payment_proof-`)) {
         return NextResponse.json({ error: "Invalid payment proof upload." }, { status: 400 });
       }
       const uploadedDocuments = await prisma.admissionDocument.findMany({
@@ -150,7 +151,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         paymentAmount: 100,
         declarationAccepted: true,
         paymentProofUrl,
-        paymentStatus: "UNDER_REVIEW",
+        paymentStatus: paidOnline ? "VERIFIED" : "UNDER_REVIEW",
         status: "SUBMITTED",
         callbackStatus: "APPLICATION_SUBMITTED",
         currentStep: 7,
