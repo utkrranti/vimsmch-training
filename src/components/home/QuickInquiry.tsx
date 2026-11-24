@@ -58,14 +58,14 @@ export default function QuickInquiry() {
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             {t("heading")}
           </h2>
-          <div className="w-16 h-1 bg-[#2086b8] rounded mb-6" />
+          <div className="w-16 h-1 bg-[#7dd3fc] rounded mb-6" />
           <p className="text-white/80 text-base leading-relaxed mb-7">
             {t("description")}
           </p>
           <ul className="space-y-3 text-sm text-white/80">
             {[t("bullet1"), t("bullet2"), t("bullet3")].map((item) => (
               <li key={item} className="flex items-center gap-2">
-                <CheckCircle size={14} className="text-[#2086b8] shrink-0" />
+                <CheckCircle size={14} className="text-[#7dd3fc] shrink-0" />
                 {item}
               </li>
             ))}
