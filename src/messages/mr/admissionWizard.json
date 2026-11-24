@@ -19,7 +19,6 @@
   "step4": "शिक्षण",
   "step5": "कागदपत्रे",
   "step6": "घोषणा आणि शुल्क",
-
   "courseStepTitle": "अभ्यासक्रम आणि विद्यार्थी संपर्क",
   "courseStepText": "तुमचे नाव आडनाव-प्रथम, SSC गुणपत्रिकेवर छापल्याप्रमाणे अचूक टाका.",
   "courseLabel": "अर्ज केलेला अभ्यासक्रम",
@@ -32,7 +31,6 @@
   "fullNameLabel": "पूर्ण नाव (आडनाव प्रथम)",
   "studentMobileLabel": "विद्यार्थ्याचा मोबाइल",
   "studentEmailLabel": "विद्यार्थ्याचा ईमेल",
-
   "identityStepTitle": "वैयक्तिक आणि ओळख तपशील",
   "identityStepText": "हे तपशील अर्जदाराच्या अधिकृत कागदपत्रांशी जुळले पाहिजेत.",
   "dobLabel": "जन्मतारीख",
@@ -50,7 +48,6 @@
   "categoryLabel": "जात / प्रवर्ग",
   "religionLabel": "धर्म",
   "select": "निवडा",
-
   "familyStepTitle": "पालक आणि पत्ते",
   "familyStepText": "दोन्ही पालकांचे संपर्क तपशील आणि सध्याचा व कायमचा पत्ता द्या.",
   "fatherHeading": "वडील",
@@ -71,7 +68,6 @@
   "stateLabel": "राज्य",
   "pinCodeLabel": "पिन कोड",
   "residencePhoneLabel": "निवासस्थान फोन",
-
   "educationStepTitle": "शैक्षणिक तपशील",
   "educationStepText": "मंडळ निवडा आणि गुणपत्रिकेवर दाखवल्याप्रमाणे गुण किंवा श्रेणी अचूक टाका.",
   "sscHeading": "SSC (10वी)",
@@ -104,14 +100,12 @@
   "maximumMarksPlaceholder": "उदा. 100",
   "marksObtainedPlaceholder": "उदा. 72",
   "removeSubject": "{level} विषय {n} काढा",
-
   "documentsStepTitle": "कागदपत्रे अपलोड करा",
   "documentsStepText": "PDF, JPG, PNG किंवा WebP; प्रति फाइल कमाल 4 MB. प्रवेशाच्या वेळी चार प्रत्यक्ष फोटो मागितले जाऊ शकतात.",
   "documentsAiNote": "प्रत्येक अपलोड योग्य कागदपत्र प्रकार, वाचनीयता आणि सत्यता तपासण्यासाठी AI द्वारे स्कॅन केले जाते. फाइल फ्लॅग झाल्यास, त्या कागदपत्राच्या कार्डवर कारण दिसेल आणि तुम्ही पुन्हा अपलोड करू शकता — आमची प्रवेश टीम देखील प्रत्येक कागदपत्र स्वहस्ते तपासते.",
   "documentRequired": "आवश्यक",
   "documentIfApplicable": "लागू असल्यास",
   "documentReuploadFallback": "कृपया अधिक स्पष्ट {label} अपलोड करा.",
-
   "declarationStepTitle": "घोषणा, पुनरावलोकन आणि अर्ज शुल्क",
   "declarationStepText": "सारांश पहा, घोषणा स्वीकारा आणि ₹100 अर्ज शुल्क भरा.",
   "summaryCourse": "अभ्यासक्रम",
@@ -132,7 +126,6 @@
   "paidOnlineTitle": "अर्ज शुल्क ऑनलाइन भरले",
   "paidOnlineRef": "पेमेंट संदर्भ: {ref}",
   "errPaymentFailed": "पेमेंट पूर्ण झाले नाही. कृपया पुन्हा प्रयत्न करा, किंवा QR स्कॅन करून स्क्रीनशॉट अपलोड करा.",
-
   "documentSscMarksheet": "SSC (10वी) गुणपत्रिका",
   "documentSscCertificate": "SSC (10वी) प्रमाणपत्र",
   "documentLeavingCertificate": "शाळा सोडल्याचा / बदली दाखला",
@@ -143,7 +136,6 @@
   "documentCaste": "जात प्रमाणपत्र",
   "documentNonCreamyLayer": "नॉन-क्रिमी लेयर प्रमाणपत्र",
   "documentCharacter": "चारित्र्य प्रमाणपत्र",
-
   "errUnableToCreateDraft": "तुमचा मसुदा तयार करता आला नाही.",
   "errUploadEveryDocument": "पुढे जाण्यापूर्वी प्रत्येक आवश्यक कागदपत्र अपलोड करा.",
   "errAcceptDeclarationAndFee": "घोषणा स्वीकारा आणि ₹100 अर्ज शुल्क भरा (ऑनलाइन, किंवा QR पेमेंटचा स्क्रीनशॉट अपलोड करा).",
@@ -153,7 +145,6 @@
   "errFileTooLarge": "प्रत्येक फाइल 4 MB किंवा त्यापेक्षा लहान असावी.",
   "errUploadTimeout": "{label} अपलोड करताना वेळ संपली. कृपया पुन्हा प्रयत्न करा.",
   "errUnableToUpload": "{label} अपलोड करता आले नाही.",
-
   "validSelectCourseAndName": "अभ्यासक्रम निवडा आणि विद्यार्थ्याचे पूर्ण नाव टाका.",
   "validSelectBatch": "तुकडी निवडा.",
   "validStudentPhone": "विद्यार्थ्याचा वैध फोन नंबर टाका.",
@@ -191,5 +182,10 @@
   "validSubjectGrade": "{subject} साठी श्रेणी टाका.",
   "validSubjectMaxMarks": "{subject} साठी वैध कमाल गुण टाका.",
   "validSubjectObtained": "{subject} साठी वैध मिळालेले गुण टाका.",
-  "validSubjectExceed": "{subject} साठी मिळालेले गुण कमाल गुणांपेक्षा जास्त असू शकत नाहीत."
+  "validSubjectExceed": "{subject} साठी मिळालेले गुण कमाल गुणांपेक्षा जास्त असू शकत नाहीत.",
+  "viewQrButton": "पेमेंट QR पहा",
+  "qrModalTitle": "स्कॅन करा आणि ₹100 अर्ज शुल्क भरा",
+  "qrModalHint": "हा QR कोड कोणत्याही UPI अॅपने स्कॅन करा आणि नंतर पेमेंटचा स्क्रीनशॉट खाली अपलोड करा.",
+  "downloadQr": "QR डाउनलोड करा",
+  "closeQr": "बंद करा"
 }

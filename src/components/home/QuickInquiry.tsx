@@ -52,7 +52,7 @@ export default function QuickInquiry() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
         {/* Left */}
         <div className="text-white">
-          <span className="inline-block text-[#2086b8] text-xs font-semibold uppercase tracking-widest mb-4">
+          <span className="eyebrow eyebrow-light mb-4">
             {t("eyebrow")}
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">

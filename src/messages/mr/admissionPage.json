@@ -72,5 +72,10 @@
   "ctaHeading": "सुरुवात करण्यास तयार आहात?",
   "ctaText": "आमचा अभ्यासक्रम कॅटलॉग पहा किंवा थेट संपर्क साधा — आमची प्रवेश टीम मदतीसाठी येथे आहे.",
   "browseCourses": "अभ्यासक्रम पहा",
-  "talkToAdmissions": "प्रवेश टीमशी बोला"
+  "talkToAdmissions": "प्रवेश टीमशी बोला",
+  "viewQrButton": "पेमेंट QR पहा",
+  "qrModalTitle": "स्कॅन करा आणि अर्ज शुल्क भरा",
+  "qrModalHint": "तुमचे अर्ज शुल्क भरण्यासाठी हा QR कोड कोणत्याही UPI अॅपने — Google Pay, PhonePe, Paytm किंवा BHIM — स्कॅन करा.",
+  "downloadQr": "QR डाउनलोड करा",
+  "closeQr": "बंद करा"
 }

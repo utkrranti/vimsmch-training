@@ -6,5 +6,10 @@
   "newsNotices": "News & Notices",
   "gallery": "Gallery",
   "faq": "FAQ",
-  "contactUs": "Contact Us"
+  "contactUs": "Contact Us",
+  "feeQrAlt": "Scan to pay the application fee",
+  "qrModalTitle": "Scan & Pay Application Fee",
+  "qrModalHint": "Scan this QR code with any UPI app — Google Pay, PhonePe, Paytm or BHIM — to pay your application fee.",
+  "downloadQr": "Download QR",
+  "closeQr": "Close"
 }

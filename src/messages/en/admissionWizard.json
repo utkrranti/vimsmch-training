@@ -19,7 +19,6 @@
   "step4": "Education",
   "step5": "Documents",
   "step6": "Declaration & Fee",
-
   "courseStepTitle": "Course & Student Contact",
   "courseStepText": "Enter your name surname-first, exactly as printed on the SSC marksheet.",
   "courseLabel": "Course applied for",
@@ -32,7 +31,6 @@
   "fullNameLabel": "Full name (surname first)",
   "studentMobileLabel": "Student mobile",
   "studentEmailLabel": "Student email",
-
   "identityStepTitle": "Personal & Identity Details",
   "identityStepText": "These details must match the applicant's official documents.",
   "dobLabel": "Date of birth",
@@ -50,7 +48,6 @@
   "categoryLabel": "Caste / category",
   "religionLabel": "Religion",
   "select": "Select",
-
   "familyStepTitle": "Parents & Addresses",
   "familyStepText": "Provide both parents' contact details and the present and permanent addresses.",
   "fatherHeading": "Father",
@@ -71,7 +68,6 @@
   "stateLabel": "State",
   "pinCodeLabel": "PIN code",
   "residencePhoneLabel": "Residence phone",
-
   "educationStepTitle": "Educational Details",
   "educationStepText": "Select the board and enter marks or grades exactly as shown on the marksheet.",
   "sscHeading": "SSC (10th)",
@@ -104,14 +100,12 @@
   "maximumMarksPlaceholder": "e.g. 100",
   "marksObtainedPlaceholder": "e.g. 72",
   "removeSubject": "Remove {level} subject {n}",
-
   "documentsStepTitle": "Upload Documents",
   "documentsStepText": "PDF, JPG, PNG or WebP; maximum 4 MB per file. Four physical photographs may be requested at admission.",
   "documentsAiNote": "Each upload is scanned by AI to check it's the right document type, legible, and appears genuine. If a file is flagged, you'll see the reason on that document's card and can re-upload it — our admissions team also reviews every document manually.",
   "documentRequired": "Required",
   "documentIfApplicable": "If applicable",
   "documentReuploadFallback": "Please upload a clearer {label}.",
-
   "declarationStepTitle": "Declaration, Review & Application Fee",
   "declarationStepText": "Review the summary, accept the declaration, and pay the ₹100 application fee.",
   "summaryCourse": "Course",
@@ -132,7 +126,6 @@
   "paidOnlineTitle": "Application fee paid online",
   "paidOnlineRef": "Payment reference: {ref}",
   "errPaymentFailed": "The payment did not go through. Please try again, or scan the QR and upload the screenshot.",
-
   "documentSscMarksheet": "SSC (10th) Mark Sheet",
   "documentSscCertificate": "SSC (10th) Certificate",
   "documentLeavingCertificate": "School Leaving / Transfer Certificate",
@@ -143,7 +136,6 @@
   "documentCaste": "Caste Certificate",
   "documentNonCreamyLayer": "Non-Creamy Layer Certificate",
   "documentCharacter": "Character Certificate",
-
   "errUnableToCreateDraft": "Unable to create your draft.",
   "errUploadEveryDocument": "Upload every required document before continuing.",
   "errAcceptDeclarationAndFee": "Accept the declaration and pay the ₹100 application fee (online, or upload the QR payment screenshot).",
@@ -153,7 +145,6 @@
   "errFileTooLarge": "Each file must be 4 MB or smaller.",
   "errUploadTimeout": "Uploading {label} timed out. Please try again.",
   "errUnableToUpload": "Unable to upload {label}.",
-
   "validSelectCourseAndName": "Select a course and enter the student's full name.",
   "validSelectBatch": "Select a batch.",
   "validStudentPhone": "Enter a valid student phone number.",
@@ -191,5 +182,10 @@
   "validSubjectGrade": "Enter the grade for {subject}.",
   "validSubjectMaxMarks": "Enter valid maximum marks for {subject}.",
   "validSubjectObtained": "Enter valid marks obtained for {subject}.",
-  "validSubjectExceed": "Marks obtained for {subject} cannot be greater than maximum marks."
+  "validSubjectExceed": "Marks obtained for {subject} cannot be greater than maximum marks.",
+  "viewQrButton": "View Payment QR",
+  "qrModalTitle": "Scan & Pay ₹100 Application Fee",
+  "qrModalHint": "Scan this QR code with any UPI app, then upload the payment screenshot below.",
+  "downloadQr": "Download QR",
+  "closeQr": "Close"
 }

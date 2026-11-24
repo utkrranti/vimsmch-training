@@ -6,5 +6,10 @@
   "newsNotices": "बातम्या आणि सूचना",
   "gallery": "गॅलरी",
   "faq": "प्रश्नोत्तरे",
-  "contactUs": "आमच्याशी संपर्क साधा"
+  "contactUs": "आमच्याशी संपर्क साधा",
+  "feeQrAlt": "अर्ज शुल्क भरण्यासाठी स्कॅन करा",
+  "qrModalTitle": "स्कॅन करा आणि अर्ज शुल्क भरा",
+  "qrModalHint": "तुमचे अर्ज शुल्क भरण्यासाठी हा QR कोड कोणत्याही UPI अॅपने — Google Pay, PhonePe, Paytm किंवा BHIM — स्कॅन करा.",
+  "downloadQr": "QR डाउनलोड करा",
+  "closeQr": "बंद करा"
 }

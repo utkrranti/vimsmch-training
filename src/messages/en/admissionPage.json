@@ -72,5 +72,10 @@
   "ctaHeading": "Ready to Begin?",
   "ctaText": "Browse our course catalogue or reach out directly — our admissions team is here to help.",
   "browseCourses": "Browse Courses",
-  "talkToAdmissions": "Talk to Admissions"
+  "talkToAdmissions": "Talk to Admissions",
+  "viewQrButton": "View Payment QR",
+  "qrModalTitle": "Scan & Pay Application Fee",
+  "qrModalHint": "Scan this QR code with any UPI app — Google Pay, PhonePe, Paytm or BHIM — to pay your application fee.",
+  "downloadQr": "Download QR",
+  "closeQr": "Close"
 }

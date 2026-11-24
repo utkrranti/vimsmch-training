@@ -4,6 +4,7 @@ import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import AdmissionEnquiryModal from "@/components/admission/AdmissionEnquiryModal";
 import { getSettings } from "@/lib/db/settings";
+import FeeQrModal from "@/components/common/FeeQrModal";
 import { getTranslations } from "next-intl/server";
 import {
   ClipboardList, FileEdit, FileCheck2, UserCheck2, IndianRupee, BadgeCheck, PartyPopper,
@@ -258,22 +259,26 @@ export default async function AdmissionPage() {
                   </div>
                 )}
                 {feeQrUrl && (
-                  <div className="flex items-center gap-4 bg-[#f1f5f7] border border-[#e6edf0] rounded-xl p-5">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={feeQrUrl}
-                      alt={t("feeQrAlt")}
-                      width={64}
-                      height={64}
-                      className="rounded-lg border border-[#e6edf0] bg-white p-1 shrink-0"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[#011e2c] font-semibold text-sm mb-1 flex items-center gap-1.5">
-                        <QrCode size={14} className="text-[#04415f]" /> {t("applicationFeeLabel")}
-                      </p>
-                      <p className="text-[#010608]/60 text-xs leading-relaxed">{t("scanToPay")}</p>
+                  <FeeQrModal
+                    qrUrl={feeQrUrl}
+                    title={t("qrModalTitle")}
+                    hint={t("qrModalHint")}
+                    alt={t("feeQrAlt")}
+                    downloadLabel={t("downloadQr")}
+                    closeLabel={t("closeQr")}
+                    className="flex items-center gap-4 bg-[#f1f5f7] border border-[#e6edf0] rounded-xl p-5 text-left w-full hover:border-[#04415f] transition-colors"
+                  >
+                    <div className="w-11 h-11 bg-[#2086b8] rounded-xl flex items-center justify-center shrink-0">
+                      <QrCode size={18} className="text-white" />
                     </div>
-                  </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[#011e2c] font-semibold text-sm mb-1">{t("applicationFeeLabel")}</p>
+                      <p className="text-[#010608]/60 text-xs leading-relaxed">{t("scanToPay")}</p>
+                      <span className="inline-flex items-center gap-1.5 text-[#04415f] text-sm font-semibold mt-1.5">
+                        <QrCode size={14} /> {t("viewQrButton")}
+                      </span>
+                    </div>
+                  </FeeQrModal>
                 )}
               </div>
             </div>

@@ -3,6 +3,7 @@ import { FileText, QrCode, HelpCircle, Image as ImageIcon, Newspaper, PhoneCall 
 import { getSettings } from "@/lib/db/settings";
 import { getTranslations } from "next-intl/server";
 import Reveal from "@/components/ui/Reveal";
+import FeeQrModal from "@/components/common/FeeQrModal";
 
 export default async function QuickResourceLinks() {
   const [s, t] = await Promise.all([
@@ -10,9 +11,12 @@ export default async function QuickResourceLinks() {
     getTranslations("quickResourceLinks"),
   ]);
 
+  const feeQrUrl = s["admission.feeQrUrl"];
+
   const resources = [
     { icon: FileText, label: t("admissionForm"), href: s["admission.formUrl"], external: true, color: "#04415f" },
-    { icon: QrCode, label: t("feePaymentQr"), href: s["admission.feeQrUrl"], external: true, color: "#2086b8" },
+    // The QR image is never shown inline — this tile opens it in a modal.
+    { icon: QrCode, label: t("feePaymentQr"), href: feeQrUrl, qrModal: true, color: "#2086b8" },
     { icon: Newspaper, label: t("newsNotices"), href: "/news", color: "#059652" },
     { icon: ImageIcon, label: t("gallery"), href: "/gallery", color: "#ff9800" },
     { icon: HelpCircle, label: t("faq"), href: "/faq", color: "#7c3aed" },
@@ -20,6 +24,9 @@ export default async function QuickResourceLinks() {
   ].filter((r) => r.href);
 
   if (resources.length === 0) return null;
+
+  const tileCls =
+    "group flex w-full flex-col items-center text-center gap-3 rounded-2xl p-6 h-full border border-black/5 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300";
 
   return (
     <section className="bg-white py-16 sm:py-20 px-4 sm:px-6 border-t border-[#e6edf0]">
@@ -35,15 +42,9 @@ export default async function QuickResourceLinks() {
         </Reveal>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {resources.map(({ icon: Icon, label, href, external, color }, i) => (
-            <Reveal key={label} delay={i * 0.05}>
-              <Link
-                href={href as string}
-                target={external ? "_blank" : undefined}
-                rel={external ? "noopener noreferrer" : undefined}
-                className="group flex flex-col items-center text-center gap-3 rounded-2xl p-6 h-full border border-black/5 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300"
-                style={{ backgroundColor: `${color}12` }}
-              >
+          {resources.map(({ icon: Icon, label, href, external, qrModal, color }, i) => {
+            const inner = (
+              <>
                 <div
                   className="w-12 h-12 rounded-xl flex items-center justify-center shadow-sm transition-transform duration-300 group-hover:scale-110"
                   style={{ backgroundColor: color }}
@@ -51,9 +52,38 @@ export default async function QuickResourceLinks() {
                   <Icon size={20} className="text-white" />
                 </div>
                 <span className="text-[#011e2c] text-sm font-semibold">{label}</span>
-              </Link>
-            </Reveal>
-          ))}
+              </>
+            );
+
+            return (
+              <Reveal key={label} delay={i * 0.05}>
+                {qrModal ? (
+                  <FeeQrModal
+                    qrUrl={href as string}
+                    title={t("qrModalTitle")}
+                    hint={t("qrModalHint")}
+                    alt={t("feeQrAlt")}
+                    downloadLabel={t("downloadQr")}
+                    closeLabel={t("closeQr")}
+                    className={tileCls}
+                    style={{ backgroundColor: `${color}12` }}
+                  >
+                    {inner}
+                  </FeeQrModal>
+                ) : (
+                  <Link
+                    href={href as string}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    className={tileCls}
+                    style={{ backgroundColor: `${color}12` }}
+                  >
+                    {inner}
+                  </Link>
+                )}
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
