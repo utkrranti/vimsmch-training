@@ -1,4 +1,4 @@
-# training.vimsmch.edu.in — Build Plan & Tracker
+# paramedical.vimsmch.edu.in — Build Plan & Tracker
 
 > Vocational Training subdomain of VIMSMCH (Dr. Vithalrao Vikhe Patil Foundation's Medical College & Hospital)
 > Stack: Next.js 16 · Tailwind CSS v4 · Prisma 5 · MongoDB (rs0) · TypeScript
@@ -122,7 +122,7 @@
 2. Set environment variables:
    - `DATABASE_URL` — Atlas connection string from step 1
    - `NEXTAUTH_SECRET` — run `openssl rand -base64 32` to generate
-   - `NEXTAUTH_URL` — `https://training.vimsmch.edu.in`
+   - `NEXTAUTH_URL` — `https://paramedical.vimsmch.edu.in`
 3. Deploy → Vercel will build and give a `.vercel.app` URL
 
 ### 3. Seed production DB
@@ -137,7 +137,7 @@ DATABASE_URL="mongodb+srv://..." npm run db:seed-admin
 ### 4. DNS — add CNAME in Hostinger
 1. Hostinger hPanel → Domains → vimsmch.edu.in → DNS Zone
 2. Add record: `training` → CNAME → `cname.vercel-dns.com`
-3. In Vercel project → Settings → Domains → add `training.vimsmch.edu.in`
+3. In Vercel project → Settings → Domains → add `paramedical.vimsmch.edu.in`
 4. Wait for propagation (up to 24h, usually minutes)
 
 ---

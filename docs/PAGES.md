@@ -1,4 +1,4 @@
-# training.vimsmch.edu.in — Pages & Content Plan
+# paramedical.vimsmch.edu.in — Pages & Content Plan
 
 ---
 
