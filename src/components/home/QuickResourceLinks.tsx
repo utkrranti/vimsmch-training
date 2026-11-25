@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FileText, QrCode, HelpCircle, Image as ImageIcon, Newspaper, PhoneCall } from "lucide-react";
 import { getSettings } from "@/lib/db/settings";
+import { resolveFeeQrUrl } from "@/lib/fee-qr";
 import { getTranslations } from "next-intl/server";
 import Reveal from "@/components/ui/Reveal";
 import FeeQrModal from "@/components/common/FeeQrModal";
@@ -11,7 +12,7 @@ export default async function QuickResourceLinks() {
     getTranslations("quickResourceLinks"),
   ]);
 
-  const feeQrUrl = s["admission.feeQrUrl"];
+  const feeQrUrl = resolveFeeQrUrl(s["admission.feeQrUrl"]);
 
   const resources = [
     { icon: FileText, label: t("admissionForm"), href: s["admission.formUrl"], external: true, color: "#04415f" },

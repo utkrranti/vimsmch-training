@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import AdmissionWizard from "@/components/admission/AdmissionWizard";
 import { prisma } from "@/lib/prisma";
 import { getSettings } from "@/lib/db/settings";
+import { resolveFeeQrUrl } from "@/lib/fee-qr";
 import { UserPlus } from "lucide-react";
 import enAdmissionWizard from "@/messages/en/admissionWizard.json";
 
@@ -59,7 +60,7 @@ export default async function AdminNewApplicationPage() {
                 seats: batch.seats,
               })),
             }))}
-            feeQrUrl={settings["admission.feeQrUrl"]}
+            feeQrUrl={resolveFeeQrUrl(settings["admission.feeQrUrl"])}
           />
         </NextIntlClientProvider>
       </div>

@@ -4,6 +4,7 @@ import Footer from "@/components/layout/Footer";
 import AdmissionWizard from "@/components/admission/AdmissionWizard";
 import { prisma } from "@/lib/prisma";
 import { getSettings } from "@/lib/db/settings";
+import { resolveFeeQrUrl } from "@/lib/fee-qr";
 import { razorpayPublicKeyId } from "@/lib/razorpay";
 import { getLocale } from "next-intl/server";
 import { pickLocale, type AppLocale } from "@/lib/i18n/pickLocale";
@@ -59,7 +60,7 @@ export default async function AdmissionApplyPage({ searchParams }: PageProps) {
             })),
           }))}
           initialCourseId={courses.find((course) => course.slug === selectedCourseSlug)?.id}
-          feeQrUrl={settings["admission.feeQrUrl"]}
+          feeQrUrl={resolveFeeQrUrl(settings["admission.feeQrUrl"])}
           razorpayKeyId={razorpayPublicKeyId()}
         />
       </main>

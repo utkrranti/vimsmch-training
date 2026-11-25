@@ -4,6 +4,7 @@ import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import AdmissionEnquiryModal from "@/components/admission/AdmissionEnquiryModal";
 import { getSettings } from "@/lib/db/settings";
+import { resolveFeeQrUrl } from "@/lib/fee-qr";
 import FeeQrModal from "@/components/common/FeeQrModal";
 import { getTranslations } from "next-intl/server";
 import {
@@ -26,7 +27,7 @@ export default async function AdmissionPage() {
     getTranslations("admissionPage"),
   ]);
   const formUrl = s["admission.formUrl"];
-  const feeQrUrl = s["admission.feeQrUrl"];
+  const feeQrUrl = resolveFeeQrUrl(s["admission.feeQrUrl"]);
 
   const eligibility = [
     { icon: GraduationCap, text: t("eligibility1") },
